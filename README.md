@@ -1,2 +1,2 @@
-# showmetheplanet
-Prediciting the position of exoplanets
+# whereistheplanet?
+Prediciting the position of exoplanets. Requires `orbitize`. 
