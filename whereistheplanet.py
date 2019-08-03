@@ -111,10 +111,11 @@ if args.time is None:
     time_mjd = Time.now().mjd
 else:
     # check if it is MJD. Otherwise astropy.time can read it and give MJD
-    if "-" not in args.time:
+    if "-" in args.time:
+        # dashes mean not MJD. Probably formatted as a date
         time_mjd = Time(args.time).mjd
     else:
-        time_mjd = float(time_mjd)
+        time_mjd = float(args.time)
 
 chains, tau_ref_epoch = get_chains(args.planet_name)
 
