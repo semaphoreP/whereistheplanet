@@ -2,3 +2,4 @@ data/post_hr8799b.hdf5 filter=lfs diff=lfs merge=lfs -text
 data/post_hr8799c.hdf5 filter=lfs diff=lfs merge=lfs -text
 data/post_hr8799d.hdf5 filter=lfs diff=lfs merge=lfs -text
 data/post_hr8799e.hdf5 filter=lfs diff=lfs merge=lfs -text
+data/post_betapicb.hdf5 filter=lfs diff=lfs merge=lfs -text
