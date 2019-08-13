@@ -94,6 +94,12 @@ def get_chains(planet_name):
             post = np.array(hf.get('post'))
             tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
 
+    elif planet_name.lower() in ['betapicb', 'betpicb']:
+        filepath = os.path.join(datadir, "post_betapicb.hdf5")
+        with h5py.File(filepath,'r') as hf: # Opens file for reading
+            post = np.array(hf.get('post'))
+            tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
+
     return post, tau_ref_epoch
 
 
