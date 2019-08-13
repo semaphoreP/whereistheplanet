@@ -77,19 +77,19 @@ def get_chains(planet_name):
             tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
     
     elif planet_name.lower() == 'hr8799c':
-        filepath = os.path.join(datadir, "post_hr8799c.ecsv")
+        filepath = os.path.join(datadir, "post_hr8799c.hdf5")
         with h5py.File(filepath,'r') as hf: # Opens file for reading
             post = np.array(hf.get('post'))
             tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
     
     elif planet_name.lower() == 'hr8799d':
-        filepath = os.path.join(datadir, "post_hr8799d.ecsv")
+        filepath = os.path.join(datadir, "post_hr8799d.hdf5")
         with h5py.File(filepath,'r') as hf: # Opens file for reading
             post = np.array(hf.get('post'))
             tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])   
     
     elif planet_name.lower() == 'hr8799e':
-        filepath = os.path.join(datadir, "post_hr8799e.ecsv")
+        filepath = os.path.join(datadir, "post_hr8799e.hdf5")
         with h5py.File(filepath,'r') as hf: # Opens file for reading
             post = np.array(hf.get('post'))
             tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
