@@ -6,9 +6,14 @@ Created on Tue Sep 10 11:59:30 2019
 @author: slacour
 """
 
+import os 
+filedir = os.path.dirname(os.path.realpath(__file__)) # gets the directory the current python script is in
+parent_dir = os.path.dirname(filedir) # up one leve
+import sys
+sys.path.insert(0, parent_dir) # add parent dir to python path
+import whereistheplanet
 
 import json
-from whereistheplanet import whereistheplanet
 import numpy as np
 
 def get_xy(planet_name):
@@ -19,10 +24,10 @@ def get_xy(planet_name):
 
 def makeSequence(Sequence_obs,obs):
     
-    runID=["runID"]
-    star=["star"]
-    RA=["RA"]
-    DEC=["DEC"]
+    runID=obs["runID"]
+    star=obs["star"]
+    RA=obs["RA"]
+    DEC=obs["DEC"]
     pmRA=obs["pmRA"]
     pmDEC=obs["pmDEC"]
     Kmag=obs["Kmag"]
@@ -122,6 +127,18 @@ def makeSequence(Sequence_obs,obs):
                         }
                     Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
                     
+            new_template = {
+                "type": "observation",
+                "name science": star,
+                "RA offset":-RA_init,
+                "DEC offset":-DEC_init,
+                "DIT": obs["dit star"],
+                "NDIT": obs["ndit star"],
+                "sequence":"O",
+                }
+            if (len(Sequence_templates)<=Nstart+1): new_template["sequence"]="O"
+            Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
+                    
         
         if obs["axis"] == "off":
             for r in range(obs["repeat"]):
@@ -161,7 +178,7 @@ def makeSequence(Sequence_obs,obs):
             
     print("Estimated time for OB: %i hours, %i min"%(int(Total_time/60),int(Total_time%60)))
             
-    with open(star+".json", 'w') as f:
+    with open("OBs/"+star+".json", 'w') as f:
         json.dump(Sequence_templates, f)
         
     return Sequence_templates

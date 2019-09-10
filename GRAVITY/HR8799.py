@@ -16,12 +16,12 @@ Observation={
     "star" :"HR8799",
     "RA"   :"23:07:28.715",
     "DEC"  :"+21:08:03.302",
-    "pmRA" :0.0,
-    "pmDEC":0.0,
-    "Kmag" :3.8,
-    "Hmag" :6.5,
-    "GSmag":4,
-    "resolution": "MED",
+    "pmRA" :108.0,
+    "pmDEC":-49.5,
+    "Kmag" :5.24,
+    "Hmag" :5.28,
+    "GSmag":5.953,
+    "resolution": "LOW",
     "wollaston" : "IN"
     }
 
@@ -30,17 +30,17 @@ Sequence_obs={
                 "axis": "on",
                 "planets": ["HR8799e"],
                 "dit star": 0.3,
-                "ndit star": 0.6,
+                "ndit star": 64,
                 "dit planets": [60],
-                "ndit planets": [6],
-                "repeat": 4
+                "ndit planets": [8],
+                "repeat": 2
                 },
         "2": {
                 "axis": "off",
-                "planets": ["HR8799e","HR8799b"],
-                "dit planets": [30,30],
-                "ndit planets": [10,10],
-                "repeat": 3
+                "planets": ["HR8799e","HR8799d","HR8799c","HR8799b"],
+                "dit planets": [30,30,30,30],
+                "ndit planets": [8,8,8,8],
+                "repeat": 4
                 },
         "3": {
                 "axis": "on",
@@ -48,8 +48,8 @@ Sequence_obs={
                 "dit star": 0.3,
                 "ndit star": 64,
                 "dit planets": [60],
-                "ndit planets": [6],
-                "repeat": 4
+                "ndit planets": [8],
+                "repeat": 2
                 },
         }
         
