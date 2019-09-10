@@ -22,6 +22,12 @@ def print_prediction(date_mjd, chains, tau_ref_epoch, num_samples=None):
                             sma, ecc, inc, aop, pan, tau, plx, mtot
         tau_ref_epoch (float): MJD for reference epoch of tau (see orbitize for details on tau)
         num_samples (int): number of random samples for prediction. If None, will use all of them
+
+    Returns:
+        ra_args (tuple): a two-element tuple of the median RA offset, and stddev of RA offset
+        dec_args (tuple): a two-element tuple of the median Dec offset, and stddev of Dec offset
+        sep_args (tuple): a two-element tuple of the median separation offset, and stddev of sep offset
+        PA args (tuple): a two-element tuple of the median PA offset, and stddev of PA offset
     """
 
     if num_samples is None:
@@ -52,10 +58,19 @@ def print_prediction(date_mjd, chains, tau_ref_epoch, num_samples=None):
     rand_seps = np.sqrt(rand_ras**2 + rand_decs**2)
     rand_pas = np.degrees(np.arctan2(rand_ras, rand_decs)) % 360
 
-    print("RA Offset = {0:.3f} +/- {1:.3f} mas".format(np.mean(rand_ras), np.std(rand_ras)))
-    print("Dec Offset = {0:.3f} +/- {1:.3f} mas".format(np.mean(rand_decs), np.std(rand_decs)))
-    print("Separation = {0:.3f} +/- {1:.3f} mas".format(np.mean(rand_seps), np.std(rand_seps)))
-    print("PA = {0:.3f} +/- {1:.3f} deg".format(np.mean(rand_pas), np.std(rand_pas)))
+    ra_args = np.median(rand_ras), np.std(rand_ras)
+    dec_args = np.median(rand_decs), np.std(rand_decs)
+    sep_args = np.median(rand_seps), np.std(rand_seps)
+    pa_args = np.median(rand_pas), np.std(rand_pas)
+
+    print("RA Offset = {0:.3f} +/- {1:.3f} mas".format(ra_args[0], ra_args[1]))
+    print("Dec Offset = {0:.3f} +/- {1:.3f} mas".format(dec_args[0], dec_args[1]))
+    print("Separation = {0:.3f} +/- {1:.3f} mas".format(sep_args[0], sep_args[1]))
+    print("PA = {0:.3f} +/- {1:.3f} deg".format(pa_args[0], pa_args[1]))
+
+    return ra_args, dec_args, sep_args, pa_args
+
+
 
 
 post_dict = {'hr8799b' : "post_hr8799b.hdf5",
@@ -107,36 +122,36 @@ def get_chains(planet_name):
 
 
 ########## Main Function ##########
+if __name__ == "__main__":
+    # parse input arguments
+    parser = argparse.ArgumentParser(description='Predicts the location of a companion based on the current knowledge of its orbit')
+    parser.add_argument("planet_name", help="Name of the planet. No spaces", default="",  nargs='?')
+    parser.add_argument("-t", "--time", help="UT Time to evaluate at. Either MJD or YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS")
+    parser.add_argument('-l', '--list', action='store_true', help='Lists all the possible orbits currently supported')
+    args = parser.parse_args()
 
-# parse input arguments
-parser = argparse.ArgumentParser(description='Predicts the location of a companion based on the current knowledge of its orbit')
-parser.add_argument("planet_name", help="Name of the planet. No spaces", default="",  nargs='?')
-parser.add_argument("-t", "--time", help="UT Time to evaluate at. Either MJD or YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS")
-parser.add_argument('-l', '--list', action='store_true', help='Lists all the possible orbits currently supported')
-args = parser.parse_args()
+    if args.list:
+        print("Current supported orbits:")
+        print_supported_orbits()
+    elif args.planet_name == "":
+        print("No planet name passed in. Here are the currently supported ones:")
+        print_supported_orbits()
 
-if args.list:
-    print("Current supported orbits:")
-    print_supported_orbits()
-elif args.planet_name == "":
-    print("No planet name passed in. Here are the currently supported ones:")
-    print_supported_orbits()
-
-else:
-    # perform regular functionality.
-    if args.time is None:
-        # use the current time
-        time_mjd = Time.now().mjd
     else:
-        # check if it is MJD. Otherwise astropy.time can read it and give MJD
-        if "-" in args.time:
-            # dashes mean not MJD. Probably formatted as a date
-            time_mjd = Time(args.time).mjd
+        # perform regular functionality.
+        if args.time is None:
+            # use the current time
+            time_mjd = Time.now().mjd
         else:
-            time_mjd = float(args.time)
+            # check if it is MJD. Otherwise astropy.time can read it and give MJD
+            if "-" in args.time:
+                # dashes mean not MJD. Probably formatted as a date
+                time_mjd = Time(args.time).mjd
+            else:
+                time_mjd = float(args.time)
 
-    # do real stuff
-    chains, tau_ref_epoch = get_chains(args.planet_name)
+        # do real stuff
+        chains, tau_ref_epoch = get_chains(args.planet_name)
 
-    print_prediction(time_mjd, chains, tau_ref_epoch, num_samples=100)
+        print_prediction(time_mjd, chains, tau_ref_epoch, num_samples=100)
 
