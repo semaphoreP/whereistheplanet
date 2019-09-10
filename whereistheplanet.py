@@ -12,6 +12,13 @@ import orbitize.kepler as kepler
 basedir = os.path.dirname(__file__)
 datadir = os.path.join(basedir, "data")
 
+post_dict = {'hr8799b' : "post_hr8799b.hdf5",
+             'hr8799c' : "post_hr8799c.hdf5",
+             'hr8799d' : "post_hr8799d.hdf5",
+             'hr8799e' : "post_hr8799e.hdf5",
+             'betapicb' : "post_betapicb.hdf5",
+             'hd206893b' : "post_hd206893b.hdf5"}
+
 def print_prediction(date_mjd, chains, tau_ref_epoch, num_samples=None):
     """
     Prints out a prediction for the prediction of a planet given a set of posterior draws
@@ -27,7 +34,7 @@ def print_prediction(date_mjd, chains, tau_ref_epoch, num_samples=None):
         ra_args (tuple): a two-element tuple of the median RA offset, and stddev of RA offset
         dec_args (tuple): a two-element tuple of the median Dec offset, and stddev of Dec offset
         sep_args (tuple): a two-element tuple of the median separation offset, and stddev of sep offset
-        PA args (tuple): a two-element tuple of the median PA offset, and stddev of PA offset
+        pa_args (tuple): a two-element tuple of the median PA offset, and stddev of PA offset
     """
 
     if num_samples is None:
@@ -70,17 +77,6 @@ def print_prediction(date_mjd, chains, tau_ref_epoch, num_samples=None):
 
     return ra_args, dec_args, sep_args, pa_args
 
-
-
-
-post_dict = {'hr8799b' : "post_hr8799b.hdf5",
-             'hr8799c' : "post_hr8799c.hdf5",
-             'hr8799d' : "post_hr8799d.hdf5",
-             'hr8799e' : "post_hr8799e.hdf5",
-             'betapicb' : "post_betapicb.hdf5",
-             'betpicb' : "post_betapicb.hdf5", #also accept betpicb for beta pic b
-             'hd206893b' : "post_hd206893b.hdf5"}
-
 def print_supported_orbits():
     """
     Prints out to the screen currently supported orbits
@@ -119,6 +115,31 @@ def get_chains(planet_name):
     
     return post, tau_ref_epoch
 
+def predict_planet(planet_name, time_mjd=None, num_samples=100):
+    """
+    Tells you where the planet is
+
+    Args:
+        planet_name (str): name of planet. no space
+        date_mjd (float): MJD of date for which we want a prediction. Default is current time
+        num_samples (int): number of samples to use consider when predicting the planet's location. Default is 100. 
+
+    Returns:
+        ra_args (tuple): a two-element tuple of the median RA offset, and stddev of RA offset
+        dec_args (tuple): a two-element tuple of the median Dec offset, and stddev of Dec offset
+        sep_args (tuple): a two-element tuple of the median separation offset, and stddev of sep offset
+        pa_args (tuple): a two-element tuple of the median PA offset, and stddev of PA offset
+    """
+    if time_mjd is None:
+        # use the current time
+        time_mjd = Time.now().mjd
+
+    # do real stuff
+    chains, tau_ref_epoch = get_chains(planet_name)
+
+    ra_args, dec_args, sep_args, pa_args = print_prediction(time_mjd, chains, tau_ref_epoch, num_samples=num_samples)
+
+    return ra_args, dec_args, sep_args, pa_args
 
 
 ########## Main Function ##########
@@ -150,8 +171,6 @@ if __name__ == "__main__":
             else:
                 time_mjd = float(args.time)
 
-        # do real stuff
-        chains, tau_ref_epoch = get_chains(args.planet_name)
-
-        print_prediction(time_mjd, chains, tau_ref_epoch, num_samples=100)
+        # give us the answer
+        predict_planet(args.planet_name, time_mjd=time_mjd)
 
