@@ -66,6 +66,16 @@ post_dict = {'hr8799b' : "post_hr8799b.hdf5",
              'betpicb' : "post_betapicb.hdf5", #also accept betpicb for beta pic b
              'hd206893b' : "post_hd206893b.hdf5"}
 
+def print_supported_orbits():
+    """
+    Prints out to the screen currently supported orbits
+    """
+    # list all possible planet options
+    # right now all possible orbits are in the keys to post_dict
+    for name in post_dict:
+        print("    " + name)
+    return
+
 def get_chains(planet_name):
     """
     Return posteriors for a given planet name
@@ -99,23 +109,34 @@ def get_chains(planet_name):
 ########## Main Function ##########
 
 # parse input arguments
-parser = argparse.ArgumentParser()
-parser.add_argument("planet_name", help="Name of the planet. No spaces")
+parser = argparse.ArgumentParser(description='Predicts the location of a companion based on the current knowledge of its orbit')
+parser.add_argument("planet_name", help="Name of the planet. No spaces", default="",  nargs='?')
 parser.add_argument("-t", "--time", help="UT Time to evaluate at. Either MJD or YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS")
+parser.add_argument('-l', '--list', action='store_true', help='Lists all the possible orbits currently supported')
 args = parser.parse_args()
 
-if args.time is None:
-    # use the current time
-    time_mjd = Time.now().mjd
+if args.list:
+    print("Current supported orbits:")
+    print_supported_orbits()
+elif args.planet_name == "":
+    print("No planet name passed in. Here are the currently supported ones:")
+    print_supported_orbits()
+
 else:
-    # check if it is MJD. Otherwise astropy.time can read it and give MJD
-    if "-" in args.time:
-        # dashes mean not MJD. Probably formatted as a date
-        time_mjd = Time(args.time).mjd
+    # perform regular functionality.
+    if args.time is None:
+        # use the current time
+        time_mjd = Time.now().mjd
     else:
-        time_mjd = float(args.time)
+        # check if it is MJD. Otherwise astropy.time can read it and give MJD
+        if "-" in args.time:
+            # dashes mean not MJD. Probably formatted as a date
+            time_mjd = Time(args.time).mjd
+        else:
+            time_mjd = float(args.time)
 
-chains, tau_ref_epoch = get_chains(args.planet_name)
+    # do real stuff
+    chains, tau_ref_epoch = get_chains(args.planet_name)
 
-print_prediction(time_mjd, chains, tau_ref_epoch, num_samples=100)
+    print_prediction(time_mjd, chains, tau_ref_epoch, num_samples=100)
 
