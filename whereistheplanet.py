@@ -58,6 +58,14 @@ def print_prediction(date_mjd, chains, tau_ref_epoch, num_samples=None):
     print("PA = {0:.3f} +/- {1:.3f} deg".format(np.mean(rand_pas), np.std(rand_pas)))
 
 
+post_dict = {'hr8799b' : "post_hr8799b.hdf5",
+             'hr8799c' : "post_hr8799c.hdf5",
+             'hr8799d' : "post_hr8799d.hdf5",
+             'hr8799e' : "post_hr8799e.hdf5",
+             'betapicb' : "post_betapicb.hdf5",
+             'betpicb' : "post_betapicb.hdf5", #also accept betpicb for beta pic b
+             'hd206893b' : "post_hd206893b.hdf5"}
+
 def get_chains(planet_name):
     """
     Return posteriors for a given planet name
@@ -69,43 +77,21 @@ def get_chains(planet_name):
         chains (np.array): Nx8 array of N posterior draws
         tau_ref_epoch (float): MJD for reference tau epoch
     """
+    planet_name = planet_name.lower()
 
-    if planet_name.lower() == 'hr8799b':
-        filepath = os.path.join(datadir, "post_hr8799b.hdf5")
-        with h5py.File(filepath,'r') as hf: # Opens file for reading
-            post = np.array(hf.get('post'))
-            tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
+    # handle any exceptions as necessary here
+    if planet_name == "betpicb":
+        planet_name = "betapicb"
+
+    if planet_name not in post_dict:
+        raise ValueError("Invalid planet name '{0}'".format(planet_name))
     
-    elif planet_name.lower() == 'hr8799c':
-        filepath = os.path.join(datadir, "post_hr8799c.hdf5")
-        with h5py.File(filepath,'r') as hf: # Opens file for reading
-            post = np.array(hf.get('post'))
-            tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
+    filename = post_dict[planet_name]
+    filepath = os.path.join(datadir, filename)
+    with h5py.File(filepath,'r') as hf: # Opens file for reading
+        post = np.array(hf.get('post'))
+        tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
     
-    elif planet_name.lower() == 'hr8799d':
-        filepath = os.path.join(datadir, "post_hr8799d.hdf5")
-        with h5py.File(filepath,'r') as hf: # Opens file for reading
-            post = np.array(hf.get('post'))
-            tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])   
-    
-    elif planet_name.lower() == 'hr8799e':
-        filepath = os.path.join(datadir, "post_hr8799e.hdf5")
-        with h5py.File(filepath,'r') as hf: # Opens file for reading
-            post = np.array(hf.get('post'))
-            tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
-
-    elif planet_name.lower() in ['betapicb', 'betpicb']:
-        filepath = os.path.join(datadir, "post_betapicb.hdf5")
-        with h5py.File(filepath,'r') as hf: # Opens file for reading
-            post = np.array(hf.get('post'))
-            tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
-
-    elif planet_name.lower() == 'hd206893b':
-        filepath = os.path.join(datadir, "post_hd206893b.hdf5")
-        with h5py.File(filepath,'r') as hf: # Opens file for reading
-            post = np.array(hf.get('post'))
-            tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
-
     return post, tau_ref_epoch
 
 
