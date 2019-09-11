@@ -21,7 +21,7 @@ def get_xy(planet_name,timeOfObs):
     if planet_name == "HD206893b":
         return 124,200
     values=whereistheplanet.predict_planet(planet_name,timeOfObs)
-    return values[0][0],values[0][1]
+    return values[0][0],values[1][0]
 
 def makeSequence(Sequence_obs,obs,timeOfObs):
     
