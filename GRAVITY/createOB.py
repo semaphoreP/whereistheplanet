@@ -1,12 +1,12 @@
 from datetime import datetime
-import json
 
 
-     
-
-class CreateOB():
-    
+class CreateOB():    
     def __init__(self, dictionary):
+        """
+        Create an OB for exoplanet observation with GRAVITY
+        Input has to be a dictionary 
+        """
         self.name_ft = "NAME"
         self.mag_ft = 10.
         
@@ -19,7 +19,7 @@ class CreateOB():
         obname = header['OB name']
         programID = header['run ID']
         
-        self.filename = "OBs/"+obname + '.obd'
+        self.filename = "OBs/" + obname + '.obd'
         ob = open(self.filename,'w') 
         
         # Create Header
@@ -30,7 +30,7 @@ class CreateOB():
         
         ob.write('\n')
         ob.write('# Standard parameter file header\n')
-        ob.write('PAF.HDR.START           ;           # Marks start of header\n')
+        ob.write('PAF.HDR.START             ;           # Marks start of header\n')
         ob.write('PAF.TYPE                "OB Description";  # Type of parfile\n')
         ob.write('PAF.ID                  "";     # Unused\n')
         ob.write('PAF.NAME                "";     # Unused\n')
@@ -42,7 +42,7 @@ class CreateOB():
         ob.write('PAF.CHCK.NAME           "";     # Unused\n')
         ob.write('PAF.CHCK.DAYTIM         "";     # Unused\n')
         ob.write('PAF.CHCK.CHECKSUM       "";     # Unused\n')
-        ob.write('PAF.HDR.END             ;       # Marks end of header\n')
+        ob.write('PAF.HDR.END               ;       # Marks end of header\n')
         ob.write('\n')
         ob.write('# Observation Block description follows\n')
         ob.write('OBS.ID                         "2229478"\n')
@@ -70,6 +70,9 @@ class CreateOB():
 
 
     def createACQ(self, tempdict):
+        """
+        Create aquisition template and adds it to OB
+        """
         name_sc = tempdict['target name']
         name_ft = name_sc
         targ_ra = tempdict['RA'].replace(":", "")
@@ -154,6 +157,9 @@ class CreateOB():
         
         
     def createDITHER(self, tempdict):
+        """
+        Create dither template and adds it to OB
+        """
         name_sc = tempdict['name science']
         name_ft = self.name_ft
         sobj_x = tempdict['RA offset']
@@ -188,8 +194,10 @@ class CreateOB():
 
         
     def createEXP(self, tempdict):
+        """
+        Create exposure template and adds it to OB
+        """
         name_sc = tempdict['name science']
-        name_ft = self.name_ft
         reloff_x = tempdict['RA offset']
         reloff_y = tempdict['DEC offset']
         dit = tempdict['DIT']
