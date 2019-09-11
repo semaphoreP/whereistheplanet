@@ -9,6 +9,7 @@ Created on Tue Sep 10 16:55:02 2019
 from numpy import *
 from matplotlib.pyplot import *
 from makeSequence import makeSequence,send_to_wgv
+import createOB 
 
 timeOfObs="2019-09-09"
 timeOfObs=None # it means now
@@ -22,8 +23,8 @@ Observation={
     "Kmag" :5.593,
     "Hmag" :5.687,
     "GSmag":6.67,
-    "resolution": "LOW",
-    "wollaston" : "IN"
+    "resolution": "MED",
+    "wollaston" : "OUT"
     }
 
 Sequence_obs={
@@ -39,4 +40,6 @@ Sequence_obs={
         }
         
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
+createOB.CreateOB(seq)
+
 send_to_wgv(Observation["star"],"wgv")

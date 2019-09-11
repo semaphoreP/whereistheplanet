@@ -6,14 +6,12 @@ import json
 
 class CreateOB():
     
-    def __init__(self, filename):
+    def __init__(self, dictionary):
         self.name_ft = "NAME"
         self.mag_ft = 10.
         
-        with open(filename) as json_file:
-            data = json.load(json_file)
         
-        header = data['template1']
+        header = dictionary['template1']
         if header['type'] != 'header':
             raise ValueError('First template in file %s has to be a header template'
                              % filename)
@@ -21,7 +19,7 @@ class CreateOB():
         obname = header['OB name']
         programID = header['run ID']
         
-        self.filename = obname + '.obd'
+        self.filename = "OBs/"+obname + '.obd'
         ob = open(self.filename,'w') 
         
         # Create Header
@@ -57,9 +55,9 @@ class CreateOB():
         ob.write('\n')
         ob.close()
         
-        for idx in range(1, len(data), 1):
+        for idx in range(1, len(dictionary), 1):
             templatename = 'template%i' % (idx+1)
-            template = data[templatename]
+            template = dictionary[templatename]
             if template['type'] == 'acquisition':
                 self.createACQ(template)
             elif template['type'] == 'dither':

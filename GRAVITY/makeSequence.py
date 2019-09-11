@@ -185,5 +185,5 @@ def makeSequence(Sequence_obs,obs,timeOfObs):
     return Sequence_templates
         
 def send_to_wgv(star,computer):
-    p=subprocess.Popen(["scp","OBs/"+star+".json",computer+':targets/exoplanets/.'])
+    p=subprocess.Popen(["scp","OBs/"+star+".obd",computer+':targets/exoplanets/.'])
     sts=os.waitpid(p.pid,0)
