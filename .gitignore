@@ -105,3 +105,6 @@ venv.bak/
 
 # OBs created for GRAVITY
 *.obd
+
+# emacs temporary files
+*~
