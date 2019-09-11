@@ -55,4 +55,4 @@ Sequence_obs={
         }
         
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
-send_to_wgv(Observation["star"],"styx")
+send_to_wgv(Observation["star"],"wgv")
