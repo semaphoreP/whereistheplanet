@@ -52,7 +52,7 @@ class CreateOB():
         ob.write('OBS.GRP                        "0"\n')
         ob.write('OBS.NAME                       "SCIENCE"\n')
         ob.write('OBS.PI-COI.ID                  "0"\n')
-        ob.write('OBS.PI-COI.NAME                "CONDOR"\n')
+        ob.write('OBS.PI-COI.NAME                "EXOGRAV"\n')
         ob.write('OBS.PROG.ID                    "%s"\n' % programID)
         ob.write('\n')
         ob.close()
@@ -76,8 +76,8 @@ class CreateOB():
         name_ft = name_sc
         targ_ra = tempdict['RA'].replace(":", "")
         targ_dec = tempdict['DEC'].replace(":", "")
-        targ_pma = tempdict['pmRA']
-        targ_pmd = tempdict['pmDEC']
+        targ_pma = tempdict['pmRA']/1000
+        targ_pmd = tempdict['pmDEC']/1000
         mag_sc = tempdict['K mag']
         mag_ft = mag_sc
         mag_h = tempdict['H mag']
@@ -96,12 +96,12 @@ class CreateOB():
         ob.write('TPL.NEXP                       "1"\n')
         ob.write('TPL.MODE                       "ACQUISITION"\n')
         ob.write('DET1.DIT                       "0.7"\n')
-        ob.write('DET2.DIT                       "1"\n')
-        ob.write('DET2.NDIT.SKY                  "2"\n')
+        ob.write('DET2.DIT                       "0.3"\n')
+        ob.write('DET2.NDIT.SKY                  "1"\n')
         ob.write('INS.FT.POL                     "%s"\n' % wollaston)
         ob.write('INS.SPEC.POL                   "%s"\n' % wollaston)
         ob.write('INS.SPEC.RES                   "%s"\n' % resolution)
-        #ob.write('INS.STSOFFANG                  "90"\n')
+        ob.write('INS.STSOFFANG                  "90.0"\n')
         ob.write('\n')
         ob.write('# AO guide star\n')
         ob.write('COU.AG.ALPHA                   "00:00:00.000"\n')
@@ -112,7 +112,6 @@ class CreateOB():
         ob.write('COU.AG.TYPE                    "ADAPT_OPT"\n')
         ob.write('COU.GS.FWHM                    "0."\n')
         ob.write('COU.GS.MAG                     "%f"\n' % mag_cou)
-#         ob.write('COU.GS.WAVELEN                 "2200"\n')
         ob.write('\n')
         ob.write('SEQ.FI.HMAG                    "%f"\n' % mag_h)
         ob.write('SEQ.FI.WIN                     "30"\n')
@@ -143,7 +142,7 @@ class CreateOB():
         ob.write('SEQ.TRACKROT                   "T"\n')
         ob.write('SEQ.TRACKSC                    "T"\n')
         ob.write('DEL.REF.MODE                   "AUTO"\n')
-        ob.write('DEL.REF.NAME                   "2"\n')
+        ob.write('DEL.REF.NAME                   "1"\n')
         ob.write('DEL.REF.OPL                    "250"\n')
         ob.write('TEL.TARG.ALPHA                 "%s"\n' % targ_ra)
         ob.write('TEL.TARG.DELTA                 "%s"\n' % targ_dec)
@@ -202,7 +201,7 @@ class CreateOB():
         ob = open(self.filename,'a') 
         ob.write('# Exposure \n')
         ob.write('TPL.ID                         "GRAVITY_dual_obs_exp"\n')
-        ob.write('TPL.NAME                       "MAP EXPOSURE FT:%s,SC:%s"\n' % (name_ft, name_sc))
+        ob.write('TPL.NAME                       "EXPOSURE SC:%s"\n' % (name_ft, name_sc))
         ob.write('DET1.DIT                       "0.7"\n')
         ob.write('DET1.NDIT                      "0"\n')
         ob.write('DET2.DIT                       "%f"\n' % dit)
@@ -211,7 +210,7 @@ class CreateOB():
         ob.write('INS.SPEC.POL                   "SAME"\n')
         ob.write('INS.SPEC.RES                   "SAME"\n')
         ob.write('SEQ.OBSSEQ                     "%s"\n' % sequence)
-        ob.write('SEQ.HWPOFF                     "0"\n')
+        ob.write('SEQ.HWPOFF                     "0.0"\n')
         ob.write('SEQ.RELOFF.X                   "%f"\n' % reloff_x)
         ob.write('SEQ.RELOFF.Y                   "%f"\n' % reloff_y)
         ob.write('SEQ.SKY.X                      "2000"\n')
