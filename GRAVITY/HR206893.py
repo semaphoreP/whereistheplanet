@@ -8,8 +8,10 @@ Created on Tue Sep 10 16:55:02 2019
 
 from numpy import *
 from matplotlib.pyplot import *
-from makeSequence import makeSequence
+from makeSequence import makeSequence,send_to_wgv
 
+timeOfObs="2019-09-09"
+timeOfObs=None # it means now
 Observation={
     "runID" : "0103.C-0649(D)",
     "star" :"HD206893",
@@ -36,4 +38,5 @@ Sequence_obs={
                 },
         }
         
-seq=makeSequence(Sequence_obs,Observation)
+seq=makeSequence(Sequence_obs,Observation,timeOfObs)
+send_to_wgv(Observation["star"],"styx")

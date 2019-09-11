@@ -15,14 +15,15 @@ import whereistheplanet
 
 import json
 import numpy as np
+import subprocess
 
-def get_xy(planet_name):
+def get_xy(planet_name,timeOfObs):
     if planet_name == "HD206893b":
         return 124,200
-    values=whereistheplanet.predict_planet(planet_name)
+    values=whereistheplanet.predict_planet(planet_name,timeOfObs)
     return values[0][0],values[0][1]
 
-def makeSequence(Sequence_obs,obs):
+def makeSequence(Sequence_obs,obs,timeOfObs):
     
     runID=obs["runID"]
     star=obs["star"]
@@ -77,7 +78,7 @@ def makeSequence(Sequence_obs,obs):
                     }
             }
             
-    RA_init,DEC_init=get_xy(Sequence_obs["1"]["planets"][0])
+    RA_init,DEC_init=get_xy(Sequence_obs["1"]["planets"][0],timeOfObs)
     if Sequence_obs["1"]["axis"]=="on":
             RA_init/=100
             DEC_init/=100
@@ -90,7 +91,7 @@ def makeSequence(Sequence_obs,obs):
         if obs["axis"] == "on":
             Nstart=len(Sequence_templates)
             if Nstart > 2:
-                RA_init,DEC_init=get_xy(obs['planets'][0])
+                RA_init,DEC_init=get_xy(obs['planets'][0],timeOfObs)
                 RA_init/=100
                 DEC_init/=100
                 new_template = {
@@ -115,7 +116,7 @@ def makeSequence(Sequence_obs,obs):
                 Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
                     
                 for name,dit,ndit in zip(obs["planets"],obs["dit planets"],obs["ndit planets"]):
-                    RA_planet,DEC_planet=get_xy(name)
+                    RA_planet,DEC_planet=get_xy(name,timeOfObs)
                     new_template = {
                         "type": "observation",
                         "name science": name,
@@ -145,7 +146,7 @@ def makeSequence(Sequence_obs,obs):
                 for name,dit,ndit in zip(obs["planets"],obs["dit planets"],obs["ndit planets"]):
                     Nstart=len(Sequence_templates)
                     if Nstart > 2:
-                        RA_init,DEC_init=get_xy(name)
+                        RA_init,DEC_init=get_xy(name,timeOfObs)
                         new_template = {
                             "type": "dither",
                             "name science": name,
@@ -183,4 +184,6 @@ def makeSequence(Sequence_obs,obs):
         
     return Sequence_templates
         
-        
+def send_to_wgv(star,computer):
+    p=subprocess.Popen(["scp","OBs/"+star+".json",computer+':targets/exoplanets/.'])
+    sts=os.waitpid(p.pid,0)

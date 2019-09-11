@@ -121,7 +121,7 @@ def predict_planet(planet_name, time_mjd=None, num_samples=100):
 
     Args:
         planet_name (str): name of planet. no space
-        date_mjd (float): MJD of date for which we want a prediction. Default is current time
+        time_mjd (float): UT Time to evaluate at. Either MJD or YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS. Default is current time
         num_samples (int): number of samples to use consider when predicting the planet's location. Default is 100. 
 
     Returns:
@@ -133,6 +133,13 @@ def predict_planet(planet_name, time_mjd=None, num_samples=100):
     if time_mjd is None:
         # use the current time
         time_mjd = Time.now().mjd
+    else:
+        # check if it is MJD. Otherwise astropy.time can read it and give MJD
+        if "-" in time_mjd:
+            # dashes mean not MJD. Probably formatted as a date
+            time_mjd = Time(time_mjd).mjd
+        else:
+            time_mjd = float(time_mjd)
 
     # do real stuff
     chains, tau_ref_epoch = get_chains(planet_name)

@@ -10,7 +10,8 @@ from numpy import *
 from matplotlib.pyplot import *
 from makeSequence import makeSequence
 
-
+timeOfObs="2019-09-09"
+timeOfObs=None # it means now
 Observation={
     "runID" : "0103.B-0032(D)",
     "star" :"HR8799",
@@ -53,4 +54,5 @@ Sequence_obs={
                 },
         }
         
-seq=makeSequence(Sequence_obs,Observation)
+seq=makeSequence(Sequence_obs,Observation,timeOfObs)
+send_to_wgv(Observation["star"],"styx")
