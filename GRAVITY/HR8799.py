@@ -14,7 +14,7 @@ import createOB
 timeOfObs="2019-09-09"
 timeOfObs=None # it means now
 Observation={
-    "runID" : "0103.B-0032(D)",
+    "runID" : "0103.B-0649(A)",
     "star" :"HR8799",
     "RA"   :"23:07:28.715",
     "DEC"  :"+21:08:03.302",
@@ -33,25 +33,25 @@ Sequence_obs={
                 "planets": ["HR8799e"],
                 "dit star": 0.3,
                 "ndit star": 64,
-                "dit planets": [60],
+                "dit planets": [30],
                 "ndit planets": [8],
-                "repeat": 2
+                "repeat": 3
                 },
         "2": {
                 "axis": "off",
                 "planets": ["HR8799e","HR8799d","HR8799c","HR8799b"],
-                "dit planets": [30,30,30,30],
-                "ndit planets": [8,8,8,8],
-                "repeat": 4
+                "dit planets": [10,10,10,10],
+                "ndit planets": [24,24,24,24],
+                "repeat": 5
                 },
         "3": {
                 "axis": "on",
                 "planets": ["HR8799e"],
                 "dit star": 0.3,
                 "ndit star": 64,
-                "dit planets": [60],
+                "dit planets": [30],
                 "ndit planets": [8],
-                "repeat": 2
+                "repeat": 3
                 },
         }
         
