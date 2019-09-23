@@ -208,7 +208,9 @@ class CreateOBapi():
         print('Cannot dither, as this is used as an acquisition in P2')
         print('Therefore not able to do this (yet?)')
         print('Gonna abort')
-        return 0
+        return None
+    
+    
     
     def createEXP(self, tempdict):
         """
