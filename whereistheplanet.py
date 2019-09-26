@@ -32,7 +32,7 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
              'hd23514b' : ('post_hd23514b.hdf5', 'Bowler et al. submitted'),
              'hd49197b' : ('post_hd49197b.hdf5', 'Bowler et al. submitted'),
              'hd95086b' : ('post_hd95086b.hdf5', 'Bowler et al. submitted'),
-             'hip95426b' : ('post_hip95426b.hdf5', 'Bowler et al. submitted'),
+             'hip65426b' : ('post_hip65426b.hdf5', 'Bowler et al. submitted'),
              'hr2562b' : ('post_hr2562b.hdf5', 'Bowler et al. submitted'),
              'hr3549b' : ('post_hr3549b.hdf5', 'Bowler et al. submitted'),
              'kappaandb' : ('post_kappaandb.hdf5', 'Bowler et al. submitted'),
@@ -180,12 +180,13 @@ if __name__ == "__main__":
     parser.add_argument("planet_name", help="Name of the planet. No spaces", default="",  nargs='?')
     parser.add_argument("-t", "--time", help="UT Time to evaluate at. Either MJD or YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS")
     parser.add_argument('-l', '--list', action='store_true', help='Lists all the possible orbits currently supported')
+    parser.add_argument('-a', '--all', action='store_true', help='Makes prediction for all supported orbits')
     args = parser.parse_args()
 
     if args.list:
         print("Current supported orbits (reference in parenthesis):")
         print_supported_orbits()
-    elif args.planet_name == "":
+    elif args.planet_name == "" and not args.all:
         print("No planet name passed in. Here are the currently supported ones (reference for the orbit fit in parenthesis):")
         print_supported_orbits()
 
@@ -201,7 +202,14 @@ if __name__ == "__main__":
                 time_mjd = Time(args.time).mjd
             else:
                 time_mjd = float(args.time)
-
+        
         # give us the answer
-        predict_planet(args.planet_name, time_mjd=time_mjd)
+        if not args.all:
+            # standard case where the user didn't request all of the orbits
+            predict_planet(args.planet_name, time_mjd=time_mjd)
+        else:
+            # give us all of them
+            for planet_name in post_dict:
+                print(planet_name)
+                predict_planet(planet_name, time_mjd=time_mjd)
 
