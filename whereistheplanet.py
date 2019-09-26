@@ -12,12 +12,35 @@ import orbitize.kepler as kepler
 basedir = os.path.dirname(__file__)
 datadir = os.path.join(basedir, "data")
 
-post_dict = {'hr8799b' : "post_hr8799b.hdf5",
-             'hr8799c' : "post_hr8799c.hdf5",
-             'hr8799d' : "post_hr8799d.hdf5",
-             'hr8799e' : "post_hr8799e.hdf5",
-             'betapicb' : "post_betapicb.hdf5",
-             'hd206893b' : "post_hd206893b.hdf5"}
+# name of all of the posteriors and reference
+post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
+             'hr8799c' : ("post_hr8799c.hdf5", "Wang et al. 2018"),
+             'hr8799d' : ("post_hr8799d.hdf5", "Wang et al. 2018"),
+             'hr8799e' : ("post_hr8799e.hdf5", "Wang et al. 2018"),
+             'betapicb' : ("post_betapicb.hdf5", "GRAVITY Collaboration in prep."),
+             'hd206893b' : ("post_hd206893b.hdf5", 'Bowler et al. submitted'),
+             '1rxs0342+1216b' : ('post_1rxs0342+1216b.hdf5', 'Bowler et al. submitted'),
+             '1rxs2351+3127b' : ('post_1rxs2351+3127b.hdf5', 'Bowler et al. submitted'),
+             '2m1559+4403b' : ('post_2m1559+4403b.hdf5', 'Bowler et al. submitted'),
+             '51erib' : ('post_51erib.hdf5', 'Bowler et al. submitted'),
+             'cd-352722b' : ('post_cd-352722b.hdf5', 'Bowler et al. submitted'),
+             'dhtaub' : ('post_dhtaub.hdf5', 'Bowler et al. submitted'),
+             'gj506b' : ('post_gj504b.hdf5', 'Bowler et al. submitted'),
+             'hd984b' : ('post_hd984b.hdf5', 'Bowler et al. submitted'),
+             'hd1160b' : ('post_hd1160b.hdf5', 'Bowler et al. submitted'),
+             'hd19467b' : ('post_hd19467b.hdf5', 'Bowler et al. submitted'),
+             'hd23514b' : ('post_hd23514b.hdf5', 'Bowler et al. submitted'),
+             'hd49197b' : ('post_hd49197b.hdf5', 'Bowler et al. submitted'),
+             'hd95086b' : ('post_hd95086b.hdf5', 'Bowler et al. submitted'),
+             'hip95426b' : ('post_hip95426b.hdf5', 'Bowler et al. submitted'),
+             'hr2562b' : ('post_hr2562b.hdf5', 'Bowler et al. submitted'),
+             'hr3549b' : ('post_hr3549b.hdf5', 'Bowler et al. submitted'),
+             'kappaandb' : ('post_kappaandb.hdf5', 'Bowler et al. submitted'),
+             'pds70b' : ('post_pds70b.hdf5', 'Bowler et al. submitted'),
+             'pztelb' : ('post_pztelb.hdf5', 'Bowler et al. submitted'),
+             'ross458b' : ('post_ross458b.hdf5', 'Bowler et al. submitted'),
+             'twa5b' : ('post_twa5b.hdf5', 'Bowler et al. submitted')}
+
 
 def print_prediction(date_mjd, chains, tau_ref_epoch, num_samples=None):
     """
@@ -84,7 +107,8 @@ def print_supported_orbits():
     # list all possible planet options
     # right now all possible orbits are in the keys to post_dict
     for name in post_dict:
-        print("    " + name)
+        filename, reference = post_dict[name]
+        print("    {0} ({1})".format(name, reference))
     return
 
 def get_chains(planet_name):
@@ -107,7 +131,7 @@ def get_chains(planet_name):
     if planet_name not in post_dict:
         raise ValueError("Invalid planet name '{0}'".format(planet_name))
     
-    filename = post_dict[planet_name]
+    filename, reference = post_dict[planet_name]
     filepath = os.path.join(datadir, filename)
     with h5py.File(filepath,'r') as hf: # Opens file for reading
         post = np.array(hf.get('post'))
@@ -135,7 +159,7 @@ def predict_planet(planet_name, time_mjd=None, num_samples=100):
         time_mjd = Time.now().mjd
     else:
         # check if it is MJD. Otherwise astropy.time can read it and give MJD
-        if "-" in time_mjd:
+        if "-" in str(time_mjd):
             # dashes mean not MJD. Probably formatted as a date
             time_mjd = Time(time_mjd).mjd
         else:
@@ -159,10 +183,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.list:
-        print("Current supported orbits:")
+        print("Current supported orbits (reference in parenthesis):")
         print_supported_orbits()
     elif args.planet_name == "":
-        print("No planet name passed in. Here are the currently supported ones:")
+        print("No planet name passed in. Here are the currently supported ones (reference for the orbit fit in parenthesis):")
         print_supported_orbits()
 
     else:
