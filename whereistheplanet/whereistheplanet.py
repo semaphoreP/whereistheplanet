@@ -9,7 +9,8 @@ from astropy.time import Time
 
 import orbitize.kepler as kepler
 
-basedir = os.path.dirname(__file__)
+moduledir = os.path.dirname(__file__)
+basedir = os.path.dirname(moduledir) # up one leve
 datadir = os.path.join(basedir, "data")
 
 # name of all of the posteriors and reference
@@ -173,8 +174,11 @@ def predict_planet(planet_name, time_mjd=None, num_samples=100):
     return ra_args, dec_args, sep_args, pa_args
 
 
-########## Main Function ##########
-if __name__ == "__main__":
+######### Main Function #########
+def main():
+    """
+    Main script for command line usage
+    """
     # parse input arguments
     parser = argparse.ArgumentParser(description='Predicts the location of a companion based on the current knowledge of its orbit')
     parser.add_argument("planet_name", help="Name of the planet. No spaces", default="",  nargs='?')
@@ -213,3 +217,7 @@ if __name__ == "__main__":
                 print(planet_name)
                 predict_planet(planet_name, time_mjd=time_mjd)
 
+
+########## Command Line Function ##########
+if __name__ == "__main__":
+    main()

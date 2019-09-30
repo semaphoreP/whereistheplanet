@@ -9,8 +9,9 @@ Created on Tue Sep 10 11:59:30 2019
 import os 
 filedir = os.path.dirname(os.path.realpath(__file__)) # gets the directory the current python script is in
 parent_dir = os.path.dirname(filedir) # up one leve
+module_dir = os.path.join(parent_dir, "whereistheplanet")
 import sys
-sys.path.insert(0, parent_dir) # add parent dir to python path
+sys.path.insert(0, module_dir) # add parent dir to python path
 import whereistheplanet
 
 import json

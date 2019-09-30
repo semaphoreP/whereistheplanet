@@ -1,20 +1,27 @@
 # whereistheplanet?
-Prediciting the position of exoplanets. Requires `orbitize!` (https://github.com/sblunt/orbitize/) and `git lfs` to pull the posteriors. 
+Prediciting the position of exoplanets. 
+
+## Install
+Requires `orbitize!` (https://github.com/sblunt/orbitize/) and `git-lfs` to pull the posteriors. After you clone the repositroy and use `git lfs pull` to pull the posteriors, install using 
+```
+python setup.py develop
+``` 
+This creates a script `whereistheplanet` that you can call from anywhere in the terminal. 
 
 ## Tutorial
-Open a terminal window and go to the base directory of the code
+Open a terminal window and run
 ```
-python whereistheplanet.py hr8799b
+whereistheplanet hr8799b
 ```
 
 If you want the planet location at a particular date.
 ```
-python whereistheplanet.py hr8799b --time 2019-01-01
+whereistheplanet hr8799b --time 2019-01-01
 ```
 
 To see all of the planets currently supported:
 ```
-python whereistheplanet.py --list
+whereistheplanet --list
 ```
 
 ## Coming Soon
