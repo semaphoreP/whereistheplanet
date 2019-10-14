@@ -62,7 +62,8 @@ def makeSequence(Sequence_obs,obs,timeOfObs):
             "template1" :{
                     "type": "header",
                     "run ID": runID,
-                    "OB name": star
+                    "OB name": star,
+                    "Obs time": timeOfObs,
                     },
             "template2" :{
                     "type": "acquisition",

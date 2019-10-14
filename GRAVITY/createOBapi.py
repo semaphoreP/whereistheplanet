@@ -2,6 +2,7 @@ import p2api
 from astroquery.simbad import Simbad
 import numpy as np
 from getpass import getpass
+from astropy.time import Time
 
 Simbad.add_votable_fields('flux(V)')
 Simbad.add_votable_fields('flux(K)')
@@ -41,7 +42,11 @@ class CreateOBapi():
         
         star = header['OB name']
         runID = header['run ID']
-        obs_date = '20190913'
+        obs_date = header['Obs time']
+        if obs_date is None:
+            time = Time.now()
+            obs_date = str(time.datetime.date())
+        obs_date = obs_date.replace('-', '')
         
         if self.demo:
             runID = '60.A-9252(M)'
@@ -75,10 +80,15 @@ class CreateOBapi():
                     print('Abort. Rename/Delete old OB or give the new one a different name')
                     return None
 
-        print('\nCreating OB\n')
+        print('\nCreating OB: %s\n' % ob_name)
         ob, obVersion = api.createOB(runContainerId, ob_name)
 
         # Simbad
+        # correct for the actual name:
+        if star == 'betapic':
+            star = 'Beta Pictoris'
+
+
         star_table = Simbad.query_object(star)
         if star_table is None:
             raise ValueError('Input not known by Simbad')
@@ -228,7 +238,7 @@ class CreateOBapi():
             'DET2.DIT' : dit,
             'DET2.NDIT.OBJECT' : ndit,
             'DET2.NDIT.SKY' : ndit,
-            'SEQ.HWPOFF' : [0.0],
+            'SEQ.HWPOFF' : 0.0,
             'SEQ.OBSSEQ' : sequence,
             'SEQ.RELOFF.X' : reloff_x, 
             'SEQ.RELOFF.Y' : reloff_y, 
