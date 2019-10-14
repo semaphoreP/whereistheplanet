@@ -9,7 +9,7 @@ Created on Tue Sep 10 16:55:02 2019
 from numpy import *
 from matplotlib.pyplot import *
 from makeSequence import makeSequence,send_to_wgv
-import createOB 
+import createOB
 
 timeOfObs="2019-09-09"
 timeOfObs=None # it means now
@@ -38,7 +38,7 @@ Sequence_obs={
                 "repeat": 6
                 },
         }
-        
+
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
 createOB.CreateOB(seq)
 

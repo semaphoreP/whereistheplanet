@@ -6,7 +6,7 @@ Created on Tue Sep 10 11:59:30 2019
 @author: slacour
 """
 
-import os 
+import os
 filedir = os.path.dirname(os.path.realpath(__file__)) # gets the directory the current python script is in
 parent_dir = os.path.dirname(filedir) # up one leve
 module_dir = os.path.join(parent_dir, "whereistheplanet")
@@ -25,7 +25,7 @@ def get_xy(planet_name,timeOfObs):
     return values[0][0],values[1][0]
 
 def makeSequence(Sequence_obs,obs,timeOfObs):
-    
+
     runID=obs["runID"]
     star=obs["star"]
     RA=obs["RA"]
@@ -37,13 +37,13 @@ def makeSequence(Sequence_obs,obs,timeOfObs):
     GSmag=obs["GSmag"]
     resolution=obs["resolution"]
     wollaston=obs["wollaston"]
-    
-    
+
+
     # check numbering of keys
     for n in np.arange(len(Sequence_obs))+1:
         if str(n) not in Sequence_obs:
             raise ValueError("Sequence numbering not correct, missing %i"%n)
-    
+
     # check size arrays,
     for n in np.arange(len(Sequence_obs))+1:
         s=Sequence_obs[str(n)]
@@ -51,13 +51,13 @@ def makeSequence(Sequence_obs,obs,timeOfObs):
             raise ValueError("The sequence number %i has a wrong number of planets/dit/ndits"%n)
         if ((s['axis']!="on")&(s['axis']!="off")):
             raise ValueError("The sequence number %i has wrong axis value (must be on or off)"%n)
-            
-            
+
+
     # axis off or on
-    
+
     # do test sur la sequence
-            
-    
+
+
     Sequence_templates={
             "template1" :{
                     "type": "header",
@@ -78,16 +78,16 @@ def makeSequence(Sequence_obs,obs,timeOfObs):
                     "GS mag": GSmag
                     }
             }
-            
+
     RA_init,DEC_init=get_xy(Sequence_obs["1"]["planets"][0],timeOfObs)
     if Sequence_obs["1"]["axis"]=="on":
             RA_init/=100
             DEC_init/=100
     Sequence_templates["template2"]["RA offset"]=RA_init
     Sequence_templates["template2"]["DEC offset"]=DEC_init
-            
+
     for seqN in range(len(Sequence_obs)):
-        
+
         obs=Sequence_obs[str(seqN+1)]
         if obs["axis"] == "on":
             Nstart=len(Sequence_templates)
@@ -115,7 +115,7 @@ def makeSequence(Sequence_obs,obs,timeOfObs):
                     }
                 if (len(Sequence_templates)<=Nstart+1): new_template["sequence"]="O S"
                 Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-                    
+
                 for name,dit,ndit in zip(obs["planets"],obs["dit planets"],obs["ndit planets"]):
                     RA_planet,DEC_planet=get_xy(name,timeOfObs)
                     new_template = {
@@ -128,7 +128,7 @@ def makeSequence(Sequence_obs,obs,timeOfObs):
                         "sequence":"O",
                         }
                     Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-                    
+
             new_template = {
                 "type": "observation",
                 "name science": star,
@@ -140,8 +140,8 @@ def makeSequence(Sequence_obs,obs,timeOfObs):
                 }
             if (len(Sequence_templates)<=Nstart+1): new_template["sequence"]="O"
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-                    
-        
+
+
         if obs["axis"] == "off":
             for r in range(obs["repeat"]):
                 for name,dit,ndit in zip(obs["planets"],obs["dit planets"],obs["ndit planets"]):
@@ -166,8 +166,8 @@ def makeSequence(Sequence_obs,obs,timeOfObs):
                         "sequence":"O",
                         }
                     Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-                    
-                    
+
+
     Total_time=0.0
     for n in range(len(Sequence_templates)):
         s=Sequence_templates["template%i"%(n+1)]
@@ -177,14 +177,14 @@ def makeSequence(Sequence_obs,obs,timeOfObs):
             Total_time+=1
         if s["type"]=="observation":
             Total_time+=s["DIT"]*s["NDIT"]/60*1.1*len(s['sequence'].replace(' ',''))
-            
+
     print("Estimated time for OB: %i hours, %i min"%(int(Total_time/60),int(Total_time%60)))
-            
+
 #    with open("OBs/"+star+".json", 'w') as f:
 #        json.dump(Sequence_templates, f)
-        
+
     return Sequence_templates
-        
+
 def send_to_wgv(star,computer):
     p=subprocess.Popen(["scp","OBs/"+star+".obd",computer+':targets/exoplanets/.'])
     sts=os.waitpid(p.pid,0)
