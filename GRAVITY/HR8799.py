@@ -28,31 +28,34 @@ Observation={
     }
 
 Sequence_obs={
-        "1": {
+        # "1": {
                 "axis": "on",
                 "planets": ["HR8799e"],
                 "dit star": 0.3,
                 "ndit star": 64,
                 "dit planets": [10],
                 "ndit planets": [32],
-                "repeat": 3
-                },
-        "2": {
-                "axis": "off",
-                "planets": ["HR8799e","HR8799d","HR8799c","HR8799b"],
-                "dit planets": [10,10,10,10],
-                "ndit planets": [32,32,32,32],
-                "repeat": 5
-                },
-        "3": {
-                "axis": "on",
-                "planets": ["HR8799e"],
-                "dit star": 0.3,
-                "ndit star": 64,
-                "dit planets": [10],
-                "ndit planets": [32],
-                "repeat": 6
-                },
+                "repeat": 3,
+                "swap": True
+        #         },
+        # "2": {
+        #         "axis": "off",
+        #         "planets": ["HR8799e","HR8799d","HR8799c","HR8799b"],
+        #         "dit planets": [10,10,10,10],
+        #         "ndit planets": [32,32,32,32],
+        #         "repeat": 5
+        #         "swap": False
+        #         },
+        # "3": {
+        #         "axis": "on",
+        #         "planets": ["HR8799e"],
+        #         "dit star": 0.3,
+        #         "ndit star": 64,
+        #         "dit planets": [10],
+        #         "ndit planets": [32],
+        #         "repeat": 6
+        #         "swap": False
+        #         },
         }
         
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
