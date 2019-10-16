@@ -238,7 +238,7 @@ class CreateOBapi():
             'DET2.DIT' : dit,
             'DET2.NDIT.OBJECT' : ndit,
             'DET2.NDIT.SKY' : ndit,
-            'SEQ.HWPOFF' : 0.0,
+            'SEQ.HWPOFF' : [0.0],
             'SEQ.OBSSEQ' : sequence,
             'SEQ.RELOFF.X' : reloff_x, 
             'SEQ.RELOFF.Y' : reloff_y, 
