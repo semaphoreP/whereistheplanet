@@ -35,7 +35,7 @@ def read_from_table(object_name, filename="look_up_objects.json"):
         The [RA, DEC] of the object for the offset of the secondary.
     """
     t = json.load(fp=open(filename, "r"))
-    coo = t.get(object_name.upper(), None)
+    coo = t.get(object_name, None)
     return coo
 
 def get_xy(planet_name,timeOfObs):
@@ -144,7 +144,7 @@ def makeSequence(seq,obs,timeOfObs):
                     new_template["RA_planet"]=-RA_planet+RA_init
                     new_template["DEC_planet"]=-DEC_planet+DEC_init
                 if seq["repeat"]>1:
-                    if (len(Sequence_templates)==3+2*((seq["repeat"]-1)//2)): 
+                    if (len(Sequence_templates)==3+2*((seq["repeat"]-1)//2)):
                         new_template["sequence"]="O S"
                 Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
@@ -166,13 +166,13 @@ def makeSequence(seq,obs,timeOfObs):
                         new_template["DEC_planet"]=DEC_init
 
                     Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-            
+
             if (s==1)&(seq['swap']==True):
                 new_template = {
                     "type": "swap"
                 }
                 Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-    
+
         if seq['swap']!=True:
             new_template = {
                 "type": "observation",
