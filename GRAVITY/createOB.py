@@ -152,6 +152,8 @@ class CreateOB():
         ob.write('TEL.TARG.PMD                   "%s"\n' % targ_pmd)
         ob.write('TEL.TARG.RADVEL                "0"\n')
         ob.write('TEL.TARG.WLENGTH               "2200"\n')
+        ob.write('ISS.BASELINE                   "astronometric"\n')
+        ob.write('ISS.VLTITYPE                   "astronometry"\n')
         ob.write('# epoch 2000.0\n')
         ob.write('\n')
         ob.close()
