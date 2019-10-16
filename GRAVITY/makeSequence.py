@@ -139,7 +139,7 @@ def makeSequence(seq,obs,timeOfObs):
                     "NDIT": seq["ndit star"],
                     "sequence":"O",
                     }
-                if (s==2):
+                if (s==1):
                     RA_planet,DEC_planet=get_xy(planet1,timeOfObs)
                     new_template["RA_planet"]=-RA_planet+RA_init
                     new_template["DEC_planet"]=-DEC_planet+DEC_init
@@ -161,13 +161,13 @@ def makeSequence(seq,obs,timeOfObs):
                         "NDIT": ndit,
                         "sequence":"O",
                         }
-                    if (s==2):
+                    if (s==1):
                         new_template["RA_planet"]=RA_init
                         new_template["DEC_planet"]=DEC_init
 
                     Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
-            if (s==1)&(seq['swap']==True):
+            if (s==0)&(seq['swap']==True):
                 new_template = {
                     "type": "swap"
                 }
@@ -211,7 +211,7 @@ def makeSequence(seq,obs,timeOfObs):
                             "sequence":"O",
                             }
                         Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-                if (s==1)&(seq['swap']==True):
+                if (s==0)&(seq['swap']==True):
                     new_template = {
                         "type": "swap"
                     }
