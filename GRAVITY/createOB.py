@@ -52,6 +52,7 @@ class CreateOB():
         ob.write('OBS.PI-COI.ID                  "0"\n')
         ob.write('OBS.PI-COI.NAME                "EXOGRAV"\n')
         ob.write('OBS.PROG.ID                    "%s"\n' % programID)
+        ob.write('OBS.TARG.NAME                  "%s"\n' % obname)
         ob.write('\n')
         ob.close()
 
