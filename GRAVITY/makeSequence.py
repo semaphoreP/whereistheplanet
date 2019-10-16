@@ -18,11 +18,39 @@ import json
 import numpy as np
 import subprocess
 
+def read_from_table(object_name, filename="binary_info.json"):
+    """
+    Read the coordinate information from the json table.
+
+    Parameters
+    ----------
+    object_name : string
+        The object name.
+    filename : string
+        The name of the look up table, which should be in JSON format.
+
+    Returns
+    -------
+    coo : list
+        The [RA, DEC] of the object for the offset of the secondary.
+    """
+    t = json.load(fp=open(filename, "r"))
+    coo = t.get(object_name, None)
+    return coo
+
 def get_xy(planet_name,timeOfObs):
     if planet_name == "HD206893b":
         return 124,200
-    values=whereistheplanet.predict_planet(planet_name,timeOfObs)
-    return values[0][0],values[1][0]
+    try:
+        values=whereistheplanet.predict_planet(planet_name,timeOfObs)
+        return values[0][0],values[1][0]
+    except ValueError:
+        print("The object ({0}) is not recognized as a planet, go for the look up table!".format(planet_name))
+        coo = read_from_table(planet_name)
+        if coo is None:
+            raise ValueError("Cannot find the object ({0}) from the table!".format(planet_name))
+        else:
+            return coo[0], coo[1]
 
 def makeSequence(Sequence_obs,obs,timeOfObs):
 
