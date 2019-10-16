@@ -35,7 +35,7 @@ def read_from_table(object_name, filename="binary_info.json"):
         The [RA, DEC] of the object for the offset of the secondary.
     """
     t = json.load(fp=open(filename, "r"))
-    coo = t.get(object_name, None)
+    coo = t.get(object_name.upper(), None)
     return coo
 
 def get_xy(planet_name,timeOfObs):
