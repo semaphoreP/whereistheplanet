@@ -18,7 +18,7 @@ import json
 import numpy as np
 import subprocess
 
-def read_from_table(object_name, filename="binary_info.json"):
+def read_from_table(object_name, filename="look_up_objects.json"):
     """
     Read the coordinate information from the json table.
 
@@ -39,8 +39,8 @@ def read_from_table(object_name, filename="binary_info.json"):
     return coo
 
 def get_xy(planet_name,timeOfObs):
-    if planet_name == "HD206893b":
-        return 124,200
+    #if planet_name == "HD206893b":
+    #    return 124,200
     try:
         values=whereistheplanet.predict_planet(planet_name,timeOfObs)
         return values[0][0],values[1][0]
