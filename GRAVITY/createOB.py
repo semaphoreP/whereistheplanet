@@ -52,6 +52,7 @@ class CreateOB():
         ob.write('OBS.PI-COI.ID                  "0"\n')
         ob.write('OBS.PI-COI.NAME                "EXOGRAV"\n')
         ob.write('OBS.PROG.ID                    "%s"\n' % programID)
+        ob.write('OBS.TARG.NAME                  "%s"\n' % obname)
         ob.write('\n')
         ob.close()
 
@@ -151,6 +152,8 @@ class CreateOB():
         ob.write('TEL.TARG.PMD                   "%s"\n' % targ_pmd)
         ob.write('TEL.TARG.RADVEL                "0"\n')
         ob.write('TEL.TARG.WLENGTH               "2200"\n')
+        ob.write('ISS.BASELINE                   "astronometric"\n')
+        ob.write('ISS.VLTITYPE                   "astronometry"\n')
         ob.write('# epoch 2000.0\n')
         ob.write('\n')
         ob.close()
