@@ -129,7 +129,7 @@ def makeSequence(seq,obs,timeOfObs):
 
     if seq["axis"] == "on":
         for s in range(swap_repeat):
-            for r in range(obs["repeat"]):
+            for r in range(seq["repeat"]):
                 new_template = {
                     "type": "observation",
                     "name science": star,
@@ -179,18 +179,18 @@ def makeSequence(seq,obs,timeOfObs):
                 "name science": star,
                 "RA offset":-RA_init,
                 "DEC offset":-DEC_init,
-                "DIT": obs["dit star"],
-                "NDIT": obs["ndit star"],
+                "DIT": seq["dit star"],
+                "NDIT": seq["ndit star"],
                 "sequence":"O",
                 }
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
 
-        if obs["axis"] == "off":
+        if seq["axis"] == "off":
             for s in range(swap_repeat):
-                for r in range(obs["repeat"]):
+                for r in range(seq["repeat"]):
                     for n in range(Nplanet):
-                        name,dit,ndit=obs["planets"],obs["dit planets"],obs["ndit planets"]
+                        name,dit,ndit=seq["planets"],seq["dit planets"],seq["ndit planets"]
                         if n > 1:
                             RA_init,DEC_init=get_xy(name,timeOfObs)
                             new_template = {

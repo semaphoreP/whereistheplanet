@@ -60,4 +60,4 @@ Sequence_obs={
         
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
 createOB.CreateOB(seq)
-send_to_wgv(Observation["star"],"wgv")
+#send_to_wgv(Observation["star"],"wgv")
