@@ -67,6 +67,8 @@ class CreateOB():
                 self.createDITHER(template)
             elif template['type'] == 'observation':
                 self.createEXP(template)
+            elif template['type'] == 'swap':
+                self.createSWAP(template)
             else:
                 raise ValueError('Type of %s not known, has to be acquisition, dither or observation' % templatename)
 
@@ -226,5 +228,23 @@ class CreateOB():
         ob.write('SEQ.RELOFF.Y                   "%f"\n' % reloff_y)
         ob.write('SEQ.SKY.X                      "2000"\n')
         ob.write('SEQ.SKY.Y                      "2000"\n')
+        ob.write('\n')
+        ob.close()
+
+
+    def createSWAP(self, tempdict):
+        """
+        Create the SWAP template and add it to OB.
+        """
+        ob = open(self.filename,'a')
+        ob.write('#Swap \n')
+        ob.write('TPL.ID                         "GRAVITY_dual_obs_swap"\n')
+        ob.write('TPL.NAME                       "SWAP:No sky, generic for all objects"\n')
+        ob.write('DET1.DIT                       "0.7"\n')
+        ob.write('SEQ.SKY.X                      "2000"\n')
+        ob.write('SEQ.SKY.Y                      "2000"\n')
+        ob.write('SEQ.SWAP                       "T"\n')
+        ob.write('SEQ.PICKFT                     "T"\n')
+        ob.write('SEQ.TAKESKY                    "F"\n')
         ob.write('\n')
         ob.close()
