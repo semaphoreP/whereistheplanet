@@ -142,8 +142,8 @@ def makeSequence(seq,obs,timeOfObs):
                     }
                 if (s==1):
                     RA_planet,DEC_planet=get_xy(planet1,timeOfObs)
-                    new_template["RA_planet"]=-RA_planet+RA_init
-                    new_template["DEC_planet"]=-DEC_planet+DEC_init
+                    new_template["RA offset"]=-RA_planet+RA_init
+                    new_template["DEC offset"]=-DEC_planet+DEC_init
                 if seq["repeat"]>1:
                     if (len(Sequence_templates)==3+2*((seq["repeat"]-1)//2)):
                         new_template["sequence"]="O S"
@@ -163,8 +163,8 @@ def makeSequence(seq,obs,timeOfObs):
                         "sequence":"O",
                         }
                     if (s==1):
-                        new_template["RA_planet"]=RA_init
-                        new_template["DEC_planet"]=DEC_init
+                        new_template["RA offset"]=RA_init
+                        new_template["DEC offset"]=DEC_init
 
                     Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
