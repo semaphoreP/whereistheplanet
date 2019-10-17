@@ -144,9 +144,10 @@ def makeSequence(seq,obs,timeOfObs):
                     RA_planet,DEC_planet=get_xy(planet1,timeOfObs)
                     new_template["RA offset"]=-RA_planet+RA_init
                     new_template["DEC offset"]=-DEC_planet+DEC_init
-                if seq["repeat"]>1:
-                    if (len(Sequence_templates)==3+2*((seq["repeat"]-1)//2)):
+                if r==(seq["repeat"])//2:
                         new_template["sequence"]="O S"
+                        print("toto")
+                print(len(Sequence_templates))
                 Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
                 for name,dit,ndit in zip(seq["planets"],seq["dit planets"],seq["ndit planets"]):

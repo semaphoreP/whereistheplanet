@@ -34,13 +34,13 @@ Observation={
 Sequence_obs={
         # "1": {
                 "axis": "on",
-                "planets": ["HR8799e"],
+                "planets": ["HR8799e","HR8799c"],
                 "dit star": 0.3,
                 "ndit star": 64,
-                "dit planets": [10],
-                "ndit planets": [32],
-                "repeat": 3,
-                "swap": True
+                "dit planets": [10,10],
+                "ndit planets": [32,32],
+                "repeat": 2,
+                "swap": False
         #         },
         # "2": {
         #         "axis": "off",
