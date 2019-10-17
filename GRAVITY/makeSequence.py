@@ -77,7 +77,7 @@ def makeSequence(seq,obs,timeOfObs):
         raise ValueError("The sequence has a wrong number of planets/dit/ndits")
     if ((seq['axis']!="on")&(seq['axis']!="off")):
         raise ValueError("The sequence has wrong axis value (must be on or off)")
-    if ((seq['swap']!=True)&(Nplanet!=1)):
+    if ((seq['swap']==True)&(Nplanet!=1)):
         raise ValueError("A swap can only be done with a single companion (here %i)"%Nplanet)
 
 
@@ -112,13 +112,13 @@ def makeSequence(seq,obs,timeOfObs):
 
     RA_init,DEC_init=get_xy(planet1,timeOfObs)
     if (seq["axis"]=="on")&(seq["swap"]!=True):
-            ratio=1/100
+            ratio=0.01
             mOffset=max([RA_init,DEC_init])
-            if mOffset > 999:
-                off=mOffset-999
-                ratio=max([1/100,off/mOffset])
+            if mOffset > 999.:
+                off=mOffset-999.
+                ratio=max([0.01,off/mOffset])
             else:
-                ratio=1/100
+                ratio=0.01
             RA_init*=ratio
             DEC_init*=ratio
     Sequence_templates["template2"]["RA offset"]=RA_init
@@ -188,36 +188,36 @@ def makeSequence(seq,obs,timeOfObs):
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
 
-        if seq["axis"] == "off":
-            for s in range(swap_repeat):
-                for r in range(seq["repeat"]):
-                    for n in range(Nplanet):
-                        name,dit,ndit=seq["planets"],seq["dit planets"],seq["ndit planets"]
-                        if n > 1:
-                            RA_init,DEC_init=get_xy(name,timeOfObs)
-                            new_template = {
-                                "type": "dither",
-                                "name science": name,
-                                "mag science": Kmag+9,
-                                "RA offset":RA_init,
-                                "DEC offset":DEC_init,
-                                }
-                            Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
+    if seq["axis"] == "off":
+        for s in range(swap_repeat):
+            for r in range(seq["repeat"]):
+                for n in range(Nplanet):
+                    name,dit,ndit=seq["planets"][n],seq["dit planets"][n],seq["ndit planets"][n]
+                    if n > 1:
+                        RA_init,DEC_init=get_xy(name,timeOfObs)
                         new_template = {
-                            "type": "observation",
+                            "type": "dither",
                             "name science": name,
-                            "RA offset":0.0,
-                            "DEC offset":0.0,
-                            "DIT": dit,
-                            "NDIT": ndit,
-                            "sequence":"O",
+                            "mag science": Kmag+9,
+                            "RA offset":RA_init,
+                            "DEC offset":DEC_init,
                             }
                         Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-                if (s==0)&(seq['swap']==True):
                     new_template = {
-                        "type": "swap"
-                    }
+                        "type": "observation",
+                        "name science": name,
+                        "RA offset":0.0,
+                        "DEC offset":0.0,
+                        "DIT": dit,
+                        "NDIT": ndit,
+                        "sequence":"O",
+                        }
                     Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
+            if (s==0)&(seq['swap']==True):
+                new_template = {
+                    "type": "swap"
+                }
+                Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
 
     Total_time=0.0
