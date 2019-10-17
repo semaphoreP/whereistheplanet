@@ -146,8 +146,6 @@ def makeSequence(seq,obs,timeOfObs):
                     new_template["DEC offset"]=-DEC_planet+DEC_init
                 if r==(seq["repeat"])//2:
                         new_template["sequence"]="O S"
-                        print("toto")
-                print(len(Sequence_templates))
                 Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
                 for name,dit,ndit in zip(seq["planets"],seq["dit planets"],seq["ndit planets"]):
