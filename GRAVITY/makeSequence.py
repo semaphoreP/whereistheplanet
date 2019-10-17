@@ -77,7 +77,7 @@ def makeSequence(seq,obs,timeOfObs):
         raise ValueError("The sequence has a wrong number of planets/dit/ndits")
     if ((seq['axis']!="on")&(seq['axis']!="off")):
         raise ValueError("The sequence has wrong axis value (must be on or off)")
-    if ((seq['swap']!=True)&(Nplanet!=1)):
+    if ((seq['swap']==True)&(Nplanet!=1)):
         raise ValueError("A swap can only be done with a single companion (here %i)"%Nplanet)
 
 
@@ -112,13 +112,13 @@ def makeSequence(seq,obs,timeOfObs):
 
     RA_init,DEC_init=get_xy(planet1,timeOfObs)
     if (seq["axis"]=="on")&(seq["swap"]!=True):
-            ratio=1/100
+            ratio=0.01
             mOffset=max([RA_init,DEC_init])
-            if mOffset > 999:
-                off=mOffset-999
-                ratio=max([1/100,off/mOffset])
+            if mOffset > 999.:
+                off=mOffset-999.
+                ratio=max([0.01,off/mOffset])
             else:
-                ratio=1/100
+                ratio=0.01
             RA_init*=ratio
             DEC_init*=ratio
     Sequence_templates["template2"]["RA offset"]=RA_init

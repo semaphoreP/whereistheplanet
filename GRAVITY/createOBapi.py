@@ -72,10 +72,24 @@ class CreateOBapi():
         for OB in OBs[0]:
             if OB['name'] == ob_name and OB['itemType'] == 'OB':
                 newOB = False
-                replaceOB = input('OB already exists, do you want to replace it? [y,n]')
+                replaceOB = input('OB already exists, do you want to replace it? [y,n] ')
                 if replaceOB == 'y':
                     ob, obVersion = api.getOB(OB['obId'])
-                    api.deleteOB(ob['obId'], obVersion)
+                    try: # Try to delete the original OB
+                        api.deleteOB(ob['obId'], obVersion)
+                    except:
+                        sufOB = input('Cannot replace the OB, do you want to add a suffix? [y, n] ')
+                        if sufOB == 'y': # Add an suffix and check until there is no conflict on OB name.
+                            ob_suf = 0
+                            ob_name = star + '_' + obs_date + '_{0}'.format(ob_suf)
+                            # Check and increase the suffix number if there is still conflict.
+                            while(OB['name'] == ob_name and OB['itemType'] == 'OB'):
+                                ob_suf += 1
+                                ob_name = star + '_' + obs_date + '_{0}'.format(ob_suf)
+                        else:
+                            print('Abort.')
+                            return None
+
                 else:
                     print('Abort. Rename/Delete old OB or give the new one a different name')
                     return None
