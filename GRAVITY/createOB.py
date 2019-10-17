@@ -1,3 +1,5 @@
+import os
+filedir = os.path.dirname(os.path.realpath(__file__)) # gets the directory the current python script is in
 from datetime import datetime
 
 
@@ -19,7 +21,7 @@ class CreateOB():
         obname = header['OB name']
         programID = header['run ID']
 
-        self.filename = "OBs/" + obname + '.obd'
+        self.filename = filedir+"/OBs/" + obname + '.obd'
         ob = open(self.filename,'w')
 
         # Create Header

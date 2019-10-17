@@ -230,11 +230,11 @@ def makeSequence(seq,obs,timeOfObs):
 
     print("Estimated time for OB: %i hours, %i min"%(int(Total_time/60),int(Total_time%60)))
 
-    with open("OBs/"+star+".json", 'w') as f:
+    with open(filedir+"/OBs/"+star+".json", 'w') as f:
         json.dump(Sequence_templates, f)
 
     return Sequence_templates
 
 def send_to_wgv(star,computer):
-    p=subprocess.Popen(["scp","OBs/"+star+".obd",computer+':targets/exoplanets/.'])
+    p=subprocess.Popen(["scp",filedir+"/OBs/"+star+".obd",computer+':targets/exoplanets/.'])
     sts=os.waitpid(p.pid,0)
