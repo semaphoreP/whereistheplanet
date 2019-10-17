@@ -187,36 +187,36 @@ def makeSequence(seq,obs,timeOfObs):
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
 
-        if seq["axis"] == "off":
-            for s in range(swap_repeat):
-                for r in range(seq["repeat"]):
-                    for n in range(Nplanet):
-                        name,dit,ndit=seq["planets"],seq["dit planets"],seq["ndit planets"]
-                        if n > 1:
-                            RA_init,DEC_init=get_xy(name,timeOfObs)
-                            new_template = {
-                                "type": "dither",
-                                "name science": name,
-                                "mag science": Kmag+9,
-                                "RA offset":RA_init,
-                                "DEC offset":DEC_init,
-                                }
-                            Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
+    if seq["axis"] == "off":
+        for s in range(swap_repeat):
+            for r in range(seq["repeat"]):
+                for n in range(Nplanet):
+                    name,dit,ndit=seq["planets"][n],seq["dit planets"][n],seq["ndit planets"][n]
+                    if n > 1:
+                        RA_init,DEC_init=get_xy(name,timeOfObs)
                         new_template = {
-                            "type": "observation",
+                            "type": "dither",
                             "name science": name,
-                            "RA offset":0.0,
-                            "DEC offset":0.0,
-                            "DIT": dit,
-                            "NDIT": ndit,
-                            "sequence":"O",
+                            "mag science": Kmag+9,
+                            "RA offset":RA_init,
+                            "DEC offset":DEC_init,
                             }
                         Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-                if (s==0)&(seq['swap']==True):
                     new_template = {
-                        "type": "swap"
-                    }
+                        "type": "observation",
+                        "name science": name,
+                        "RA offset":0.0,
+                        "DEC offset":0.0,
+                        "DIT": dit,
+                        "NDIT": ndit,
+                        "sequence":"O",
+                        }
                     Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
+            if (s==0)&(seq['swap']==True):
+                new_template = {
+                    "type": "swap"
+                }
+                Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
 
     Total_time=0.0

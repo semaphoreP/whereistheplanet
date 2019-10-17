@@ -37,12 +37,10 @@ Sequence_obs={
                 "ndit star": 16,
                 "dit planets": [10],
                 "ndit planets": [16],
-                "repeat": 1,
+                "repeat": 2,
                 "swap": True
         #        },
         }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
-#createOBapi.CreateOBapi(seq)
-print seq
-#createOB.CreateOB(seq)
+createOBapi.CreateOBapi(seq)
