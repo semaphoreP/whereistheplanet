@@ -96,6 +96,7 @@ def makeSequence(seq,obs,timeOfObs):
                     },
             "template2" :{
                     "type": "acquisition",
+                    "star name": star,
                     "target name": planet1,
                     "RA": RA,
                     "DEC": DEC,

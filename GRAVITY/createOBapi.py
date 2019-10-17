@@ -183,6 +183,7 @@ class CreateOBapi():
         wollaston = tempdict['wollaston']
         sobj_x = tempdict['RA offset']
         sobj_y = tempdict['DEC offset']
+        first_planet = tempdict['target name']
 
         acqTpl, acqTplVersion  = self.api.setTemplateParams(self.obId, acqTpl, {
             'SEQ.FT.ROBJ.NAME': self.target,
@@ -190,7 +191,7 @@ class CreateOBapi():
             'SEQ.FT.ROBJ.DIAMETER': 0.0,
             'SEQ.FT.ROBJ.VIS': 1.0,
             'SEQ.FT.MODE': 'AUTO',
-            'SEQ.INS.SOBJ.NAME': self.target,
+            'SEQ.INS.SOBJ.NAME': first_planet,
             'SEQ.INS.SOBJ.MAG': self.targ_magK,
             'SEQ.INS.SOBJ.DIAMETER': 0.0,
             'SEQ.INS.SOBJ.VIS': 1.0,

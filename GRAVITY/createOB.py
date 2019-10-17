@@ -79,7 +79,7 @@ class CreateOB():
         Create aquisition template and adds it to OB
         """
         name_sc = tempdict['target name']
-        name_ft = name_sc
+        name_ft = tempdict['star name']
         targ_ra = tempdict['RA'].replace(":", "")
         targ_dec = tempdict['DEC'].replace(":", "")
         targ_pma = tempdict['pmRA']/1000
