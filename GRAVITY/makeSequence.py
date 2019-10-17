@@ -231,7 +231,7 @@ def makeSequence(seq,obs,timeOfObs):
     print("Estimated time for OB: %i hours, %i min"%(int(Total_time/60),int(Total_time%60)))
 
     with open(filedir+"/OBs/"+star+".json", 'w') as f:
-        json.dump(Sequence_templates, f)
+        json.dump(Sequence_templates, f, sort_keys=True, indent=4)
 
     return Sequence_templates
 
