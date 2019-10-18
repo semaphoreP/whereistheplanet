@@ -66,6 +66,8 @@ def makeSequence(seq,obs,timeOfObs):
     GSmag=obs["GSmag"]
     resolution=obs["resolution"]
     wollaston=obs["wollaston"]
+    baseline=obs["baseline"] # ISS.BASELINE
+    vltitype=obs["vltitype"] # ISS.VLTITYPE
 
 
     # check observing sequence, looking for error or inconsistency.
@@ -106,7 +108,9 @@ def makeSequence(seq,obs,timeOfObs):
                     "H mag": Hmag,
                     "resolution": resolution,
                     "wollaston": wollaston,
-                    "GS mag": GSmag
+                    "GS mag": GSmag,
+                    "baseline": baseline,
+                    "vltitype": vltitype
                     }
             }
 

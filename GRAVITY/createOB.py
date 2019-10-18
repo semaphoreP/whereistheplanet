@@ -89,6 +89,8 @@ class CreateOB():
         mag_h = tempdict['H mag']
         resolution = tempdict['resolution']
         wollaston = tempdict['wollaston']
+        baseline = tempdict['baseline']
+        vltitype = tempdict['vltitype']
         mag_cou = tempdict['GS mag']
         sobj_x = tempdict['RA offset']
         sobj_y = tempdict['DEC offset']
@@ -156,8 +158,8 @@ class CreateOB():
         ob.write('TEL.TARG.PMD                   "%s"\n' % targ_pmd)
         ob.write('TEL.TARG.RADVEL                "0"\n')
         ob.write('TEL.TARG.WLENGTH               "2200"\n')
-        ob.write('ISS.BASELINE                   "astronometric"\n')
-        ob.write('ISS.VLTITYPE                   "astronometry"\n')
+        ob.write('ISS.BASELINE                   "%s"\n' % baseline)
+        ob.write('ISS.VLTITYPE                   "%s"\n' % vltitype)
         ob.write('# epoch 2000.0\n')
         ob.write('\n')
         ob.close()

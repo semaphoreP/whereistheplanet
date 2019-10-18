@@ -26,11 +26,12 @@ Observation={
     "Hmag" :4.513,
     "GSmag":5.51, # From 2008MNRAS.389..869E
     "resolution": "MED",
-    "wollaston" : "OUT"
+    "wollaston" : "OUT",
+    "baseline" : "small",
+    "vltitype" : "astrometry"
     }
 
 Sequence_obs={
-        #"1": {
                 "axis": "off",
                 "planets": ["kap01SclB"],
                 "dit star": 10,
@@ -39,7 +40,6 @@ Sequence_obs={
                 "ndit planets": [16],
                 "repeat": 2,
                 "swap": True
-        #        },
         }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)

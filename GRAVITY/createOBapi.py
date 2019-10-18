@@ -195,6 +195,8 @@ class CreateOBapi():
 
         resolution = tempdict['resolution']
         wollaston = tempdict['wollaston']
+        baseline = tempdict['baseline']
+        vltitype = tempdict['vltitype']
         sobj_x = tempdict['RA offset']
         sobj_y = tempdict['DEC offset']
         first_planet = tempdict['target name']
@@ -223,8 +225,8 @@ class CreateOBapi():
             'COU.AG.PMA': 0.0,
             'COU.AG.PMD': 0.0,
             'COU.AG.TYPE': 'ADAPT_OPT',
-            'ISS.BASELINE': ['UTs'],
-            'ISS.VLTITYPE': ['astrometry'],
+            'ISS.BASELINE': [baseline],
+            'ISS.VLTITYPE': [vltitype],
         }, acqTplVersion)
 
 
