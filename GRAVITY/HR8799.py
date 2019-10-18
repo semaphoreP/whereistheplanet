@@ -21,6 +21,7 @@ timeOfObs=None # it means now
 
 Observation={
     "runID" : "60.A-9102(H)",
+    "baseline" : "AT",
     "star" :"HR8799",
     "RA"   :"23:07:28.71569",
     "DEC"  :"+21:08:03.3021",

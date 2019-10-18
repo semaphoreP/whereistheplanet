@@ -211,7 +211,7 @@ def makeSequence(seq,obs,timeOfObs):
                         "sequence":"O",
                         }
                     Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-            if (s==0)&(seq['swap']==True):
+            if (seq['swap']==True):
                 new_template = {
                     "type": "swap"
                 }
