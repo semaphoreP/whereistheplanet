@@ -15,7 +15,7 @@ from numpy import *
 from matplotlib.pyplot import *
 from makeSequence import makeSequence,send_to_wgv
 import createOB
-#import createOBapi
+import createOBapi
 
 timeOfObs=None # it means now
 
@@ -39,13 +39,13 @@ Sequence_obs={
                 "axis": "on", #"off",
                 "planets": ["kap01SclB"],
                 "dit star": 10,
-                "ndit star": 16,
+                "ndit star": 32,
                 "dit planets": [10],
-                "ndit planets": [16],
+                "ndit planets": [32],
                 "repeat": 2,
                 "swap": True
         }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
-#createOBapi.CreateOBapi(seq)
-createOB.CreateOB(seq)
+createOBapi.CreateOBapi(seq)
+#createOB.CreateOB(seq)
