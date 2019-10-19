@@ -39,8 +39,7 @@ def read_from_table(object_name, filename="look_up_objects.json"):
     return coo
 
 def get_xy(planet_name,timeOfObs):
-    #if planet_name == "HD206893b":
-    #    return 124,200
+    print("\n****** {0} ******".format(planet_name))
     try:
         values=whereistheplanet.predict_planet(planet_name,timeOfObs)
         return values[0][0],values[1][0]
@@ -195,7 +194,7 @@ def makeSequence(seq,obs,timeOfObs):
             for r in range(seq["repeat"]):
                 for n in range(Nplanet):
                     name,dit,ndit=seq["planets"][n],seq["dit planets"][n],seq["ndit planets"][n]
-                    if n > 1:
+                    if len(Sequence_templates) > 2:
                         RA_init,DEC_init=get_xy(name,timeOfObs)
                         new_template = {
                             "type": "dither",
