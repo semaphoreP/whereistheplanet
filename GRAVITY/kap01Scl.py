@@ -32,7 +32,7 @@ Observation={
     }
 
 Sequence_obs={
-                "axis": "off",
+                "axis": "on", #"off",
                 "planets": ["kap01SclB"],
                 "dit star": 10,
                 "ndit star": 16,
@@ -43,4 +43,5 @@ Sequence_obs={
         }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
-createOBapi.CreateOBapi(seq)
+#createOBapi.CreateOBapi(seq)
+createOB.CreateOB(seq)
