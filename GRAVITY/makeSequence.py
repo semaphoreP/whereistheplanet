@@ -34,7 +34,7 @@ def read_from_table(object_name, filename="look_up_objects.json"):
     coo : list
         The [RA, DEC] of the object for the offset of the secondary.
     """
-    t = json.load(fp=open(filename, "r"))
+    t = json.load(fp=open(filedir+"/"+filename, "r"))
     coo = t.get(object_name, None)
     return coo
 
@@ -116,7 +116,7 @@ def makeSequence(seq,obs,timeOfObs):
     RA_init,DEC_init=get_xy(planet1,timeOfObs)
     if (seq["axis"]=="on")&(seq["swap"]!=True):
             ratio=0.01
-            mOffset=max([RA_init,DEC_init])
+            mOffset=max([abs(RA_init),abs(DEC_init)])
             if mOffset > 999.:
                 off=mOffset-999.
                 ratio=max([0.01,off/mOffset])
@@ -126,9 +126,9 @@ def makeSequence(seq,obs,timeOfObs):
             DEC_init*=ratio
     if (seq["axis"]=="on")&(seq["swap"]==True):
             ratio=0.01
-            mOffset=max([RA_init,DEC_init])
-            if mOffset > 1200.:
-                off=1198.
+            mOffset=max([abs(RA_init),abs(DEC_init)])
+            if mOffset > 999.:
+                off=999.
                 ratio=max([0.01,off/mOffset])
             else:
                 ratio=1

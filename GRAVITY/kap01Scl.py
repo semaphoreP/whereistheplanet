@@ -7,11 +7,15 @@ Revised on Mon Oct 14 10:45:00 2019
 @author: slacour -- Revised by Jinyi Shangguan
 """
 
+import os
+import sys
+filedir = os.path.dirname(os.path.realpath(__file__)) # gets the directory the current python script is in
+sys.path.insert(0, filedir) # add parent dir to python pathÒ
 from numpy import *
 from matplotlib.pyplot import *
 from makeSequence import makeSequence,send_to_wgv
 import createOB
-import createOBapi
+#import createOBapi
 
 timeOfObs=None # it means now
 
