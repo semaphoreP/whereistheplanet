@@ -124,6 +124,16 @@ def makeSequence(seq,obs,timeOfObs):
                 ratio=0.01
             RA_init*=ratio
             DEC_init*=ratio
+    if (seq["axis"]=="on")&(seq["swap"]==True):
+            ratio=0.01
+            mOffset=max([RA_init,DEC_init])
+            if mOffset > 1200.:
+                off=1198.
+                ratio=max([0.01,off/mOffset])
+            else:
+                ratio=1
+            RA_init*=ratio
+            DEC_init*=ratio
     Sequence_templates["template2"]["RA offset"]=RA_init
     Sequence_templates["template2"]["DEC offset"]=DEC_init
     if seq['swap']==True:
