@@ -134,6 +134,9 @@ def makeSequence(seq,obs,timeOfObs):
                 ratio=1
             RA_init*=ratio
             DEC_init*=ratio
+    if (seq["axis"]=="off")&(seq["swap"]!=True):
+        RA_init=0.
+        DEC_init=0.
     Sequence_templates["template2"]["RA offset"]=RA_init
     Sequence_templates["template2"]["DEC offset"]=DEC_init
     if seq['swap']==True:
