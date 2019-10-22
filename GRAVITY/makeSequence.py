@@ -232,11 +232,10 @@ def makeSequence(seq,obs,timeOfObs):
                 "sequence":"O S O",
                 }
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-        new_template = {
-            "type": "swap"
-        }
-        Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-        for r in range(seq["repeat"]):
+            new_template = {
+                "type": "swap"
+            }
+            Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
             new_template = {
                 "type": "observation",
                 "name science": star,
@@ -247,10 +246,10 @@ def makeSequence(seq,obs,timeOfObs):
                 "sequence":"O S O",
                 }
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-        new_template = {
-            "type": "swap"
-        }
-        Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
+            new_template = {
+                "type": "swap"
+            }
+            Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
     #######################################
     # 6 Calculating total time and making json file
