@@ -86,7 +86,7 @@ def makeSequence(seq,obs,timeOfObs):
         raise ValueError("The sequence has a wrong number of planets/dit/ndits")
     if ((seq['axis']!="on")&(seq['axis']!="off")):
         raise ValueError("The sequence has wrong axis value (must be on or off)")
-    if ((seq['axis']!="on")&(seq['swap']==True)):
+    if ((seq['axis']=="on")&(seq['swap']==True)):
         raise ValueError("We do not swap in on-axis mode")
     if ((seq['swap']==True)&(Nplanet!=1)):
         raise ValueError("A swap can only be done with a single companion (here %i)"%Nplanet)
@@ -273,4 +273,3 @@ def makeSequence(seq,obs,timeOfObs):
         json.dump(Sequence_templates, f, sort_keys=True, indent=4)
 
     return Sequence_templates
-

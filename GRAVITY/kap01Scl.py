@@ -36,14 +36,14 @@ Observation={
     }
 
 Sequence_obs={
-                "axis": "on", #"off",
+                "axis": "off", #"on", #
                 "planets": ["kap01SclB"],
                 "dit star": 10,
-                "ndit star": 32,
+                "ndit star": 24,
                 "dit planets": [10],
-                "ndit planets": [32],
-                "repeat": 5,
-                "swap": False
+                "ndit planets": [24],
+                "repeat": 2,
+                "swap": True
         }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)

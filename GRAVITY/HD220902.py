@@ -29,15 +29,15 @@ Observation={
     }
 
 Sequence_obs={
-            "axis": "off",
+            "axis": "on",
             "planets": ["HD220902B"],
-            "dit star": 10,
-            "ndit star": 16,
-            "dit planets": [10],
-            "ndit planets": [16],
+            "dit star": 30,
+            "ndit star": 12,
+            "dit planets": [30],
+            "ndit planets": [12],
             "repeat": 2,
-            "swap": True
+            "swap": False
         }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
-createOBapi.CreateOBapi(seq)
+#createOBapi.CreateOBapi(seq)
