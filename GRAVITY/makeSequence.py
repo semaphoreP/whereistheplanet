@@ -124,14 +124,12 @@ def makeSequence(seq,obs,timeOfObs):
             }
 
     if (seq["axis"]=="on"):
-        RA_init, DEC_init=get_xy(planet1,timeOfObs)
+        RA_init, DEC_init=0.0,0.0
+        for planets in seq["planets"]:
+            RA, DEC=get_xy(planets,timeOfObs)
+            RA_init += RA
+            DEC_init += DEC
         ratio=0.01
-        mOffset=max([abs(RA_init),abs(DEC_init)])
-        if mOffset > 999.:
-            off=mOffset-999.
-            ratio=max([0.01,off/mOffset])
-        else:
-            ratio=0.01
         RA_init*=ratio
         DEC_init*=ratio
     if (seq["axis"]=="on-off"):
