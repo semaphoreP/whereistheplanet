@@ -134,11 +134,16 @@ def makeSequence(seq,obs,timeOfObs):
             ratio=0.01
         RA_init*=ratio
         DEC_init*=ratio
-    if (seq["axis"]=="on-off")&(seq["swap"]!=True):
-        RA_init=0.
-        DEC_init=0.
-    if (seq["axis"]=="off-on")&(seq["swap"]!=True):
+    if (seq["axis"]=="on-off"):
         RA_init, DEC_init=get_xy(planet1,timeOfObs)
+        ratio=0.01
+        RA_init*=ratio
+        DEC_init*=ratio
+    if (seq["axis"]=="off-on"):
+        RA_init, DEC_init=get_xy(planet1,timeOfObs)
+    if seq["axis"]=="off":
+        RA_init, DEC_init=get_xy(planet1,timeOfObs)
+
     Sequence_templates["template2"]["RA offset"]=RA_init
     Sequence_templates["template2"]["DEC offset"]=DEC_init
 
@@ -192,8 +197,8 @@ def makeSequence(seq,obs,timeOfObs):
             new_template = {
                 "type": "observation",
                 "name science": star,
-                "RA offset":RA_init,
-                "DEC offset":DEC_init,
+                "RA offset": -RA_init,
+                "DEC offset":-DEC_init,
                 "DIT": seq["dit star"],
                 "NDIT": seq["ndit star"],
                 "sequence":"O",
@@ -227,15 +232,15 @@ def makeSequence(seq,obs,timeOfObs):
                 "type": "dither",
                 "name science": star,
                 "mag science": Kmag,
-                "RA offset":0.0,
-                "DEC offset":0.0,
+                "RA offset":RA_init/100,
+                "DEC offset":DEC_init/100,
                 }
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
             new_template = {
                 "type": "observation",
                 "name science": star,
-                "RA offset":0.0,
-                "DEC offset":0.0,
+                "RA offset":-RA_init/100,
+                "DEC offset":-DEC_init/100,
                 "DIT": seq["dit star"],
                 "NDIT": seq["ndit star"],
                 "sequence":"O",
