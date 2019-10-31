@@ -24,7 +24,7 @@ Observation={
     "Kmag" :5.240,
     "Hmag" :5.327,
     "GSmag":6.73,
-    "resolution": "MED",
+    "resolution": "HIGH",
     "wollaston" : "OUT",
     "baseline" : "small",
     "vltitype" : "astrometry",
