@@ -27,7 +27,7 @@ Observation={
     "GSmag":3.86,
     "resolution": "HIGH",
     "wollaston" : "OUT",
-    "baseline" : "small",
+    "baseline" : "UTs",
     "vltitype" : "astrometry"
     }
 
@@ -40,6 +40,6 @@ Sequence_obs={
     "ndit planets": [8],
     "repeat": 20
     }
-        
+
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
-createOB.CreateOB(seq)
+createOBapi.CreateOBapi(seq)

@@ -28,7 +28,7 @@ Observation={
     "GSmag":5.953,
     "resolution": "MED",
     "wollaston" : "OUT",
-    "baseline" : "small",
+    "baseline" : "UTs",
     "vltitype" : "astrometry"
     }
 
@@ -44,5 +44,5 @@ Sequence_obs={
     }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
-#createOBapi.CreateOBapi(seq)
-createOB.CreateOB(seq)
+createOBapi.CreateOBapi(seq)
+#createOB.CreateOB(seq)

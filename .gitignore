@@ -104,7 +104,7 @@ venv.bak/
 .mypy_cache/
 
 # OBs created for GRAVITY
-*.obd
+GRAVITY/OBs/*.obd
 *.json
 .DS_Store
 

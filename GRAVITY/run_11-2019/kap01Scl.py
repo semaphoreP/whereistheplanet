@@ -31,7 +31,7 @@ Observation={
     "GSmag":5.51, # From 2008MNRAS.389..869E
     "resolution": "MED",
     "wollaston" : "OUT",
-    "baseline" : "small",
+    "baseline" : "UTs",
     "vltitype" : "astrometry"
     }
 

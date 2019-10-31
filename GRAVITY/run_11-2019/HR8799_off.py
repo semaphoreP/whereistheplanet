@@ -28,7 +28,7 @@ Observation={
     "GSmag":5.953,
     "resolution": "MED",
     "wollaston" : "OUT",
-    "baseline" : "small",
+    "baseline" : "UTs",
     "vltitype" : "astrometry"
     }
 
