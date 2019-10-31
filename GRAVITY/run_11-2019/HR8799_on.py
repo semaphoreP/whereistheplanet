@@ -37,8 +37,8 @@ Sequence_obs={
     "planets": ["HR8799d", "HR8799e"],
     "dit star": 1,
     "ndit star": 64,
-    "dit planets": [30, 30],
-    "ndit planets": [16, 16],
+    "dit planets": [60, 60],
+    "ndit planets": [8, 8],
     "repeat": 7,
     "swap": False
     }

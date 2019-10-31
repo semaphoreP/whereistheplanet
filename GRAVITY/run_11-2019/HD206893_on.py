@@ -40,6 +40,6 @@ Sequence_obs={
     "ndit planets": [16],
     "repeat": 16
     }
-        
+
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
 createOB.CreateOB(seq)
