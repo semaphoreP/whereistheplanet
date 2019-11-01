@@ -1,33 +1,35 @@
+import os
+filedir = os.path.dirname(os.path.realpath(__file__)) # gets the directory the current python script is in
 from datetime import datetime
 
 
-class CreateOB():    
+class CreateOB():
     def __init__(self, dictionary):
         """
         Create an OB for exoplanet observation with GRAVITY
-        Input has to be a dictionary 
+        Input has to be a dictionary
         """
         self.name_ft = "NAME"
         self.mag_ft = 10.
-        
-        
+
+
         header = dictionary['template1']
         if header['type'] != 'header':
             raise ValueError('First template in file %s has to be a header template'
                              % filename)
-        
+
         obname = header['OB name']
         programID = header['run ID']
-        
-        self.filename = "OBs/" + obname + '.obd'
-        ob = open(self.filename,'w') 
-        
+
+        self.filename = filedir+"/OBs/" + obname + '.obd'
+        ob = open(self.filename,'w')
+
         # Create Header
         ob.write('# OB for planet observation \n')
         now = datetime.now()
         now_string = now.strftime('%d-%m-%YT%H:%M:%S')
         ob.write('# Create by createOB at %s\n' % now_string)
-        
+
         ob.write('\n')
         ob.write('# Standard parameter file header\n')
         ob.write('PAF.HDR.START             ;           # Marks start of header\n')
@@ -52,9 +54,10 @@ class CreateOB():
         ob.write('OBS.PI-COI.ID                  "0"\n')
         ob.write('OBS.PI-COI.NAME                "EXOGRAV"\n')
         ob.write('OBS.PROG.ID                    "%s"\n' % programID)
+        ob.write('OBS.TARG.NAME                  "%s"\n' % obname)
         ob.write('\n')
         ob.close()
-        
+
         for idx in range(1, len(dictionary), 1):
             templatename = 'template%i' % (idx+1)
             template = dictionary[templatename]
@@ -64,6 +67,8 @@ class CreateOB():
                 self.createDITHER(template)
             elif template['type'] == 'observation':
                 self.createEXP(template)
+            elif template['type'] == 'swap':
+                self.createSWAP(template)
             else:
                 raise ValueError('Type of %s not known, has to be acquisition, dither or observation' % templatename)
 
@@ -74,7 +79,7 @@ class CreateOB():
         Create aquisition template and adds it to OB
         """
         name_sc = tempdict['target name']
-        name_ft = name_sc
+        name_ft = tempdict['star name']
         targ_ra = tempdict['RA'].replace(":", "")
         targ_dec = tempdict['DEC'].replace(":", "")
         targ_pma = tempdict['pmRA']/1000
@@ -84,13 +89,15 @@ class CreateOB():
         mag_h = tempdict['H mag']
         resolution = tempdict['resolution']
         wollaston = tempdict['wollaston']
+        baseline = tempdict['baseline']
+        vltitype = tempdict['vltitype']
         mag_cou = tempdict['GS mag']
         sobj_x = tempdict['RA offset']
         sobj_y = tempdict['DEC offset']
         self.name_ft = name_ft
         self.mag_ft = mag_ft
-        
-        ob = open(self.filename,'a') 
+
+        ob = open(self.filename,'a')
         ob.write('# Acquisition \n')
         ob.write('TPL.ID                         "GRAVITY_dual_acq"\n')
         ob.write('TPL.NAME                       "ACQUISITION FT:%s, SC:%s"\n' % (name_ft, name_sc))
@@ -151,11 +158,13 @@ class CreateOB():
         ob.write('TEL.TARG.PMD                   "%s"\n' % targ_pmd)
         ob.write('TEL.TARG.RADVEL                "0"\n')
         ob.write('TEL.TARG.WLENGTH               "2200"\n')
+        ob.write('ISS.BASELINE                   "%s"\n' % baseline)
+        ob.write('ISS.VLTITYPE                   "%s"\n' % vltitype)
         ob.write('# epoch 2000.0\n')
         ob.write('\n')
         ob.close()
-        
-        
+
+
     def createDITHER(self, tempdict):
         """
         Create dither template and adds it to OB
@@ -166,8 +175,8 @@ class CreateOB():
         sobj_y = tempdict['DEC offset']
         mag_ft = self.mag_ft
         mag_sc = tempdict['mag science']
-        
-        ob = open(self.filename,'a') 
+
+        ob = open(self.filename,'a')
         ob.write('# Dither\n')
         ob.write('TPL.ID                         "GRAVITY_dual_acq_dither"\n')
         ob.write('TPL.NAME                       "DITHER: FT:%s,SC:%s"\n' % (name_ft, name_sc))
@@ -189,10 +198,10 @@ class CreateOB():
         ob.write('\n')
         ob.close()
 
-        
 
 
-        
+
+
     def createEXP(self, tempdict):
         """
         Create exposure template and adds it to OB
@@ -203,8 +212,8 @@ class CreateOB():
         dit = tempdict['DIT']
         ndit = tempdict['NDIT']
         sequence = tempdict['sequence']
-        
-        ob = open(self.filename,'a') 
+
+        ob = open(self.filename,'a')
         ob.write('# Exposure \n')
         ob.write('TPL.ID                         "GRAVITY_dual_obs_exp"\n')
         ob.write('TPL.NAME                       "EXPOSURE SC:%s"\n' % name_sc)
@@ -225,11 +234,19 @@ class CreateOB():
         ob.close()
 
 
-        
-        
-    
-    
-    
-    
-    
-    
+    def createSWAP(self, tempdict):
+        """
+        Create the SWAP template and add it to OB.
+        """
+        ob = open(self.filename,'a')
+        ob.write('#Swap \n')
+        ob.write('TPL.ID                         "GRAVITY_dual_obs_swap"\n')
+        ob.write('TPL.NAME                       "SWAP:No sky, generic for all objects"\n')
+        ob.write('DET1.DIT                       "0.7"\n')
+        ob.write('SEQ.SKY.X                      "2000"\n')
+        ob.write('SEQ.SKY.Y                      "2000"\n')
+        ob.write('SEQ.SWAP                       "T"\n')
+        ob.write('SEQ.PICKFT                     "T"\n')
+        ob.write('SEQ.TAKESKY                    "F"\n')
+        ob.write('\n')
+        ob.close()

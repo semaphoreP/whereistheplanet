@@ -104,8 +104,9 @@ venv.bak/
 .mypy_cache/
 
 # OBs created for GRAVITY
-*/*.obd
-*/*.json
+GRAVITY/OBs/*.obd
+*.json
+.DS_Store
 
 # emacs temporary files
 *~

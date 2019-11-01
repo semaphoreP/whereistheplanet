@@ -1,0 +1,200 @@
+# OB for planet observation 
+# Create by createOB at 31-10-2019T21:58:32
+
+# Standard parameter file header
+PAF.HDR.START             ;           # Marks start of header
+PAF.TYPE                "OB Description";  # Type of parfile
+PAF.ID                  "";     # Unused
+PAF.NAME                "";     # Unused
+PAF.DESC                "";     # Unused
+PAF.CRTE.NAME        "BOB";     # Broker for OBs
+PAF.CRTE.DAYTIM     "31-10-2019T21:58:32"; # Date+time of creation
+PAF.LCHG.NAME           "";     # Unused
+PAF.LCHG.DAYTIM     "31-10-2019T21:58:32"; # Date+time of last change
+PAF.CHCK.NAME           "";     # Unused
+PAF.CHCK.DAYTIM         "";     # Unused
+PAF.CHCK.CHECKSUM       "";     # Unused
+PAF.HDR.END               ;       # Marks end of header
+
+# Observation Block description follows
+OBS.ID                         "2229478"
+OBS.DID                        "ESO-VLT-DIC.OBS-2.0"
+OBS.GRP                        "0"
+OBS.NAME                       "SCIENCE"
+OBS.PI-COI.ID                  "0"
+OBS.PI-COI.NAME                "EXOGRAV"
+OBS.PROG.ID                    "1104.C-0651(A)"
+OBS.TARG.NAME                  "HD25535"
+
+# Acquisition 
+TPL.ID                         "GRAVITY_dual_acq"
+TPL.NAME                       "ACQUISITION FT:HD25535, SC:HD25535B"
+TPL.NEXP                       "1"
+TPL.MODE                       "ACQUISITION"
+DET1.DIT                       "0.7"
+DET2.DIT                       "0.3"
+DET2.NDIT.SKY                  "1"
+INS.FT.POL                     "OUT"
+INS.SPEC.POL                   "OUT"
+INS.SPEC.RES                   "HIGH"
+INS.STSOFFANG                  "90.0"
+
+# AO guide star
+COU.AG.ALPHA                   "00:00:00.000"
+COU.AG.DELTA                   "00:00:00.000"
+COU.AG.GSSOURCE                "SCIENCE"
+COU.AG.PMA                     "0.0"
+COU.AG.PMD                     "0.0"
+COU.AG.TYPE                    "ADAPT_OPT"
+COU.GS.FWHM                    "0."
+COU.GS.MAG                     "6.730000"
+
+SEQ.FI.HMAG                    "5.327000"
+SEQ.FI.WIN                     "35"
+SEQ.FT.ROBJ.DIAMETER           "0.0"
+SEQ.FT.ROBJ.VIS                "1.0"
+SEQ.FT.ROBJ.MAG                "5.240000"
+SEQ.FT.ROBJ.NAME               "HD25535"
+SEQ.FT.MODE                    "AUTO"
+SEQ.INS.SOBJ.DIAMETER          "0.0"
+SEQ.INS.SOBJ.MAG               "5.240000"
+SEQ.INS.SOBJ.NAME              "HD25535B"
+SEQ.INS.SOBJ.VIS               "1.0"
+SEQ.INS.SOBJ.PMA               "0"
+SEQ.INS.SOBJ.PMD               "0"
+SEQ.INS.SOBJ.RADVEL            "0"
+SEQ.INS.SOBJ.X                 "671.410000"
+SEQ.INS.SOBJ.Y                 "870.150000"
+SEQ.PICKSC                     "F"
+SEQ.SKY.X                      "2000"
+SEQ.SKY.Y                      "2000"
+SEQ.ALIGN                      "F"
+SEQ.FRINGETRACK                "T"
+SEQ.PICKFT                     "A"
+SEQ.PRESET                     "T"
+SEQ.TAKESKY                    "T"
+SEQ.TRACKFI                    "T"
+SEQ.TRACKPUP                   "T"
+SEQ.TRACKROT                   "T"
+SEQ.TRACKSC                    "T"
+DEL.REF.MODE                   "AUTO"
+DEL.REF.NAME                   "1"
+DEL.REF.OPL                    "250"
+TEL.TARG.ALPHA                 "040203.45083"
+TEL.TARG.DELTA                 "-342855.7772"
+TEL.TARG.PMA                   "0.37984"
+TEL.TARG.PMD                   "-0.01567"
+TEL.TARG.RADVEL                "0"
+TEL.TARG.WLENGTH               "2200"
+ISS.BASELINE                   "UTs"
+ISS.VLTITYPE                   "astrometry"
+# epoch 2000.0
+
+# Exposure 
+TPL.ID                         "GRAVITY_dual_obs_exp"
+TPL.NAME                       "EXPOSURE SC:HD25535B"
+DET1.DIT                       "0.7"
+DET1.NDIT                      "0"
+DET2.DIT                       "1.000000"
+DET2.NDIT.OBJECT               "64"
+DET2.NDIT.SKY                  "64"
+INS.SPEC.POL                   "SAME"
+INS.SPEC.RES                   "SAME"
+SEQ.OBSSEQ                     "O S O"
+SEQ.HWPOFF                     "0.0"
+SEQ.RELOFF.X                   "0.000000"
+SEQ.RELOFF.Y                   "0.000000"
+SEQ.SKY.X                      "2000"
+SEQ.SKY.Y                      "2000"
+
+#Swap 
+TPL.ID                         "GRAVITY_dual_obs_swap"
+TPL.NAME                       "SWAP:No sky, generic for all objects"
+DET1.DIT                       "0.7"
+SEQ.SKY.X                      "2000"
+SEQ.SKY.Y                      "2000"
+SEQ.SWAP                       "T"
+SEQ.PICKFT                     "T"
+SEQ.TAKESKY                    "F"
+
+# Exposure 
+TPL.ID                         "GRAVITY_dual_obs_exp"
+TPL.NAME                       "EXPOSURE SC:HD25535"
+DET1.DIT                       "0.7"
+DET1.NDIT                      "0"
+DET2.DIT                       "1.000000"
+DET2.NDIT.OBJECT               "64"
+DET2.NDIT.SKY                  "64"
+INS.SPEC.POL                   "SAME"
+INS.SPEC.RES                   "SAME"
+SEQ.OBSSEQ                     "O S O"
+SEQ.HWPOFF                     "0.0"
+SEQ.RELOFF.X                   "0.000000"
+SEQ.RELOFF.Y                   "0.000000"
+SEQ.SKY.X                      "2000"
+SEQ.SKY.Y                      "2000"
+
+#Swap 
+TPL.ID                         "GRAVITY_dual_obs_swap"
+TPL.NAME                       "SWAP:No sky, generic for all objects"
+DET1.DIT                       "0.7"
+SEQ.SKY.X                      "2000"
+SEQ.SKY.Y                      "2000"
+SEQ.SWAP                       "T"
+SEQ.PICKFT                     "T"
+SEQ.TAKESKY                    "F"
+
+# Exposure 
+TPL.ID                         "GRAVITY_dual_obs_exp"
+TPL.NAME                       "EXPOSURE SC:HD25535B"
+DET1.DIT                       "0.7"
+DET1.NDIT                      "0"
+DET2.DIT                       "1.000000"
+DET2.NDIT.OBJECT               "64"
+DET2.NDIT.SKY                  "64"
+INS.SPEC.POL                   "SAME"
+INS.SPEC.RES                   "SAME"
+SEQ.OBSSEQ                     "O S O"
+SEQ.HWPOFF                     "0.0"
+SEQ.RELOFF.X                   "0.000000"
+SEQ.RELOFF.Y                   "0.000000"
+SEQ.SKY.X                      "2000"
+SEQ.SKY.Y                      "2000"
+
+#Swap 
+TPL.ID                         "GRAVITY_dual_obs_swap"
+TPL.NAME                       "SWAP:No sky, generic for all objects"
+DET1.DIT                       "0.7"
+SEQ.SKY.X                      "2000"
+SEQ.SKY.Y                      "2000"
+SEQ.SWAP                       "T"
+SEQ.PICKFT                     "T"
+SEQ.TAKESKY                    "F"
+
+# Exposure 
+TPL.ID                         "GRAVITY_dual_obs_exp"
+TPL.NAME                       "EXPOSURE SC:HD25535"
+DET1.DIT                       "0.7"
+DET1.NDIT                      "0"
+DET2.DIT                       "1.000000"
+DET2.NDIT.OBJECT               "64"
+DET2.NDIT.SKY                  "64"
+INS.SPEC.POL                   "SAME"
+INS.SPEC.RES                   "SAME"
+SEQ.OBSSEQ                     "O S O"
+SEQ.HWPOFF                     "0.0"
+SEQ.RELOFF.X                   "0.000000"
+SEQ.RELOFF.Y                   "0.000000"
+SEQ.SKY.X                      "2000"
+SEQ.SKY.Y                      "2000"
+
+#Swap 
+TPL.ID                         "GRAVITY_dual_obs_swap"
+TPL.NAME                       "SWAP:No sky, generic for all objects"
+DET1.DIT                       "0.7"
+SEQ.SKY.X                      "2000"
+SEQ.SKY.Y                      "2000"
+SEQ.SWAP                       "T"
+SEQ.PICKFT                     "T"
+SEQ.TAKESKY                    "F"
+

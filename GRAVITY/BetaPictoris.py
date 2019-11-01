@@ -9,7 +9,7 @@ Created on Tue Sep 10 16:55:02 2019
 from numpy import *
 from matplotlib.pyplot import *
 from makeSequence import makeSequence,send_to_wgv
-import createOB 
+import createOB
 
 timeOfObs="2019-09-09"
 timeOfObs=None # it means now
@@ -24,21 +24,22 @@ Observation={
     "Hmag" :5.687,
     "GSmag":6.67,
     "resolution": "MED",
-    "wollaston" : "OUT"
+    "wollaston" : "OUT",
+    "baseline" : "small",
+    "vltitype" : "astrometry"
     }
 
 Sequence_obs={
-        "1": {
-                "axis": "on",
-                "planets": ["betapicb"],
-                "dit star": 0.3,
-                "ndit star": 64,
-                "dit planets": [10],
-                "ndit planets": [32],
-                "repeat": 20
-                },
+            "axis": "on",
+            "planets": ["betapicb"],
+            "dit star": 0.3,
+            "ndit star": 64,
+            "dit planets": [10],
+            "ndit planets": [32],
+            "repeat": 20,
+            "swap": True
         }
-        
+
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
 createOB.CreateOB(seq)
 
