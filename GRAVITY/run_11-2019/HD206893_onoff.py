@@ -38,7 +38,7 @@ Sequence_obs={
     "ndit star": 64,
     "dit planets": [30],
     "ndit planets": [16],
-    "repeat": 16
+    "repeat": 18
     }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)

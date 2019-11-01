@@ -17,15 +17,15 @@ timeOfObs="2019-11-10"
 
 Observation={
     "runID" : '1104.C-0651(A)',
-    "star" :"betapic",
-    "RA"   :"05:47:17.0877",
-    "DEC"  :"-51:03:59.44",
-    "pmRA" :4.65,
-    "pmDEC":83.10,
-    "Kmag" :3.48,
-    "Hmag" :3.51,
-    "GSmag":3.86,
-    "resolution": "HIGH",
+    "star" : "HD13724",
+    "RA"   : "02:12:20.67740",
+    "DEC"  : "-46:48:58.9566",
+    "pmRA" : -30.714,
+    "pmDEC": -68.967,
+    "Kmag" : 6.378,
+    "Hmag" : 6.482,
+    "GSmag": 7.87,
+    "resolution": "MED",
     "wollaston" : "OUT",
     "baseline" : "UTs",
     "vltitype" : "astrometry"
@@ -33,14 +33,13 @@ Observation={
 
 Sequence_obs={
     "axis": "on",
-    "planets": ["betapicb"],
+    "planets": ["HD13724B"],
     "dit star": 1,
     "ndit star": 64,
-    "dit planets": [100],
-    "ndit planets": [8],
-    "repeat": 20
+    "dit planets": [30],
+    "ndit planets": [16],
+    "repeat": 14
     }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
-#createOBapi.CreateOBapi(seq)
 createOB.CreateOB(seq)

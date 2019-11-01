@@ -11,6 +11,7 @@ from numpy import *
 from matplotlib.pyplot import *
 from makeSequence import makeSequence,send_to_wgv
 import createOBapi
+import createOB
 
 timeOfObs=None # it means now
 
@@ -42,4 +43,4 @@ Sequence_obs={
     }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
-createOBapi.CreateOBapi(seq)
+createOB.CreateOB(seq)

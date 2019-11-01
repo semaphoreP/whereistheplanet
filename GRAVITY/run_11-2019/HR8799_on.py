@@ -44,5 +44,5 @@ Sequence_obs={
     }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
-createOBapi.CreateOBapi(seq)
-#createOB.CreateOB(seq)
+#createOBapi.CreateOBapi(seq)
+createOB.CreateOB(seq)

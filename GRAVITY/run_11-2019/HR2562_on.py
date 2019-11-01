@@ -17,14 +17,14 @@ timeOfObs="2019-11-10"
 
 Observation={
     "runID" : '1104.C-0651(A)',
-    "star" : "HD206893",
-    "RA"   : "21:45:21.90560",
-    "DEC"  : "-12:47:00.0681",
-    "pmRA" : 93.776,
-    "pmDEC": 0.016,
-    "Kmag" : 5.593,
-    "Hmag" : 5.687,
-    "GSmag": 6.67,
+    "star" : "HR2562",
+    "RA"   : "06:50:01.01548",
+    "DEC"  : "-60:14:56.9190",
+    "pmRA" : 4.663,
+    "pmDEC": 108.377,
+    "Kmag" : 5.020,
+    "Hmag" : 5.128,
+    "GSmag": 6.098,
     "resolution": "MED",
     "wollaston" : "OUT",
     "baseline" : "UTs",
@@ -32,13 +32,13 @@ Observation={
     }
 
 Sequence_obs={
-    "axis": "off",
-    "planets": ["HD206893b"],
+    "axis": "on",
+    "planets": ["HR2562B"],
     "dit star": 1,
     "ndit star": 64,
     "dit planets": [30],
     "ndit planets": [16],
-    "repeat": 16
+    "repeat": 14
     }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)

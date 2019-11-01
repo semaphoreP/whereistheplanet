@@ -230,15 +230,15 @@ def makeSequence(seq,obs,timeOfObs):
                 "type": "dither",
                 "name science": star,
                 "mag science": Kmag,
-                "RA offset":RA_init/100,
-                "DEC offset":DEC_init/100,
+                "RA offset":RA_init * 0.01,
+                "DEC offset":DEC_init * 0.01,
                 }
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
             new_template = {
                 "type": "observation",
                 "name science": star,
-                "RA offset":-RA_init/100,
-                "DEC offset":-DEC_init/100,
+                "RA offset":-RA_init * 0.01,
+                "DEC offset":-DEC_init * 0.01,
                 "DIT": seq["dit star"],
                 "NDIT": seq["ndit star"],
                 "sequence":"O",
