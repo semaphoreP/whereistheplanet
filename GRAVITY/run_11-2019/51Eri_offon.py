@@ -18,7 +18,7 @@ timeOfObs="2019-11-10"
 
 Observation={
     "runID" : "1104.C-0651(A)",
-    "star" :"51Eric",
+    "star" :"51Eri",
     "RA"   :"04:37:36.13231",
     "DEC"  :"-02:28:24.7788",
     "pmRA" :44.352,
