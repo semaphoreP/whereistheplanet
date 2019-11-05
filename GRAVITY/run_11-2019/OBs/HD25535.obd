@@ -1,5 +1,5 @@
 # OB for planet observation 
-# Create by createOB at 31-10-2019T21:58:32
+# Create by createOB at 05-11-2019T16:22:43
 
 # Standard parameter file header
 PAF.HDR.START             ;           # Marks start of header
@@ -8,9 +8,9 @@ PAF.ID                  "";     # Unused
 PAF.NAME                "";     # Unused
 PAF.DESC                "";     # Unused
 PAF.CRTE.NAME        "BOB";     # Broker for OBs
-PAF.CRTE.DAYTIM     "31-10-2019T21:58:32"; # Date+time of creation
+PAF.CRTE.DAYTIM     "05-11-2019T16:22:43"; # Date+time of creation
 PAF.LCHG.NAME           "";     # Unused
-PAF.LCHG.DAYTIM     "31-10-2019T21:58:32"; # Date+time of last change
+PAF.LCHG.DAYTIM     "05-11-2019T16:22:43"; # Date+time of last change
 PAF.CHCK.NAME           "";     # Unused
 PAF.CHCK.DAYTIM         "";     # Unused
 PAF.CHCK.CHECKSUM       "";     # Unused
@@ -63,8 +63,8 @@ SEQ.INS.SOBJ.VIS               "1.0"
 SEQ.INS.SOBJ.PMA               "0"
 SEQ.INS.SOBJ.PMD               "0"
 SEQ.INS.SOBJ.RADVEL            "0"
-SEQ.INS.SOBJ.X                 "671.410000"
-SEQ.INS.SOBJ.Y                 "870.150000"
+SEQ.INS.SOBJ.X                 "825.220000"
+SEQ.INS.SOBJ.Y                 "748.950000"
 SEQ.PICKSC                     "F"
 SEQ.SKY.X                      "2000"
 SEQ.SKY.Y                      "2000"
