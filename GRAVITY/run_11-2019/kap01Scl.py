@@ -17,7 +17,7 @@ from makeSequence import makeSequence,send_to_wgv
 import createOB
 import createOBapi
 
-timeOfObs=None # it means now
+timeOfObs="2019-11-10" # it means now
 
 Observation={
     "runID" : "1104.C-0651(A)",
@@ -47,5 +47,5 @@ Sequence_obs={
         }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
-#createOBapi.CreateOBapi(seq)
-createOB.CreateOB(seq)
+createOBapi.CreateOBapi(seq)
+#createOB.CreateOB(seq)

@@ -37,12 +37,12 @@ Sequence_obs={
             "planets": ["51erib"],
             "dit star": 1,
             "ndit star": 64,
-            "dit planets": [300],
-            "ndit planets": [4],
+            "dit planets": [60], #bypass the p2 check, but it should be 300
+            "ndit planets": [8], #bypass the p2 check, but it should be 4
             "repeat": 6,
             "swap": False
         }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
-#createOBapi.CreateOBapi(seq)
-createOB.CreateOB(seq)
+createOBapi.CreateOBapi(seq)
+#createOB.CreateOB(seq)

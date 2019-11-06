@@ -43,6 +43,7 @@ class CreateOBapi():
         star = header['OB name']
         runID = header['run ID']
         obs_date = header['Obs time']
+        mode = header['mode']
         if obs_date is None:
             time = Time.now()
             obs_date = str(time.datetime.date())
@@ -51,7 +52,7 @@ class CreateOBapi():
         if self.demo:
             runID = '60.A-9252(M)'
 
-        ob_name = star + '_' + obs_date
+        ob_name = star + '_' + mode + '_' + obs_date
         runs = api.getRuns()
 
         for run in runs[0]:

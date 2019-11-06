@@ -104,6 +104,7 @@ def makeSequence(seq,obs,timeOfObs):
                     "run ID": runID,
                     "OB name": star,
                     "Obs time": timeOfObs,
+                    "mode": seq["axis"],
                     },
             "template2" :{
                     "type": "acquisition",
