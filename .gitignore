@@ -105,6 +105,7 @@ venv.bak/
 
 # OBs created for GRAVITY
 GRAVITY/OBs/*.obd
+GRAVITY/tests/*
 *.json
 .DS_Store
 
