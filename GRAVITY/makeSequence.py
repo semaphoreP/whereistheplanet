@@ -208,7 +208,7 @@ def makeSequence(seq,obs,timeOfObs):
             for n in range(Nplanet):
                 name,dit,ndit=seq["planets"][n],seq["dit planets"][n],seq["ndit planets"][n]
                 RA_planet,DEC_planet=get_xy(name,timeOfObs)
-                if sqrt((RA_planet-RA_init)**2+(DEC_planet-DEC_init)**2)>20:
+                if np.sqrt((RA_planet-RA_init)**2+(DEC_planet-DEC_init)**2)>20:
                     RA_init=RA_planet
                     DEC_init=DEC_planet
                     new_template = {
