@@ -207,8 +207,10 @@ def makeSequence(seq,obs,timeOfObs):
         for r in range(seq["repeat"]):
             for n in range(Nplanet):
                 name,dit,ndit=seq["planets"][n],seq["dit planets"][n],seq["ndit planets"][n]
-                RA_init,DEC_init=get_xy(name,timeOfObs)
-                if len(Sequence_templates) > 2:
+                RA_planet,DEC_planet=get_xy(name,timeOfObs)
+                if sqrt((RA_planet-RA_init)**2+(DEC_planet-DEC_init)**2)>20:
+                    RA_init=RA_planet
+                    DEC_init=DEC_planet
                     new_template = {
                         "type": "dither",
                         "name science": name,
@@ -220,8 +222,8 @@ def makeSequence(seq,obs,timeOfObs):
                 new_template = {
                     "type": "observation",
                     "name science": name,
-                    "RA offset":0.0,
-                    "DEC offset":0.0,
+                    "RA offset":RA_planet-RA_init,
+                    "DEC offset":DEC_planet-DEC_init,
                     "DIT": dit,
                     "NDIT": ndit,
                     "sequence":"O",
