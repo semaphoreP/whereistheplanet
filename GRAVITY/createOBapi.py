@@ -48,75 +48,116 @@ class CreateOBapi():
             time = Time.now()
             obs_date = str(time.datetime.date())
         obs_date = obs_date.replace('-', '')
+        self.api = api
+        self.target = star
+        # Get the information of the star from Simbad
+        self.searchSimbad(star)
 
         if self.demo:
             runID = '60.A-9252(M)'
 
-        ob_name = star + '_' + mode + '_' + obs_date
-        runs = api.getRuns()
-
-        for run in runs[0]:
-            if run['progId'] == runID:
-                myrun = run
-                break
-            if run == runs[0][-1]:
-                raise ValueError('Given runID not found')
-
+        myrun = find_runID(runID, api)
         runContainerId = myrun['containerId']
 
         if self.demo:
             runContainerId = 2331868
 
-        OBs = api.getItems(runContainerId)
-
-        newOB = True
-        for OB in OBs[0]:
-            if OB['name'] == ob_name and OB['itemType'] == 'OB':
-                newOB = False
-                replaceOB = input('OB already exists, do you want to replace it? [y,n] ')
-                if replaceOB == 'y':
-                    ob, obVersion = api.getOB(OB['obId'])
-                    try: # Try to delete the original OB
-                        api.deleteOB(ob['obId'], obVersion)
-                    except:
-                        sufOB = input('Cannot replace the OB, do you want to add a suffix? [y, n] ')
-                        if sufOB == 'y': # Add an suffix and check until there is no conflict on OB name.
-                            ob_suf = 0
-                            ob_name = star + '_' + obs_date + '_{0}'.format(ob_suf)
-                            # Check and increase the suffix number if there is still conflict.
-                            while(OB['name'] == ob_name and OB['itemType'] == 'OB'):
-                                ob_suf += 1
+        if check_dither(dictionary) is False:
+            OBs = api.getItems(runContainerId)
+            ob_name = star + '_' + mode + '_' + obs_date
+            newOB = True
+            for OB in OBs[0]:
+                if OB['name'] == ob_name and OB['itemType'] == 'OB':
+                    newOB = False
+                    replaceOB = input('OB already exists, do you want to replace it? [y,n] ')
+                    if replaceOB == 'y':
+                        ob, obVersion = api.getOB(OB['obId'])
+                        try: # Try to delete the original OB
+                            api.deleteOB(ob['obId'], obVersion)
+                        except:
+                            sufOB = input('Cannot replace the OB, do you want to add a suffix? [y, n] ')
+                            if sufOB == 'y': # Add an suffix and check until there is no conflict on OB name.
+                                ob_suf = 0
                                 ob_name = star + '_' + obs_date + '_{0}'.format(ob_suf)
-                        else:
-                            print('Abort.')
-                            return None
+                                # Check and increase the suffix number if there is still conflict.
+                                while(OB['name'] == ob_name and OB['itemType'] == 'OB'):
+                                    ob_suf += 1
+                                    ob_name = star + '_' + obs_date + '_{0}'.format(ob_suf)
+                            else:
+                                print('Abort.')
+                                return None
 
+                    else:
+                        print('Abort. Rename/Delete old OB or give the new one a different name')
+                        return None
+
+            print('\nCreating OB: %s\n' % ob_name)
+            self.createOB(runContainerId, ob_name)
+            # Do the individual templates
+            for idx in range(1, len(dictionary), 1):
+                templatename = 'template%i' % (idx+1)
+                template = dictionary[templatename]
+                if template['type'] == 'acquisition':
+                    self.createACQ(template)
+                elif template['type'] == 'dither':
+                    self.createDITHER(template)
+                elif template['type'] == 'observation':
+                    self.createEXP(template)
+                elif template['type'] == 'swap':
+                    self.createSWAP(template)
                 else:
-                    print('Abort. Rename/Delete old OB or give the new one a different name')
-                    return None
+                    raise ValueError('Type of %s not known, has to be acquisition, dither or observation' % templatename)
+            print('\n\nOB is ceated in P2')
+        else: # There is dithering
+            folderName = star + '_' + mode + '_' + obs_date
+            folder_exist = check_item(folderName, runContainerId, api)
+            if folder_exist:
+                folderRename = input('The folder exists, do you want to rename it? [y,n] ')
+                if folderRename == 'y':
+                    folder_suf = 0
+                    folderName = star + '_' + mode + '_' + obs_date + '_{0}'.format(folder_suf)
+                    while(check_item(folderName, runContainerId, api)):
+                        folder_suf += 1
+                        folderName = star + '_' + mode + '_' + obs_date + '_{0}'.format(folder_suf)
+            folder, folderVersion = api.createFolder(runContainerId, folderName)
+            folderContainerId = folder["containerId"]
+            for idx in range(1, len(dictionary), 1):
+                templatename = 'template%i' % (idx+1)
+                template = dictionary[templatename]
+                if template['type'] == 'acquisition':
+                    ob_name = template['name science'] + '_' + "{0}".format(idx)
+                    ob, obVersion = api.createOB(folderContainerId, ob_name)
+                    self.createACQ(template)
+                elif template['type'] == 'dither':
+                    ob_name = template['name science'] + '_' + "{0}".format(idx)
+                    ob, obVersion = api.createOB(folderContainerId, ob_name)
+                    self.createDITHER(template)
+                elif template['type'] == 'observation':
+                    self.createEXP(template)
+                elif template['type'] == 'swap':
+                    self.createSWAP(template)
+                else:
+                    raise ValueError('Type of %s not known, has to be acquisition, dither or observation' % templatename)
 
-        print('\nCreating OB: %s\n' % ob_name)
-        ob, obVersion = api.createOB(runContainerId, ob_name)
-
-        # Simbad
+    def searchSimbad(self, star):
+        """
+        Search the information of the star from Simbad.
+        """
         # correct for the actual name:
         if star == 'betapic':
             star = 'Beta Pictoris'
-
-
         star_table = Simbad.query_object(star)
         if star_table is None:
             raise ValueError('Input not known by Simbad')
-
+        # Get the information from Simbad output
         targ_ra = star_table['RA'][0].replace(' ', ':')[:-1]
         targ_dec = star_table['DEC'][0].replace(' ', ':')
         targ_pmra = star_table['PMDEC'][0]/1000
         targ_pmdec = star_table['PMRA'][0]/1000
-
         targ_magK = round(star_table['FLUX_K'][0].item(),2)
         targ_magV = round(star_table['FLUX_V'][0].item(),2)
         targ_magH = round(star_table['FLUX_H'][0].item(),2)
-
+        # Make up the lacking information
         if np.ma.is_masked(star_table['FLUX_K']):
             print('No K-Band magnitude in Simbad...')
             targ_magK = float(input('K-Band magnitude = '))
@@ -130,7 +171,7 @@ class CreateOBapi():
             print('No proper motion given, assume 0.0')
             targ_pmdec = 0.0
             targ_pmra = 0.0
-
+        # Print the information
         print('\nGetting Simbad values for %s:' % star)
         print('Position RA  = %s' % targ_ra)
         print('Position DEC = %s' % targ_dec)
@@ -139,24 +180,6 @@ class CreateOBapi():
         print('K magnitude = %.2f' % targ_magK)
         print('H magnitude = %.2f' % targ_magH)
         print('V magnitude = %.2f' % targ_magV)
-
-        obId = ob['obId']
-
-        ob['constraints']['skyTransparency'] = 'Clear'
-
-        ob['obsDescription']['name'] = ob_name
-
-        ob['target']['name'] = star
-        ob['target']['dec'] = targ_dec
-        ob['target']['ra'] = targ_ra
-        ob['target']['properMotionDec'] = targ_pmdec
-        ob['target']['properMotionRa'] = targ_pmra
-
-        ob, obVersion = api.saveOB(ob, obVersion)
-
-        self.api = api
-        self.obId = obId
-        self.target = star
         self.targ_ra = targ_ra
         self.targ_dec = targ_dec
         self.targ_pmra = targ_pmra
@@ -165,24 +188,20 @@ class CreateOBapi():
         self.targ_magV = targ_magV
         self.targ_magH = targ_magH
 
-
-        # do the individual templates
-        for idx in range(1, len(dictionary), 1):
-            templatename = 'template%i' % (idx+1)
-            template = dictionary[templatename]
-            if template['type'] == 'acquisition':
-                self.createACQ(template)
-            elif template['type'] == 'dither':
-                self.createDITHER(template)
-            elif template['type'] == 'observation':
-                self.createEXP(template)
-            elif template['type'] == 'swap':
-                self.createSWAP(template)
-            else:
-                raise ValueError('Type of %s not known, has to be acquisition, dither or observation' % templatename)
-
-        print('\n\nOB is ceated in P2')
-
+    def createOB(self, containerId, ob_name):
+        """
+        Create an OB.
+        """
+        ob, obVersion = self.api.createOB(containerId, ob_name)
+        ob['constraints']['skyTransparency'] = 'Clear'
+        ob['obsDescription']['name'] = ob_name
+        ob['target']['name'] = self.target
+        ob['target']['ra'] = self.targ_ra
+        ob['target']['dec'] = self.targ_dec
+        ob['target']['properMotionRa'] = self.targ_pmra
+        ob['target']['properMotionDec'] = self.targ_pmdec
+        ob, obVersion = self.api.saveOB(ob, obVersion)
+        self.obId = ob['obId']
 
     def createACQ(self, tempdict):
         """
@@ -230,17 +249,35 @@ class CreateOBapi():
             'ISS.VLTITYPE': [vltitype],
         }, acqTplVersion)
 
-
     def createDITHER(self, tempdict):
         """
         Create dither template and adds it to OB
         """
-        print('Cannot dither, as this is used as an acquisition in P2')
-        print('Therefore not able to do this (yet?)')
-        print('Gonna abort')
-        return None
-
-
+        #print('Cannot dither, as this is used as an acquisition in P2')
+        #print('Therefore not able to do this (yet?)')
+        #print('Gonna abort')
+        #return None
+        try:
+            acqTpl, acqTplVersion = self.api.createTemplate(self.obId, 'GRAVITY_dual_acq_dither')
+        except(p2api.P2Error):
+            print('Something went wrong, dither should be in the beginning?')
+            return None
+        acqTpl, acqTplVersion  = self.api.setTemplateParams(self.obId, acqTpl, {
+            'SEQ.FT.ROBJ.NAME': self.target,
+            'SEQ.FT.ROBJ.MAG': self.targ_magK,
+            'SEQ.FT.ROBJ.DIAMETER': 0.0,
+            'SEQ.FT.ROBJ.VIS': 1.0,
+            'SEQ.FT.MODE': 'AUTO',
+            'SEQ.INS.SOBJ.NAME': first_planet,
+            'SEQ.INS.SOBJ.MAG': self.targ_magK,
+            'SEQ.INS.SOBJ.DIAMETER': 0.0,
+            'SEQ.INS.SOBJ.VIS': 1.0,
+            'SEQ.INS.SOBJ.X': sobj_x,
+            'SEQ.INS.SOBJ.Y': sobj_y,
+            'SEQ.FI.HMAG': self.targ_magH,
+            'SEQ.DITHER.X': 0.0,
+            'SEQ.DITHER.Y': 0.0,
+        }, acqTplVersion)
 
     def createEXP(self, tempdict):
         """
@@ -280,3 +317,51 @@ class CreateOBapi():
             'SEQ.PICKFT' : 'T',
             'SEQ.TAKESKY': 'F'
         }, scTplVersion)
+
+
+def check_item(item_name, containerId, api):
+    """
+    Check whether the item name already exists in the container.
+
+    Returns
+    -------
+    True if the item name is found in the container, False otherwise.
+    """
+    items, itemsVersion = api.getItems(runContainerId)
+    for it in items:
+        if it['name'] == item_name:
+            return True
+    return False
+
+def find_runID(run_id, api):
+    """
+    Get the run with the run ID.
+
+    Returns
+    -------
+    run : dict or None
+        The information of the run. If the run ID is not found, return None.
+    """
+    runs, _ = api.getRuns()
+    for run in runs:
+        if run['progId'] == run_id:
+            return run
+    return None
+
+def check_dither(seq):
+    """
+    Check whether there is dithering in the sequence.
+
+    Parameters
+    ----------
+    seq : dict
+        The sequence of observation templates.
+
+    Returns
+    -------
+    True if the sequence contains a dither template, False otherwise.
+    """
+    for s in seq:
+        if seq[s]['type'] == "dither":
+            return True
+    return False
