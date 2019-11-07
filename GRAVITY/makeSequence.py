@@ -249,7 +249,7 @@ def makeSequence(seq,obs,timeOfObs):
 
 
     #######################################
-    # 5 Making the templates for the swap
+    # 6 Making the templates for the swap
     #######################################
 
     if (seq["axis"] == "off")&(seq['swap']==True):
@@ -261,7 +261,7 @@ def makeSequence(seq,obs,timeOfObs):
                 "DEC offset":0.0,
                 "DIT": seq["dit planets"][0],
                 "NDIT": seq["ndit planets"][0],
-                "sequence":"O S O",
+                "sequence":"O O",
                 }
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
             new_template = {
@@ -278,10 +278,11 @@ def makeSequence(seq,obs,timeOfObs):
                 "sequence":"O S O",
                 }
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
-            new_template = {
-                "type": "swap"
-            }
-            Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
+            if r < (seq["repeat"]-1):
+                new_template = {
+                    "type": "swap"
+                }
+                Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
     #######################################
     # 6 Calculating total time and making json file
