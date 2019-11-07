@@ -63,34 +63,24 @@ class CreateOBapi():
             runContainerId = 2331868
 
         if check_dither(dictionary) is False:
-            OBs = api.getItems(runContainerId)
             ob_name = star + '_' + mode + '_' + obs_date
-            newOB = True
-            for OB in OBs[0]:
-                if OB['name'] == ob_name and OB['itemType'] == 'OB':
-                    newOB = False
-                    replaceOB = input('OB already exists, do you want to replace it? [y,n] ')
-                    if replaceOB == 'y':
-                        ob, obVersion = api.getOB(OB['obId'])
-                        try: # Try to delete the original OB
-                            api.deleteOB(ob['obId'], obVersion)
-                        except:
-                            sufOB = input('Cannot replace the OB, do you want to add a suffix? [y, n] ')
-                            if sufOB == 'y': # Add an suffix and check until there is no conflict on OB name.
-                                ob_suf = 0
-                                ob_name = star + '_' + obs_date + '_{0}'.format(ob_suf)
-                                # Check and increase the suffix number if there is still conflict.
-                                while(OB['name'] == ob_name and OB['itemType'] == 'OB'):
-                                    ob_suf += 1
-                                    ob_name = star + '_' + obs_date + '_{0}'.format(ob_suf)
-                            else:
-                                print('Abort.')
-                                return None
-
-                    else:
-                        print('Abort. Rename/Delete old OB or give the new one a different name')
-                        return None
-
+            ob_info = find_item(ob_name, runContainerId, api, "OB")
+            if not ob_info is None:
+                obRename = input('The OB exists, do you want to add suffix to it? [y,n] ')
+                if obRename == 'y':
+                    ob_suf = 0
+                    ob_name = star + '_' + obs_date + '_{0}'.format(ob_suf)
+                    # Check and increase the suffix number if there is still conflict.
+                    while(not find_item(ob_name, runContainerId, api, "OB") is None):
+                        ob_suf += 1
+                        ob_name = star + '_' + obs_date + '_{0}'.format(ob_suf)
+                else:
+                    ob, obVersion = api.getOB(ob_info['obId'])
+                    try: # Try to delete the original OB
+                        print("Try to replace the OB.")
+                        api.deleteOB(ob['obId'], obVersion)
+                    except:
+                        raise("Cannot replace the OB, please consider to add suffix to the name.")
             print('\nCreating OB: %s\n' % ob_name)
             self.createOB(runContainerId, ob_name)
             # Do the individual templates
@@ -110,13 +100,13 @@ class CreateOBapi():
             print('\n\nOB is ceated in P2')
         else: # There is dithering
             folderName = star + '_' + mode + '_' + obs_date
-            folder_exist = check_item(folderName, runContainerId, api)
-            if folder_exist:
-                folderRename = input('The folder exists, do you want to rename it? [y,n] ')
+            folder_info = find_item(folderName, runContainerId, api, "Folder")
+            if not folder_info is None:
+                folderRename = input('The folder exists, do you want to add suffix to it? [y,n] ')
                 if folderRename == 'y':
                     folder_suf = 0
                     folderName = star + '_' + mode + '_' + obs_date + '_{0}'.format(folder_suf)
-                    while(check_item(folderName, runContainerId, api)):
+                    while(not find_item(folderName, runContainerId, api, "Folder") is None):
                         folder_suf += 1
                         folderName = star + '_' + mode + '_' + obs_date + '_{0}'.format(folder_suf)
             folder, folderVersion = api.createFolder(runContainerId, folderName)
@@ -321,19 +311,25 @@ class CreateOBapi():
         }, scTplVersion)
 
 
-def check_item(item_name, containerId, api):
+def find_item(item_name, containerId, api, item_type=None):
     """
-    Check whether the item name already exists in the container.
+    Look for the item name in a container.
 
     Returns
     -------
-    True if the item name is found in the container, False otherwise.
+    it : dict or None
+        Return the item if it is found. Otherwise, return None.
     """
     items, itemsVersion = api.getItems(containerId)
     for it in items:
-        if it['name'] == item_name:
-            return True
-    return False
+        b_name = it['name'] == item_name
+        if item_type is None:
+            b_type = True
+        else:
+            b_type = it['itemType'] == item_type
+        if (b_name & b_type):
+            return it
+    return None
 
 def find_runID(run_id, api):
     """
