@@ -263,11 +263,15 @@ def makeSequence(seq,obs,timeOfObs):
                 "NDIT": seq["ndit planets"][0],
                 "sequence":"O O",
                 }
+            if r == int(seq["repeat"]/2):
+                new_template["RA sequence"]="O S O"
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
+ 
             new_template = {
                 "type": "swap"
             }
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
+
             new_template = {
                 "type": "observation",
                 "name science": star,
@@ -275,9 +279,12 @@ def makeSequence(seq,obs,timeOfObs):
                 "DEC offset":0.0,
                 "DIT": seq["dit star"],
                 "NDIT": seq["ndit star"],
-                "sequence":"O S O",
+                "sequence":"O O",
                 }
+            if r == int(seq["repeat"]/2):
+                new_template["RA sequence"]="O S O"
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
+
             if r < (seq["repeat"]-1):
                 new_template = {
                     "type": "swap"
