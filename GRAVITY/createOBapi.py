@@ -121,16 +121,19 @@ class CreateOBapi():
                         folderName = star + '_' + mode + '_' + obs_date + '_{0}'.format(folder_suf)
             folder, folderVersion = api.createFolder(runContainerId, folderName)
             folderContainerId = folder["containerId"]
+            dither_counter = 0
             for idx in range(1, len(dictionary), 1):
                 templatename = 'template%i' % (idx+1)
                 template = dictionary[templatename]
                 if template['type'] == 'acquisition':
-                    ob_name = template['name science'] + '_' + "{0}".format(idx)
-                    ob, obVersion = api.createOB(folderContainerId, ob_name)
+                    ob_name = '{0}_dither_{1}'.format(template['target name'], dither_counter)
+                    dither_counter += 1
+                    self.createOB(folderContainerId, ob_name)
                     self.createACQ(template)
                 elif template['type'] == 'dither':
-                    ob_name = template['name science'] + '_' + "{0}".format(idx)
-                    ob, obVersion = api.createOB(folderContainerId, ob_name)
+                    ob_name = '{0}_dither_{1}'.format(template['name science'], dither_counter)
+                    dither_counter += 1
+                    self.createOB(folderContainerId, ob_name)
                     self.createDITHER(template)
                 elif template['type'] == 'observation':
                     self.createEXP(template)
@@ -268,13 +271,12 @@ class CreateOBapi():
             'SEQ.FT.ROBJ.DIAMETER': 0.0,
             'SEQ.FT.ROBJ.VIS': 1.0,
             'SEQ.FT.MODE': 'AUTO',
-            'SEQ.INS.SOBJ.NAME': first_planet,
-            'SEQ.INS.SOBJ.MAG': self.targ_magK,
+            'SEQ.INS.SOBJ.NAME': tempdict['name science'],
+            'SEQ.INS.SOBJ.MAG': tempdict['mag science'],
             'SEQ.INS.SOBJ.DIAMETER': 0.0,
             'SEQ.INS.SOBJ.VIS': 1.0,
-            'SEQ.INS.SOBJ.X': sobj_x,
-            'SEQ.INS.SOBJ.Y': sobj_y,
-            'SEQ.FI.HMAG': self.targ_magH,
+            'SEQ.INS.SOBJ.X': tempdict['RA offset'],
+            'SEQ.INS.SOBJ.Y': tempdict['DEC offset'],
             'SEQ.DITHER.X': 0.0,
             'SEQ.DITHER.Y': 0.0,
         }, acqTplVersion)
@@ -327,7 +329,7 @@ def check_item(item_name, containerId, api):
     -------
     True if the item name is found in the container, False otherwise.
     """
-    items, itemsVersion = api.getItems(runContainerId)
+    items, itemsVersion = api.getItems(containerId)
     for it in items:
         if it['name'] == item_name:
             return True

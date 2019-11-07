@@ -138,6 +138,7 @@ def makeSequence(seq,obs,timeOfObs):
         ratio=0.01
         RA_init*=ratio
         DEC_init*=ratio
+        Sequence_templates["template2"]["target name"] = star
     if (seq["axis"]=="off-on"):
         RA_init, DEC_init=get_xy(planet1,timeOfObs)
     if seq["axis"]=="off":
