@@ -20,7 +20,7 @@ import createOBapi
 timeOfObs="2019-11-10" # it means now
 
 Observation={
-    "runID" : "1104.C-0651(A)",
+    "runID" : "1103.B-0626(B)", #"1104.C-0651(A)", #
     "star" :"kap01 Scl",
     "RA"   :"00:09:21.06696",
     "DEC"  :"-27:59:16.5322",

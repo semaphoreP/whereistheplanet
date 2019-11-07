@@ -16,7 +16,7 @@ import createOB
 timeOfObs="2019-11-10" # it means now
 
 Observation={
-    "runID" : "1104.C-0651(A)",
+    "runID" : "1103.B-0626(B)", #"1104.C-0651(A)", #
     "star" :"HD25535",
     "RA"   :"04:02:03.45083",
     "DEC"  :"-34:28:55.7772",
@@ -25,7 +25,7 @@ Observation={
     "Kmag" :5.240,
     "Hmag" :5.327,
     "GSmag":6.73,
-    "resolution": "HIGH",
+    "resolution": "MED",
     "wollaston" : "OUT",
     "baseline" : "UTs",
     "vltitype" : "astrometry",
