@@ -17,7 +17,7 @@ timeOfObs="2019-11-10"
 #timeOfObs=None # it means now
 
 Observation={
-    "runID" : "1104.C-0651(A)",
+    "runID" : "1104.C-0651(A)", #"1103.B-0626(B)", #
     "star" :"51Eri",
     "RA"   :"04:37:36.13231",
     "DEC"  :"-02:28:24.7788",
