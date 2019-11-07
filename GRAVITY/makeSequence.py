@@ -264,9 +264,9 @@ def makeSequence(seq,obs,timeOfObs):
                 "sequence":"O O",
                 }
             if r == int(seq["repeat"]/2):
-                new_template["RA sequence"]="O S O"
+                new_template["sequence"]="O S O"
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
- 
+
             new_template = {
                 "type": "swap"
             }
@@ -282,7 +282,7 @@ def makeSequence(seq,obs,timeOfObs):
                 "sequence":"O O",
                 }
             if r == int(seq["repeat"]/2):
-                new_template["RA sequence"]="O S O"
+                new_template["sequence"]="O S O"
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
             if r < (seq["repeat"]-1):
