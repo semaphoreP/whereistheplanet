@@ -145,8 +145,8 @@ class CreateOBapi():
         # Get the information from Simbad output
         targ_ra = star_table['RA'][0].replace(' ', ':')[:-1]
         targ_dec = star_table['DEC'][0].replace(' ', ':')
-        targ_pmra = star_table['PMDEC'][0]/1000
-        targ_pmdec = star_table['PMRA'][0]/1000
+        targ_pmra = star_table['PMRA'][0]/1000
+        targ_pmdec = star_table['PMDEC'][0]/1000
         targ_magK = round(star_table['FLUX_K'][0].item(),2)
         targ_magV = round(star_table['FLUX_V'][0].item(),2)
         targ_magH = round(star_table['FLUX_H'][0].item(),2)
