@@ -13,11 +13,11 @@ from makeSequence import makeSequence,send_to_wgv
 import createOB
 import createOBapi
 
-timeOfObs="2019-11-10"
+timeOfObs="2019-11-08"
 #timeOfObs=None # it means now
 
 Observation={
-    "runID" : "1104.C-0651(A)",
+    "runID" : "1103.B-0626(B)", #"0104.B.0649(A)", #"1104.C-0651(A)",
     "star" :"HR8799",
     "RA"   :"23:07:28.71569",
     "DEC"  :"+21:08:03.3021",
