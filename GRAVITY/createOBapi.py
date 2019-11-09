@@ -97,7 +97,7 @@ class CreateOBapi():
                     self.createSWAP(template)
                 else:
                     raise ValueError('Type of %s not known, has to be acquisition, dither or observation' % templatename)
-            print('\n\nOB is ceated in P2')
+            print('\n\nOB is created in P2')
         else: # There is dithering
             folderName = star + '_' + mode + '_' + obs_date
             folder_info = find_item(folderName, runContainerId, api, "Folder")
