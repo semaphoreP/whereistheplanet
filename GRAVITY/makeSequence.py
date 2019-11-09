@@ -125,11 +125,12 @@ def makeSequence(seq,obs,timeOfObs):
             }
 
     if (seq["axis"]=="on"):
-        RA_init, DEC_init=0.0,0.0
-        for planets in seq["planets"]:
-            RA, DEC=get_xy(planets,timeOfObs)
-            RA_init += RA
-            DEC_init += DEC
+        RA_init, DEC_init=get_xy(seq["planets"][0],timeOfObs)
+        #RA_init, DEC_init=0.0,0.0
+        #for planets in seq["planets"]:
+        #    RA, DEC=get_xy(planets,timeOfObs)
+        #    RA_init += RA
+        #    DEC_init += DEC
         ratio=0.01
         RA_init*=ratio
         DEC_init*=ratio
