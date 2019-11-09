@@ -36,8 +36,8 @@ Sequence_obs={
     "planets": ["HD23121B"],
     "dit star": 3,
     "ndit star": 40,
-    "dit planets": [10],
-    "ndit planets": [12],
+    "dit planets": [30],
+    "ndit planets": [8], # set to 4 in BOB
     "repeat": 2,
     "swap": True
     }
