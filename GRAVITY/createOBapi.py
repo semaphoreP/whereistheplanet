@@ -9,6 +9,7 @@ Simbad.add_votable_fields('flux(K)')
 Simbad.add_votable_fields('flux(H)')
 Simbad.add_votable_fields('pmdec')
 Simbad.add_votable_fields('pmra')
+Simbad.add_votable_fields('plx')
 
 class CreateOBapi():
     def __init__(self, dictionary):
@@ -149,6 +150,7 @@ class CreateOBapi():
         targ_dec = star_table['DEC'][0].replace(' ', ':')
         targ_pmra = star_table['PMRA'][0]/1000
         targ_pmdec = star_table['PMDEC'][0]/1000
+        targ_plx = star_table['PLX_VALUE'][0]/1000
         targ_magK = round(star_table['FLUX_K'][0].item(),2)
         targ_magV = round(star_table['FLUX_V'][0].item(),2)
         targ_magH = round(star_table['FLUX_H'][0].item(),2)
@@ -166,12 +168,16 @@ class CreateOBapi():
             print('No proper motion given, assume 0.0')
             targ_pmdec = 0.0
             targ_pmra = 0.0
+        if np.ma.is_masked(targ_plx):
+            print('No parallax given, assume 0.0')
+            targ_plx = 0.0
         # Print the information
         print('\nGetting Simbad values for %s:' % star)
         print('Position RA  = %s' % targ_ra)
         print('Position DEC = %s' % targ_dec)
         print('Proper motion RA  = %s as/yr' % targ_pmra)
         print('Proper motion DEC = %s as/yr' % targ_pmdec)
+        print('Parallax = %s as' % targ_plx)
         print('K magnitude = %.2f' % targ_magK)
         print('H magnitude = %.2f' % targ_magH)
         print('V magnitude = %.2f' % targ_magV)
@@ -179,9 +185,11 @@ class CreateOBapi():
         self.targ_dec = targ_dec
         self.targ_pmra = targ_pmra
         self.targ_pmdec = targ_pmdec
+        self.targ_plx = targ_plx
         self.targ_magK = targ_magK
         self.targ_magV = targ_magV
         self.targ_magH = targ_magH
+        
 
     def createOB(self, containerId, ob_name, template_ob_id=None):
         """
@@ -237,7 +245,7 @@ class CreateOBapi():
             'SEQ.INS.SOBJ.X': sobj_x,
             'SEQ.INS.SOBJ.Y': sobj_y,
             'SEQ.FI.HMAG': self.targ_magH,
-            'TEL.TARG.PARALLAX': 0.0,
+            'TEL.TARG.PARALLAX': self.targ_plx,
             'INS.SPEC.RES': resolution,
             'INS.FT.POL': wollaston,
             'INS.SPEC.POL': wollaston,
@@ -245,8 +253,8 @@ class CreateOBapi():
             'COU.AG.ALPHA': '00:00:00.000',
             'COU.AG.DELTA': '00:00:00.000',
             'COU.GS.MAG': self.targ_magV,
-            'COU.AG.PMA': 0.0,
-            'COU.AG.PMD': 0.0,
+            'COU.AG.PMA': self.targ_pmra,
+            'COU.AG.PMD': self.targ_pmdec,
             'COU.AG.TYPE': 'ADAPT_OPT',
             'ISS.BASELINE': [baseline],
             'ISS.VLTITYPE': [vltitype],
