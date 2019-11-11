@@ -105,6 +105,8 @@ def makeSequence(seq,obs,timeOfObs):
                     "OB name": star,
                     "Obs time": timeOfObs,
                     "mode": seq["axis"],
+                    "template_ob_id" : obs.get('template_ob_id', None), # The ob with new instrument package
+                    "calib": obs.get("calib", False), # Indicate whether it is a calibrator.
                     },
             "template2" :{
                     "type": "acquisition",

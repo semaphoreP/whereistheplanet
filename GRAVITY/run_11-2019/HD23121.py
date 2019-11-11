@@ -16,7 +16,7 @@ import createOB
 timeOfObs="2019-11-09" # it means now
 
 Observation={
-    "runID" : "1103.B-0626(B)", #"1104.C-0651(A)", #
+    "runID" : "1104.C-0651(A)", #"1103.B-0626(B)", #
     "star" :"HD23121",
     "RA"   :"03:42:04.13476",
     "DEC"  :"-17:08:45.2805",
@@ -29,6 +29,8 @@ Observation={
     "wollaston" : "OUT",
     "baseline" : "UTs",
     "vltitype" : "astrometry",
+    "template_ob_id" : 2642031, # The ob with new instrument package
+    "calib" : True, # Indicate whether this is a calibrator
     }
 
 Sequence_obs={
@@ -37,7 +39,7 @@ Sequence_obs={
     "dit star": 3,
     "ndit star": 40,
     "dit planets": [30],
-    "ndit planets": [8],
+    "ndit planets": [4],
     "repeat": 2,
     "swap": True
     }

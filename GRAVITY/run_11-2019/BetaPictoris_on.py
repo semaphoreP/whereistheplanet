@@ -28,7 +28,9 @@ Observation={
     "resolution": "HIGH",
     "wollaston" : "OUT",
     "baseline" : "UTs",
-    "vltitype" : "astrometry"
+    "vltitype" : "astrometry",
+    "template_ob_id" : 2642031, # The ob with new instrument package
+    "calib" : False, # Indicate whether this is a calibrator
     }
 
 Sequence_obs={
@@ -36,7 +38,7 @@ Sequence_obs={
     "planets": ["betapicb"],
     "dit star": 1,
     "ndit star": 64,
-    "dit planets": [60], #bypass p2 check, it should be 100
+    "dit planets": [100], #bypass p2 check, it should be 100
     "ndit planets": [8],
     "repeat": 20
     }

@@ -17,7 +17,7 @@ timeOfObs="2019-11-10"
 #timeOfObs=None # it means now
 
 Observation={
-    "runID" : "0104.B.0649(A)", #"1104.C-0651(A)", #"1103.B-0626(B)", #
+    "runID" : "1104.C-0651(A)", #"0104.B.0649(A)", #"1103.B-0626(B)", #
     "star" :"HR8799",
     "RA"   :"23:07:28.71569",
     "DEC"  :"+21:08:03.3021",
@@ -29,16 +29,18 @@ Observation={
     "resolution": "MED",
     "wollaston" : "OUT",
     "baseline" : "UTs",
-    "vltitype" : "astrometry"
+    "vltitype" : "astrometry",
+    "template_ob_id" : 2642031, # The ob with new instrument package
+    "calib" : False, # Indicate whether this is a calibrator
     }
 
 Sequence_obs={
-            "axis": "on-off",
+            "axis": "off",
             "planets": ["HR8799b", "HR8799c", "HR8799d", "HR8799e"],
             "dit star": 1,
             "ndit star": 64,
-            "dit planets": [30, 30, 30, 30],
-            "ndit planets": [16, 16, 16, 16],
+            "dit planets": [100, 100, 100, 100],
+            "ndit planets": [8, 8, 8, 8],
             "repeat": 7,
             "swap": False
         }

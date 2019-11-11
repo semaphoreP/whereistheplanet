@@ -44,12 +44,14 @@ class CreateOBapi():
         runID = header['run ID']
         obs_date = header['Obs time']
         mode = header['mode']
-        if obs_date is None:
-            time = Time.now()
-            obs_date = str(time.datetime.date())
-        obs_date = obs_date.replace('-', '')
+        template_ob_id = header["template_ob_id"]
+        calib = header["calib"]
         self.api = api
         self.target = star
+        self.time_now = Time.now()
+        if obs_date is None:
+            obs_date = str(self.time_now.datetime.date())
+        obs_date = obs_date.replace('-', '')
         # Get the information of the star from Simbad
         self.searchSimbad(star)
 
@@ -82,13 +84,13 @@ class CreateOBapi():
                     except:
                         raise("Cannot replace the OB, please consider to add suffix to the name.")
             print('\nCreating OB: %s\n' % ob_name)
-            self.createOB(runContainerId, ob_name)
+            self.createOB(runContainerId, ob_name, template_ob_id)
             # Do the individual templates
             for idx in range(1, len(dictionary), 1):
                 templatename = 'template%i' % (idx+1)
                 template = dictionary[templatename]
                 if template['type'] == 'acquisition':
-                    self.createACQ(template)
+                    self.createACQ(template, calib)
                 elif template['type'] == 'dither':
                     self.createDITHER(template)
                 elif template['type'] == 'observation':
@@ -118,13 +120,13 @@ class CreateOBapi():
                 if template['type'] == 'acquisition':
                     ob_name = '{0}_dither_{1}'.format(template['target name'], dither_counter)
                     dither_counter += 1
-                    self.createOB(folderContainerId, ob_name)
-                    self.createACQ(template)
+                    self.createOB(folderContainerId, ob_name, template_ob_id)
+                    self.createACQ(template, calib)
                 elif template['type'] == 'dither':
                     ob_name = '{0}_dither_{1}'.format(template['name science'], dither_counter)
                     dither_counter += 1
-                    self.createOB(folderContainerId, ob_name)
-                    self.createDITHER(template)
+                    self.createOB(folderContainerId, ob_name, template_ob_id)
+                    self.createDITHER(template, calib)
                 elif template['type'] == 'observation':
                     self.createEXP(template)
                 elif template['type'] == 'swap':
@@ -181,13 +183,22 @@ class CreateOBapi():
         self.targ_magV = targ_magV
         self.targ_magH = targ_magH
 
-    def createOB(self, containerId, ob_name):
+    def createOB(self, containerId, ob_name, template_ob_id=None):
         """
         Create an OB.
         """
-        ob, obVersion = self.api.createOB(containerId, ob_name)
+        if template_ob_id is None:
+            ob, obVersion = self.api.createOB(containerId, ob_name)
+            self.new_instrument_package = False
+            print("Create new OB ID: {0}".format(ob["obId"]))
+        else:
+            ob, obVersion = self.api.duplicateOB(template_ob_id, containerId)
+            self.new_instrument_package = True
+            print("Duplicate OB with ID: {0} --> {1}".format(template_ob_id, ob["obId"]))
+            ob["name"] = ob_name
         ob['constraints']['skyTransparency'] = 'Clear'
         ob['obsDescription']['name'] = ob_name
+        ob['obsDescription']['userComments'] = u'Created by exoGRAVITY script {0}.'.format(str(self.time_now.datetime))
         ob['target']['name'] = self.target
         ob['target']['ra'] = self.targ_ra
         ob['target']['dec'] = self.targ_dec
@@ -196,7 +207,7 @@ class CreateOBapi():
         ob, obVersion = self.api.saveOB(ob, obVersion)
         self.obId = ob['obId']
 
-    def createACQ(self, tempdict):
+    def createACQ(self, tempdict, calib):
         """
         Create aquisition template and adds it to OB
         """
@@ -213,8 +224,7 @@ class CreateOBapi():
         sobj_x = tempdict['RA offset']
         sobj_y = tempdict['DEC offset']
         first_planet = tempdict['target name']
-
-        acqTpl, acqTplVersion  = self.api.setTemplateParams(self.obId, acqTpl, {
+        acqDict = {
             'SEQ.FT.ROBJ.NAME': self.target,
             'SEQ.FT.ROBJ.MAG': self.targ_magK,
             'SEQ.FT.ROBJ.DIAMETER': 0.0,
@@ -240,22 +250,26 @@ class CreateOBapi():
             'COU.AG.TYPE': 'ADAPT_OPT',
             'ISS.BASELINE': [baseline],
             'ISS.VLTITYPE': [vltitype],
-        }, acqTplVersion)
+        }
+        if self.new_instrument_package is True:
+            acqDict['SEQ.ALIGN'] = False
+            if calib is False: # This is for planets; Binary calibrator still need PICKFT manually
+                acqDict['SEQ.PICKFT'] = "A"
+                acqDict['SEQ.PICKSC'] = "F"
+        else:
+            print("This is still the old instrument package...")
+        acqTpl, acqTplVersion  = self.api.setTemplateParams(self.obId, acqTpl, acqDict, acqTplVersion)
 
-    def createDITHER(self, tempdict):
+    def createDITHER(self, tempdict, calib):
         """
         Create dither template and adds it to OB
         """
-        #print('Cannot dither, as this is used as an acquisition in P2')
-        #print('Therefore not able to do this (yet?)')
-        #print('Gonna abort')
-        #return None
         try:
             acqTpl, acqTplVersion = self.api.createTemplate(self.obId, 'GRAVITY_dual_acq_dither')
         except(p2api.P2Error):
             print('Something went wrong, dither should be in the beginning?')
             return None
-        acqTpl, acqTplVersion  = self.api.setTemplateParams(self.obId, acqTpl, {
+        acqDict = {
             'SEQ.FT.ROBJ.NAME': self.target,
             'SEQ.FT.ROBJ.MAG': self.targ_magK,
             'SEQ.FT.ROBJ.DIAMETER': 0.0,
@@ -269,7 +283,15 @@ class CreateOBapi():
             'SEQ.INS.SOBJ.Y': tempdict['DEC offset'],
             'SEQ.DITHER.X': 0.0,
             'SEQ.DITHER.Y': 0.0,
-        }, acqTplVersion)
+        }
+        if self.new_instrument_package is True:
+            acqDict['SEQ.ALIGN'] = False
+            if calib is False: # This is for planets; Binary calibrator still need PICKFT manually
+                acqDict['SEQ.PICKFT'] = "A"
+                acqDict['SEQ.PICKSC'] = "F"
+        else:
+            print("This is still the old instrument package...")
+        acqTpl, acqTplVersion  = self.api.setTemplateParams(self.obId, acqTpl, acqDict, acqTplVersion)
 
     def createEXP(self, tempdict):
         """
@@ -294,7 +316,6 @@ class CreateOBapi():
             'SEQ.SKY.X' : 2000.0,
             'SEQ.SKY.Y' : 2000.0
         }, scTplVersion)
-
 
     def createSWAP(self, tempdict):
         """

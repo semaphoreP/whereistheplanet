@@ -17,7 +17,7 @@ timeOfObs="2019-11-10"
 #timeOfObs=None # it means now
 
 Observation={
-    "runID" : "1103.B-0626(B)", #"1104.C-0651(A)", #"0104.B.0649(A)", #
+    "runID" : "1104.C-0651(A)", #"1103.B-0626(B)", #"0104.B.0649(A)", #
     "star" :"51Eri",
     "RA"   :"04:37:36.13231",
     "DEC"  :"-02:28:24.7788",
@@ -29,7 +29,9 @@ Observation={
     "resolution": "MED",
     "wollaston" : "OUT",
     "baseline" : "UTs",
-    "vltitype" : "astrometry"
+    "vltitype" : "astrometry",
+    "template_ob_id" : 2642031, # The ob with new instrument package
+    "calib" : False, # Indicate whether this is a calibrator
     }
 
 Sequence_obs={
@@ -37,8 +39,8 @@ Sequence_obs={
             "planets": ["51erib"],
             "dit star": 1,
             "ndit star": 64,
-            "dit planets": [60], # bypass the p2 check, it should be 300
-            "ndit planets": [8], # bypass the p2 check, it should be 4
+            "dit planets": [100], # bypass the p2 check, it should be 300
+            "ndit planets": [12], # bypass the p2 check, it should be 4
             "repeat": 6,
             "swap": False
         }
