@@ -13,7 +13,7 @@ from makeSequence import makeSequence,send_to_wgv
 import createOBapi
 import createOB
 
-timeOfObs="2019-12-09" # it means now
+timeOfObs="2020-01-06" # it means now
 
 Observation={
     "runID" : "1104.C-0651(A)", #"1103.B-0626(B)", #
