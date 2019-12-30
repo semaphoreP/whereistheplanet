@@ -16,14 +16,14 @@ timeOfObs="2020-01-06" # it means now
 
 Observation={
     "runID" : "1104.C-0651(A)", #"1103.B-0626(B)", #
-    "star" :"HD106257",
-    "RA"   :"12:13:36.80571",
-    "DEC"  :"-33:47:34.5059",
-    "pmRA" :11.48,
-    "pmDEC":-15.21,
-    "Kmag" :6.116,
-    "Hmag" :6.143,
-    "GSmag":6.408,
+    "star" :"HD79768",
+    "RA"   :"09:15:03.74396",
+    "DEC"  :"-30:22:01.5585",
+    "pmRA" :-9.42,
+    "pmDEC":7.24,
+    "Kmag" :7.481,
+    "Hmag" :7.498,
+    "GSmag":7.86,
     "resolution": "MED",
     "wollaston" : "OUT",
     "baseline" : "UTs",
@@ -34,11 +34,11 @@ Observation={
 
 Sequence_obs={
     "axis": "off",
-    "planets": ["HD106257B"],
-    "dit star": 1,
-    "ndit star": 64,
-    "dit planets": [3],
-    "ndit planets": [22],
+    "planets": ["HD79768B"],
+    "dit star": 3,
+    "ndit star": 22,
+    "dit planets": [10],
+    "ndit planets": [6],
     "repeat": 1,
     "swap": True
     }

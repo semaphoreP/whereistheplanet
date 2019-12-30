@@ -37,9 +37,9 @@ Sequence_obs={
     "planets": ["HD89828B"],
     "dit star": 1,
     "ndit star": 64,
-    "dit planets": [1],
-    "ndit planets": [64],
-    "repeat": 2,
+    "dit planets": [3],
+    "ndit planets": [22],
+    "repeat": 1,
     "swap": True
     }
 
