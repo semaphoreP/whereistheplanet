@@ -6,8 +6,6 @@ Revised on Mon Oct 14 10:45:00 2019
 
 @author: slacour -- Revised by Jinyi Shangguan
 """
-import sys
-sys.path.append("..")
 
 from numpy import *
 from matplotlib.pyplot import *
@@ -16,10 +14,10 @@ import createOB
 import createOBapi
 
 timeOfObs="2020-01-06"
-#timeOfObs=None # it means now
+#timeOfObs=None # Use None if you want to use the current time
 
 Observation={
-    "runID" : "1104.C-0651(A)", #
+    "runID" : "1104.C-0651(A)", #"1103.B-0626(B)", #"0104.B.0649(A)", #
     "star" :"51Eri",
     "RA"   :"04:37:36.13231",
     "DEC"  :"-02:28:24.7788",
@@ -32,21 +30,20 @@ Observation={
     "wollaston" : "OUT",
     "baseline" : "UTs",
     "vltitype" : "astrometry",
-    "template_ob_id" : 2642031, # The ob with new instrument package
+    "template_ob_id" : 2642031, # The ID of the template OB with new instrument package
     "calib" : False, # Indicate whether this is a calibrator
     }
 
 Sequence_obs={
-            "axis": "off-on",
+            "axis": "off-on", # The observation mode: off, on, on-off, or off-on.
             "planets": ["51erib"],
             "dit star": 1,
             "ndit star": 64,
-            "dit planets": [100], # bypass the p2 check, it should be 300
-            "ndit planets": [12], # bypass the p2 check, it should be 4
-            "repeat": 6,
+            "dit planets": [100], # The DIT of the planet observation
+            "ndit planets": [12], # The NDIT of each frame
+            "repeat": 12, # Repeat how many times for this OB, determine the total time
             "swap": False
         }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
 createOBapi.CreateOBapi(seq)
-#createOB.CreateOB(seq)

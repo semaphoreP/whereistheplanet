@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Sep 10 16:55:02 2019
-Revised on Mon Oct 14 10:45:00 2019
-
-@author: slacour -- Revised by Jinyi Shangguan
+HD 95086 b copied from 51 Eri b template
 """
 import sys
 sys.path.append("..")
@@ -20,14 +17,14 @@ timeOfObs="2020-01-06"
 
 Observation={
     "runID" : "1104.C-0651(A)", #
-    "star" :"51Eri",
-    "RA"   :"04:37:36.13231",
-    "DEC"  :"-02:28:24.7788",
-    "pmRA" :44.352,
-    "pmDEC":-63.833,
-    "Kmag" :4.537,
-    "Hmag" :4.770,
-    "GSmag":5.209,
+    "star" :"HD95086",
+    "RA"   :"10:57:03.0216129217",
+    "DEC"  :"-68:40:02.446874288",
+    "pmRA" :-41.136,
+    "pmDEC":12.700,
+    "Kmag" :6.789,
+    "Hmag" :6.867,
+    "GSmag":7.3092,
     "resolution": "MED",
     "wollaston" : "OUT",
     "baseline" : "UTs",
@@ -38,7 +35,7 @@ Observation={
 
 Sequence_obs={
             "axis": "off-on",
-            "planets": ["51erib"],
+            "planets": ["hd95086b"],
             "dit star": 1,
             "ndit star": 64,
             "dit planets": [100], # bypass the p2 check, it should be 300

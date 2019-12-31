@@ -6,6 +6,8 @@ Revised on Mon Oct 14 10:45:00 2019
 
 @author: slacour -- Revised by Jinyi Shangguan
 """
+import sys
+sys.path.append("..")
 
 from numpy import *
 from matplotlib.pyplot import *
