@@ -34,14 +34,15 @@ Observation={
     }
 
 Sequence_obs={
-    "axis": "on",
+    "axis": "off-on",
     "planets": ["hip65426b"],
     "dit star": 1,
     "ndit star": 64,
-    "dit planets": [100], #bypass p2 check, it should be 100
-    "ndit planets": [4],
-    "repeat": 12
-    }
+    "dit planets": [100], # bypass the p2 check, it should be 300
+    "ndit planets": [12], # bypass the p2 check, it should be 4
+    "repeat": 6,
+    "swap": False
+        }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
 createOBapi.CreateOBapi(seq)

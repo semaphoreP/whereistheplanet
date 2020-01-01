@@ -204,7 +204,7 @@ def makeSequence(seq,obs,timeOfObs):
                 "DEC offset":-DEC_init,
                 "DIT": seq["dit star"],
                 "NDIT": seq["ndit star"],
-                "sequence":"O",
+                "sequence":"O S",
                 }
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
         for r in range(seq["repeat"]):
@@ -248,7 +248,7 @@ def makeSequence(seq,obs,timeOfObs):
                 "DEC offset":-DEC_init * 0.01,
                 "DIT": seq["dit star"],
                 "NDIT": seq["ndit star"],
-                "sequence":"O",
+                "sequence":"O S",
                 }
             Sequence_templates["template%i"%(len(Sequence_templates)+1)]=new_template
 
