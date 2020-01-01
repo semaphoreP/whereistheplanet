@@ -39,8 +39,8 @@ Sequence_obs={
     "dit star": 1,
     "ndit star": 64,
     "dit planets": [100], # bypass the p2 check, it should be 300
-    "ndit planets": [12], # bypass the p2 check, it should be 4
-    "repeat": 6,
+    "ndit planets": [8], # bypass the p2 check, it should be 4
+    "repeat": 9,
     "swap": False
         }
 
