@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" media="screen" href="../static/bootstrap.min.css">
+<link rel="stylesheet" href="../static/bootstrap-theme.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<div class="text-center py-3">
+<h1>Welcome to ExoOrbitFinder!</h1>
+
+<body>
+{% for message in form.planetname.errors %}
+<div>{{ message }}</div>
+{% endfor %}
+
+{% for message in form.time.errors %}
+<div>{{ message }}</div>
+{% endfor %}
+
+<form action="http://localhost:5000/" method=post>
+{{ form.planetname.label }}
+{{ form.planetname }}
+<br>
+{{ form.time.label }} 
+{{ form.time }} 
+<br>
+<br>
+{{ form.submit }}
+<br>
+<br>
+{{ ra_args }}
+<br>
+{{ dec_args }}
+<br>
+{{ sep_args }}
+<br>
+{{ pa_args }}
+<br>
+<br>
+<br>
+<br>
+</form>
+</body>
+</div>
+<footer class="page-footer" style="background-color: #e3f2fd;">
+<div class="text-center py-2">
+Copyright © 2019 Matas Kulikauskas
+</div>
+</footer>
+</html>
