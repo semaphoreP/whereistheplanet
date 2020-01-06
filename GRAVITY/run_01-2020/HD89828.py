@@ -38,7 +38,7 @@ Sequence_obs={
     "dit star": 1,
     "ndit star": 64,
     "dit planets": [3],
-    "ndit planets": [22],
+    "ndit planets": [24],
     "repeat": 1,
     "swap": True
     }

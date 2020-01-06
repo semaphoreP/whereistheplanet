@@ -36,9 +36,9 @@ Sequence_obs={
     "axis": "off",
     "planets": ["HD79768B"],
     "dit star": 3,
-    "ndit star": 22,
+    "ndit star": 24,
     "dit planets": [10],
-    "ndit planets": [6],
+    "ndit planets": [8],
     "repeat": 1,
     "swap": True
     }
