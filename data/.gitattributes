@@ -41,3 +41,4 @@ post_hd984b.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_ross458b.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_51erib.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_hd1160b.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_hip64892b.hdf5 filter=lfs diff=lfs merge=lfs -text

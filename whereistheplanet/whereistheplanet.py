@@ -40,7 +40,8 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
              'pds70b' : ('post_pds70b.hdf5', 'Bowler et al. submitted'),
              'pztelb' : ('post_pztelb.hdf5', 'Bowler et al. submitted'),
              'ross458b' : ('post_ross458b.hdf5', 'Bowler et al. submitted'),
-             'twa5b' : ('post_twa5b.hdf5', 'Bowler et al. submitted')}
+             'twa5b' : ('post_twa5b.hdf5', 'Bowler et al. submitted'),
+             'hip64892b' : ('post_hip64892b.hdf5', 'Cheetham et al. 2018')}
 
 
 def print_prediction(date_mjd, chains, tau_ref_epoch, num_samples=None):
