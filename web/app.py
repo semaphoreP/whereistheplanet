@@ -4,7 +4,7 @@ from flask_wtf import FlaskForm
 from datetime import date
 from wtforms.validators import DataRequired
 import sys
-sys.path.append("../whereistheplanet/whereistheplanet/") 
+sys.path.append("../whereistheplanet/whereistheplanet/") #Example
 import whereistheplanet
 
 app = Flask(__name__)
