@@ -38,9 +38,9 @@ Sequence_obs={
     "planets": ["hr2562b"],
     "dit star": 1,
     "ndit star": 64,
-    "dit planets": [100], #bypass p2 check, it should be 100
-    "ndit planets": [8],
-    "repeat": 8
+    "dit planets": [10], #bypass p2 check, it should be 100
+    "ndit planets": [32],
+    "repeat": 24
     }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)

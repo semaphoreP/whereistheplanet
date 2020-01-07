@@ -34,13 +34,14 @@ Observation={
     }
 
 Sequence_obs={
-    "axis": "on",
+    "axis": "off-on",
     "planets": ["hr3549b"],
     "dit star": 1,
     "ndit star": 64,
     "dit planets": [10], #bypass p2 check, it should be 100
     "ndit planets": [32],
-    "repeat": 24
+    "repeat": 24,
+    "swap": False
     }
 
 seq=makeSequence(Sequence_obs,Observation,timeOfObs)
