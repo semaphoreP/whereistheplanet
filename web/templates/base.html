@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" media="screen" href="../static/bootstrap.min.css">
-<link rel="stylesheet" href="../static/bootstrap-theme.min.css">
+<link rel="stylesheet" media="screen" href="static/bootstrap.min.css">
+<link rel="stylesheet" href="static/bootstrap-theme.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <div class="text-center py-3">
-<h1>Welcome to ExoOrbitFinder!</h1>
-
+<h1>Where is the planet?</h1>
+<br>
+<h5 style="line-height: 0px;margin-top: 0;">This page predicts the locations of directly-imaged exoplanets and brown dwarf companions.</h5>
+<h5>If there are any orbits you would like to see added, contact Jason Wang at jwang4@caltech.edu.</h5>
+<br>
 <body>
 {% for message in form.planetname.errors %}
 <div>{{ message }}</div>
