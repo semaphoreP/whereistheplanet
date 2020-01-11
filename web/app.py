@@ -41,7 +41,7 @@ multchoices = [("", 'Choose one'),
 
 class ReusableForm(FlaskForm):
     planetname = SelectField('Planet Name:', [DataRequired()], choices=multchoices, default = 0)
-    time = DateField("Time:", [DataRequired()], default = date.today())
+    time = DateField("Time:", [DataRequired()], default = date.today)
     submit = SubmitField("Generate Coordinates", [DataRequired()])
 
 def truncate(n, decimals=0):
