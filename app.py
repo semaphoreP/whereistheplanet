@@ -5,12 +5,20 @@ from wtforms.fields.html5 import DateField
 from flask_wtf import FlaskForm
 from datetime import date
 from wtforms.validators import DataRequired
+import configparser
 import sys
 sys.path.append("./whereistheplanet/") #Example
 import whereistheplanet
 
+### Read secret key from flask.ini file
+### YOU MUST MAKE YOUR OWN THAT IS A COPY OF flask.ini.default
+config = configparser.ConfigParser()
+config.read("flask.ini")
+token = config.get('DEFAULT', 'token')
+
+
 app = Flask(__name__)
-app.secret_key = 'development key'
+app.secret_key = token
 
 multchoices = [("", 'Choose one'),
                ("hr8799b", "HR 8799 b"), 
