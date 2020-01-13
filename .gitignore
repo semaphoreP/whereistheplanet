@@ -113,3 +113,6 @@ GRAVITY/tests/*
 *~
 
 .azure
+
+# secret config
+flask.ini
