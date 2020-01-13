@@ -1,10 +1,12 @@
 from flask import Flask, render_template, flash, request
-from wtforms import Form, SelectField, DateField, SubmitField, validators, ValidationError
+from wtforms import Form, SelectField, SubmitField, validators, ValidationError
+#from wtforms import DateField
+from wtforms.fields.html5 import DateField
 from flask_wtf import FlaskForm
 from datetime import date
 from wtforms.validators import DataRequired
 import sys
-sys.path.append("../whereistheplanet/whereistheplanet/") #Example
+sys.path.append("./whereistheplanet/") #Example
 import whereistheplanet
 
 app = Flask(__name__)
@@ -40,9 +42,8 @@ multchoices = [("", 'Choose one'),
                ('twa5b', "TWA 5 b")]
 
 class ReusableForm(FlaskForm):
-    planetname = SelectField('Planet Name:', [DataRequired()], choices=multchoices, default = 0)
-    time = DateField("Time:", [DataRequired()], default = date.today)
-    submit = SubmitField("Generate Coordinates", [DataRequired()])
+    planetname = SelectField('Planet Name: ', [DataRequired()], choices=multchoices, default = 0)
+    time = DateField("Date: ", default = date.today, format='%Y-%m-%d')
 
 def truncate(n, decimals=0):
     multiplier = 10 ** decimals
@@ -51,14 +52,23 @@ def truncate(n, decimals=0):
 @app.route('/', methods = ['GET', 'POST'])
 def gencoord():
     form = ReusableForm(request.form)
+
     ra_args = ""
     dec_args = ""
     sep_args = ""
     pa_args = ""
+    error_msg = ""
+    
     if request.method == 'POST':
         planet_name = request.form['planetname']
         date_mjd = request.form['time']
-        ra_args, dec_args, sep_args, pa_args = whereistheplanet.predict_planet(planet_name, date_mjd)
+
+        try:
+            ra_args, dec_args, sep_args, pa_args = whereistheplanet.predict_planet(planet_name, date_mjd)
+        except ValueError:
+            error_msg = "Invalid Date"
+        except KeyError:
+            error_msg = "Invalid Planet"
         ra_args1 = truncate(ra_args[0], 3)
         ra_args2 = truncate(ra_args[1], 3)
         dec_args1 = truncate(dec_args[0], 3)
@@ -71,6 +81,7 @@ def gencoord():
         dec_args = "Dec Offset = " + str(dec_args1) + " +/- " + str(dec_args2) + " mas"
         sep_args = "Separation = " + str(sep_args1) + " +/- " + str(sep_args2) + " mas"
         pa_args = "PA = " + str(pa_args1) + " +/- " + str(pa_args2) + " deg"
-    return render_template('base.html', form=form, ra_args=ra_args, dec_args=dec_args, sep_args=sep_args, pa_args=pa_args)
+
+    return render_template('base.html', form=form, ra_args=ra_args, dec_args=dec_args, sep_args=sep_args, pa_args=pa_args, error_msg=error_msg)
 if __name__ == "__main__":
     app.run()

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" media="screen" href="static/bootstrap.min.css">
+<link rel="stylesheet" href="static/bootstrap-theme.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<div class="container">
+<div class="py-5 text-center">
+    <h1>Where is the planet?</h1>
+    <p class="lead">
+        This page predicts the locations of directly-imaged exoplanets and brown dwarf companions.
+        If there are any orbits you would like to see added, contact Jason Wang at jwang4@caltech.edu.
+        Created by Matas Kulikauskas and Jason Wang. 
+    </p>
+</div>
+
+
+<form action="" method=post>
+    {{ form.csrf }}
+    <div class="form-group col-md-6">
+        {{ form.planetname.label }} {{ form.planetname(class_="form-control") }}
+    </div>
+
+    <div class="form-group col-md-6">
+        {{ form.time.label }} {{ form.time(class_="form-control") }} 
+    </div>
+
+    <div class="col-md-6 mb-4 mt-2">
+        <button type="submit" class="btn btn-primary" value="Predict!">Predict!</button>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        {% if error_msg != "" %}
+            <div class="alert alert-warning">{{ error_msg }}</div>
+        {% endif %}
+        <p>
+            {{ ra_args }}
+            <br>
+            {{ dec_args }}
+            <br>
+            {{ sep_args }}
+            <br>
+            {{ pa_args }}
+        </p>
+    </div>
+</form>
+
+
+
+</div>
+
+
+<footer class="page-footer">
+    <div class="text-center py-2 text-muted">
+        Copyright © 2020 Matas Kulikauskas and Jason Wang
+    </div>
+</footer>
+
+</html>

@@ -111,3 +111,5 @@ GRAVITY/tests/*
 
 # emacs temporary files
 *~
+
+.azure
