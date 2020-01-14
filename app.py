@@ -77,18 +77,11 @@ def gencoord():
             error_msg = "Invalid Date"
         except KeyError:
             error_msg = "Invalid Planet"
-        ra_args1 = truncate(ra_args[0], 3)
-        ra_args2 = truncate(ra_args[1], 3)
-        dec_args1 = truncate(dec_args[0], 3)
-        dec_args2 = truncate(dec_args[1], 3)
-        sep_args1 = truncate(sep_args[0], 3)
-        sep_args2 = truncate(sep_args[1], 3)
-        pa_args1 = truncate(pa_args[0], 3)
-        pa_args2 = truncate(pa_args[1], 3)
-        ra_args = "RA Offset = " + str(ra_args1) + " +/- " + str(ra_args2) + " mas"
-        dec_args = "Dec Offset = " + str(dec_args1) + " +/- " + str(dec_args2) + " mas"
-        sep_args = "Separation = " + str(sep_args1) + " +/- " + str(sep_args2) + " mas"
-        pa_args = "PA = " + str(pa_args1) + " +/- " + str(pa_args2) + " deg"
+
+        ra_args = "RA Offset = {0:.3f} +/- {1:.3f} mas".format(ra_args[0], ra_args[1])
+        dec_args = "Dec Offset = {0:.3f} +/- {1:.3f} mas".format(dec_args[0], dec_args[1])
+        sep_args = "Separation = {0:.3f} +/- {1:.3f} mas".format(sep_args[0], sep_args[1])
+        pa_args = "PA = {0:.3f} +/- {1:.3f} deg".format(pa_args[0], pa_args[1])
 
     return render_template('base.html', form=form, ra_args=ra_args, dec_args=dec_args, sep_args=sep_args, pa_args=pa_args, error_msg=error_msg)
 if __name__ == "__main__":
