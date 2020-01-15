@@ -1,5 +1,5 @@
 # whereistheplanet?
-Prediciting the position of exoplanets. 
+Prediciting the position of exoplanets. Web version is available at https://www.whereistheplanet.com/. Credit: Jason Wang, Matas Kulikauskas, and Sarah Blunt. 
 
 ## Install
 Requires `orbitize!` (https://github.com/sblunt/orbitize/) and `git-lfs` to pull the posteriors. After you clone the repositroy and use `git lfs pull` to pull the posteriors, install using 
