@@ -50,3 +50,5 @@ post_gsc6214-210b.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_hip79098b.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_roxs12b.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_roxs42b.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_gj758b.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_2m0103b.hdf5 filter=lfs diff=lfs merge=lfs -text
