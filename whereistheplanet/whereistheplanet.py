@@ -48,7 +48,7 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
              "gqlupb" : ("post_gqlupb.hdf5", "Ginski et al. 2014b"),
              "gsc6214-210b" : ("post_gsc6214-120b.hdf5", "Pearce et al. 2019"),
              "hip79098ABb" : ("post_hip79098b.hdf5", "Kasper et al. 2019"),
-             "gsc08047-00232b" : ("post_gsc08047-00232b.hdf5", "Ginski et al. 2014a"),
+             "gsc08047-00232b" : ("post_gsc08047-0023b.hdf5", "Ginski et al. 2014a"),
              "2m0122b" : ("post_2m0122b.hdf5", "Bryan et al. 2020"),
              "gj758b" : ("post_gj758b.hdf5", "Brandt et al. 2019")}
 
