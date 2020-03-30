@@ -42,3 +42,11 @@ post_ross458b.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_51erib.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_hd1160b.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_hip64892b.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_2m0107b.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_2m0122b.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_gqlupb.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_gsc08047-0023b.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_gsc6214-210b.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_hip79098b.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_roxs12b.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_roxs42b.hdf5 filter=lfs diff=lfs merge=lfs -text
