@@ -19,7 +19,7 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
              'hr8799d' : ("post_hr8799d.hdf5", "Wang et al. 2018"),
              'hr8799e' : ("post_hr8799e.hdf5", "Wang et al. 2018"),
              'betapicb' : ("post_betapicb.hdf5", "GRAVITY Collaboration et al. 2020"),
-             'betapicc' : ("post_betapicc.hdf5", "GRAVITY Collaboration et al. 2020"),
+             'betapicc' : ("post_betapicc.hdf5", "Nowak et al. 2020"),
              '51erib' : ('post_51erib.hdf5', 'De Rosa et al. 2019'),
              'hd206893b' : ("post_hd206893b.hdf5", 'Bowler et al. 2019'),
              '1rxs0342+1216b' : ('post_1rxs0342+1216b.hdf5', 'Bowler et al. 2019'),
@@ -51,7 +51,19 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
              "hip79098ABb" : ("post_hip79098b.hdf5", "Kasper et al. 2019"),
              "gsc08047-00232b" : ("post_gsc08047-0023b.hdf5", "Ginski et al. 2014a"),
              "2m0122b" : ("post_2m0122b.hdf5", "Bryan et al. 2020"),
-             "gj758b" : ("post_gj758b.hdf5", "Brandt et al. 2019")}
+             "gj758b" : ("post_gj758b.hdf5", "Brandt et al. 2019"),
+             "hd4747b" : ("post_hd4747b.hdf5", "Peretti et al. 2018"),
+             "fwtauc" : ("post_fwtauc.hdf5", "Data: Kraus et al. 2013; Orbit: unpublished"),
+             "hd284149abb" : ("post_hd284149abb.hdf5", "Data: Bonavita. 2017; Orbit: unpublished")}
+
+#### import any propritary data not stored here. 
+try:
+    import whereistheplanet.private_data as private_data
+    private_dict = private_data.private_dict
+    for key in private_dict:
+        post_dict[key] = private_dict[key]
+except:
+    pass
 
 
 def print_prediction(date_mjd, chains, tau_ref_epoch, num_samples=None):
@@ -104,11 +116,13 @@ def print_prediction(date_mjd, chains, tau_ref_epoch, num_samples=None):
     dec_args = np.median(rand_decs), np.std(rand_decs)
     sep_args = np.median(rand_seps), np.std(rand_seps)
     pa_args = np.median(rand_pas), np.std(rand_pas)
+    rv_args = np.median(rand_vzs), np.std(rand_vzs)
 
     print("RA Offset = {0:.3f} +/- {1:.3f} mas".format(ra_args[0], ra_args[1]))
     print("Dec Offset = {0:.3f} +/- {1:.3f} mas".format(dec_args[0], dec_args[1]))
     print("Separation = {0:.3f} +/- {1:.3f} mas".format(sep_args[0], sep_args[1]))
     print("PA = {0:.3f} +/- {1:.3f} deg".format(pa_args[0], pa_args[1]))
+    print("Planetary RV = {0:.3f} +/- {1:.3f} km/s".format(rv_args[0], rv_args[1]))
 
     return ra_args, dec_args, sep_args, pa_args
 
