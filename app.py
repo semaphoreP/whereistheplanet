@@ -26,6 +26,7 @@ multchoices = [("", 'Choose one'),
                ("hr8799d", "HR 8799 d"), 
                ('hr8799e', "HR 8799 e"), 
                ('betapicb', "bet Pic b"), 
+               ('betapicc', "bet Pic c"),
                ('51erib', "51 Eri b"), 
                ('hd206893b',"HD 206893 b"),
                ('1rxs0342+1216b', "1RXS J160929.1-210524 b"), 
@@ -47,7 +48,22 @@ multchoices = [("", 'Choose one'),
                ('pds70b', "PDS 70 b"), 
                ('pztelb', "PZ Tel b"), 
                ('ross458b', "Ross 458 b"), 
-               ('twa5b', "TWA 5 b")]
+               ('twa5b', "TWA 5 b"),
+               ('hip64892b', "HIP 64892 b"),
+               ('2m0103b', "2M0103b"),
+               ('roxs42b', "ROXs 42 Bb"),
+               ('roxs12b', "ROXs 12 b"),
+               ('gqlupb', "GQ Lup b"),
+               ('gsc6214-210b', "GSC 6214-210 b"),
+               ('hip79098ABb', "HIP 79098 ABb"),
+               ('gsc08047-00232b', "GSC 08047-0023 b"),
+               ('2m0122b', "2M0122b"),
+               ('gj758b', "GJ 758 b"),
+               ('hd4747b', "HD 4747 b"),
+               ('fwtauc', "FW Tau C"),
+               ('hd284149abb', "HD 284149 ABb")]
+
+multchoices.sort()
 
 class ReusableForm(FlaskForm):
     planetname = SelectField('Planet Name: ', [DataRequired()], choices=multchoices, default = 0)
@@ -73,6 +89,7 @@ def gencoord():
 
         try:
             ra_args, dec_args, sep_args, pa_args = whereistheplanet.predict_planet(planet_name, date_mjd)
+            ref = whereistheplanet.get_reference(planet_name)
         except ValueError:
             error_msg = "Invalid Date"
         except KeyError:
@@ -82,7 +99,8 @@ def gencoord():
         dec_args = "Dec Offset = {0:.3f} +/- {1:.3f} mas".format(dec_args[0], dec_args[1])
         sep_args = "Separation = {0:.3f} +/- {1:.3f} mas".format(sep_args[0], sep_args[1])
         pa_args = "PA = {0:.3f} +/- {1:.3f} deg".format(pa_args[0], pa_args[1])
+        ref_str = "Reference: {0}".format(ref)
 
-    return render_template('base.html', form=form, ra_args=ra_args, dec_args=dec_args, sep_args=sep_args, pa_args=pa_args, error_msg=error_msg)
+    return render_template('base.html', form=form, ra_args=ra_args, dec_args=dec_args, sep_args=sep_args, pa_args=pa_args, ref_str=ref_str, error_msg=error_msg)
 if __name__ == "__main__":
     app.run()
