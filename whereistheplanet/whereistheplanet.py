@@ -54,7 +54,7 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
              "gj758b" : ("post_gj758b.hdf5", "Brandt et al. 2019"),
              "hd4747b" : ("post_hd4747b.hdf5", "Peretti et al. 2018"),
              "fwtauc" : ("post_fwtauc.hdf5", "Data: Kraus et al. 2013; Orbit: unpublished"),
-             "hd284149abb" : ("post_hd284149abb.hdf5", "Data: Bonavita. 2017; Orbit: unpublished")}
+             "hd284149abb" : ("post_hd284149abb.hdf5", "Data: Bonavita et al. 2017; Orbit: unpublished")}
 
 #### import any propritary data not stored here. 
 try:
@@ -164,6 +164,28 @@ def get_chains(planet_name):
         tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
     
     return post, tau_ref_epoch
+
+def get_reference(planet_name):
+    """
+    Return reference for a given planet's orbit fit
+
+    Args:
+        planet_name (str): name of planet. no space
+
+    Returns:
+        reference (str): Reference of orbit fit
+    """
+    planet_name = planet_name.lower()
+
+    # handle any exceptions as necessary here
+    if planet_name == "betpicb":
+        planet_name = "betapicb"
+
+    if planet_name not in post_dict:
+        raise ValueError("Invalid planet name '{0}'".format(planet_name))
+    
+    filename, reference = post_dict[planet_name]
+    return reference
 
 def predict_planet(planet_name, time_mjd=None, num_samples=100):
     """
