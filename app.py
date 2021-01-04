@@ -82,6 +82,7 @@ def gencoord():
     sep_args = ""
     pa_args = ""
     error_msg = ""
+    ref_str = ""
     
     if request.method == 'POST':
         planet_name = request.form['planetname']
