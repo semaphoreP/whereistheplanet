@@ -38,7 +38,8 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
              'hr2562b' : ('post_hr2562b.hdf5', 'Bowler et al. 2019'),
              'hr3549b' : ('post_hr3549b.hdf5', 'Bowler et al. 2019'),
              'kappaandb' : ('post_kappaandb.hdf5', 'Keck (unpublished)'),
-             'pds70b' : ('post_pds70b.hdf5', 'ExoGRAVITY'),
+             'pds70b' : ('post_pds70.hdf5', 'Wang et al. submitted (ExoGRAVITY)'),
+             'pds70c' : ('post_pds70.hdf5', 'Wang et al. submitted (ExoGRAVITY)'),
              'pztelb' : ('post_pztelb.hdf5', 'Bowler et al. 2019'),
              'ross458b' : ('post_ross458b.hdf5', 'Bowler et al. 2019'),
              'twa5b' : ('post_twa5b.hdf5', 'Bowler et al. 2019'),
@@ -56,6 +57,12 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
              "fwtauc" : ("post_fwtauc.hdf5", "Data: Kraus et al. 2013; Orbit: unpublished"),
              "hd284149abb" : ("post_hd284149abb.hdf5", "Data: Bonavita et al. 2017; Orbit: unpublished")}
 
+# massive multi-planet orbit fit bookkeeping
+# for each planet, keep track of index of planet and total number of planets in the orbit fits
+multi_dict = {'pds70b': (0, 2),
+              'pds70c': (1, 2)}
+
+
 #### import any propritary data not stored here. 
 try:
     import whereistheplanet.private_data as private_data
@@ -66,11 +73,12 @@ except:
     pass
 
 
-def print_prediction(date_mjd, chains, tau_ref_epoch, num_samples=None):
+def print_prediction(planet_name, date_mjd, chains, tau_ref_epoch, num_samples=None):
     """
     Prints out a prediction for the prediction of a planet given a set of posterior draws
 
     Args:
+        planet_name (str): name of the planet, already checked to be in the list
         date_mjd (float): MJD of date for which we want a prediction
         chains (np.array): Nx8 array of N orbital elements. Orbital elements are ordered as:
                             sma, ecc, inc, aop, pan, tau, plx, mtot
@@ -97,17 +105,52 @@ def print_prediction(date_mjd, chains, tau_ref_epoch, num_samples=None):
 
     rand_orbits = chains[rand_draws]
 
-    sma = rand_orbits[:, 0]
-    ecc = rand_orbits[:, 1]
-    inc = rand_orbits[:, 2]
-    aop = rand_orbits[:, 3]
-    pan = rand_orbits[:, 4]
-    tau = rand_orbits[:, 5]
-    plx = rand_orbits[:, 6]
-    mtot = rand_orbits[:, 7]
+    if planet_name not in multi_dict:
+        # single Keplerian orbit fits
+        sma = rand_orbits[:, 0]
+        ecc = rand_orbits[:, 1]
+        inc = rand_orbits[:, 2]
+        aop = rand_orbits[:, 3]
+        pan = rand_orbits[:, 4]
+        tau = rand_orbits[:, 5]
+        plx = rand_orbits[:, 6]
+        mtot = rand_orbits[:, 7]
 
-    rand_ras, rand_decs, rand_vzs = kepler.calc_orbit(date_mjd, sma, ecc, inc, aop, pan, tau, plx, mtot,
-                                                     tau_ref_epoch=tau_ref_epoch)
+        rand_ras, rand_decs, rand_vzs = kepler.calc_orbit(date_mjd, sma, ecc, inc, aop, pan, tau, plx, mtot,
+                                                        tau_ref_epoch=tau_ref_epoch)
+    else:
+        # massive multi-planet orbit fits
+        planet_num, tot_planets = multi_dict[planet_name]
+        orb_indices = np.arange(6 * planet_num, 6 * planet_num+6, 1)
+        sma, ecc, inc, aop, pan, tau = rand_orbits[:, orb_indices].T
+        plx = rand_orbits[:, 6 * tot_planets]
+        mass_planets = rand_orbits[:, -1-tot_planets:-1]
+        mass_star = rand_orbits[:, -1]
+
+        all_pl_smas = rand_orbits[0, 0:6*tot_planets:6]
+        within_orbit = np.where(all_pl_smas <= all_pl_smas[planet_num])
+        mtot = mass_star + np.sum(mass_planets[:, within_orbit[0]], axis=1)
+
+        rand_ras, rand_decs, rand_vzs = kepler.calc_orbit(date_mjd, sma, ecc, inc, aop, pan, tau, plx, mtot,
+                                                        tau_ref_epoch=tau_ref_epoch)
+        # add perturbation from other planets
+        for inner_pl in within_orbit[0]:
+            if inner_pl == planet_num:
+                continue
+            
+            within_inner_orbit = np.where(all_pl_smas < all_pl_smas[inner_pl])
+            inner_mtot = mass_star + np.sum(mass_planets[:, within_inner_orbit[0]], axis=1)
+            mass_inner = mass_planets[:, inner_pl]
+
+            inner_orb_indices = np.arange(6 * inner_pl, 6 * inner_pl + 6, 1)
+            in_sma, in_ecc, in_inc, in_aop, in_pan, in_tau = rand_orbits[:, inner_orb_indices].T
+
+            inner_rand_ras, inner_rand_decs, inner_rand_vzs = kepler.calc_orbit(date_mjd, in_sma, in_ecc, in_inc, in_aop, in_pan, in_tau, plx, inner_mtot,
+                                                          tau_ref_epoch=tau_ref_epoch)
+
+            rand_ras += mass_inner/inner_mtot * inner_rand_ras
+            rand_decs += mass_inner/inner_mtot * inner_rand_decs
+            rand_vzs += mass_inner/inner_mtot * inner_rand_vzs
 
     rand_seps = np.sqrt(rand_ras**2 + rand_decs**2)
     rand_pas = np.degrees(np.arctan2(rand_ras, rand_decs)) % 360
@@ -216,7 +259,7 @@ def predict_planet(planet_name, time_mjd=None, num_samples=100):
     # do real stuff
     chains, tau_ref_epoch = get_chains(planet_name)
 
-    ra_args, dec_args, sep_args, pa_args = print_prediction(time_mjd, chains, tau_ref_epoch, num_samples=num_samples)
+    ra_args, dec_args, sep_args, pa_args = print_prediction(planet_name, time_mjd, chains, tau_ref_epoch, num_samples=num_samples)
 
     return ra_args, dec_args, sep_args, pa_args
 
