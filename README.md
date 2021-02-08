@@ -24,6 +24,8 @@ To see all of the planets currently supported:
 whereistheplanet --list
 ```
 
-## Coming Soon
- * More planets
- * Web app
+## Attribution
+
+If you used this for your research, please cite the [ASCL entry](https://ascl.net/2101.003) of it:
+
+    Wang, J. J., Kulikauskas, M., Blunt, S. 2021, Astrophysics Source Code Library, ascl:2101.003
