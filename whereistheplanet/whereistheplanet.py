@@ -18,8 +18,8 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
              'hr8799c' : ("post_hr8799c.hdf5", "Wang et al. 2018"),
              'hr8799d' : ("post_hr8799d.hdf5", "Wang et al. 2018"),
              'hr8799e' : ("post_hr8799e.hdf5", "Wang et al. 2018"),
-             'betapicb' : ("post_betapicb.hdf5", "GRAVITY Collaboration et al. 2020"),
-             'betapicc' : ("post_betapicc.hdf5", "Nowak et al. 2020"),
+             'betapicb' : ("post_betpic.hdf5", "Lagrange et al. 2020"),
+             'betapicc' : ("post_betpic.hdf5", "Nowak et al. 2020"),
              '51erib' : ('post_51erib.hdf5', 'De Rosa et al. 2019'),
              'hd206893b' : ("post_hd206893b.hdf5", 'Bowler et al. 2019'),
              '1rxs0342+1216b' : ('post_1rxs0342+1216b.hdf5', 'Bowler et al. 2019'),
@@ -48,7 +48,7 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
              'roxs42b' : ("post_roxs42b.hdf5", "Bryan et al. 2016"),
              "roxs12b" : ("post_roxs12b.hdf5", "Bryan et al. 2016"),
              "gqlupb" : ("post_gqlupb.hdf5", "Ginski et al. 2014b"),
-             "gsc6214-210b" : ("post_gsc6214-120b.hdf5", "Pearce et al. 2019"),
+             "gsc6214-210b" : ("post_gsc6214-210b.hdf5", "Pearce et al. 2019"),
              "hip79098ABb" : ("post_hip79098b.hdf5", "Kasper et al. 2019"),
              "gsc08047-00232b" : ("post_gsc08047-0023b.hdf5", "Ginski et al. 2014a"),
              "2m0122b" : ("post_2m0122b.hdf5", "Bryan et al. 2020"),
@@ -60,7 +60,9 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
 # massive multi-planet orbit fit bookkeeping
 # for each planet, keep track of index of planet and total number of planets in the orbit fits
 multi_dict = {'pds70b': (0, 2),
-              'pds70c': (1, 2)}
+              'pds70c': (1, 2),
+              'betapicb': (0, 2),
+              'betapicc': (1, 2)}
 
 
 #### import any propritary data not stored here. 
