@@ -64,6 +64,9 @@ multi_dict = {'pds70b': (0, 2),
               'betapicb': (0, 2),
               'betapicc': (1, 2)}
 
+# alias of planet names
+aliases = {'betpicb': "betapicb",
+           'betpicc': "betapicc"}
 
 #### import any propritary data not stored here. 
 try:
@@ -135,6 +138,7 @@ def print_prediction(planet_name, date_mjd, chains, tau_ref_epoch, num_samples=N
 
         rand_ras, rand_decs, rand_vzs = kepler.calc_orbit(date_mjd, sma, ecc, inc, aop, pan, tau, plx, mtot,
                                                         tau_ref_epoch=tau_ref_epoch)
+
         # add perturbation from other planets
         for inner_pl in within_orbit[0]:
             if inner_pl == planet_num:
@@ -195,10 +199,6 @@ def get_chains(planet_name):
     """
     planet_name = planet_name.lower()
 
-    # handle any exceptions as necessary here
-    if planet_name == "betpicb":
-        planet_name = "betapicb"
-
     if planet_name not in post_dict:
         raise ValueError("Invalid planet name '{0}'".format(planet_name))
     
@@ -221,10 +221,6 @@ def get_reference(planet_name):
         reference (str): Reference of orbit fit
     """
     planet_name = planet_name.lower()
-
-    # handle any exceptions as necessary here
-    if planet_name == "betpicb":
-        planet_name = "betapicb"
 
     if planet_name not in post_dict:
         raise ValueError("Invalid planet name '{0}'".format(planet_name))
@@ -301,6 +297,10 @@ def main():
         
         # give us the answer
         if not args.all:
+            # resolve aliases
+            if args.planet_name.lower() in aliases:
+                args.planet_name = aliases[args.planet_name.lower()]
+
             # standard case where the user didn't request all of the orbits
             predict_planet(args.planet_name, time_mjd=time_mjd)
         else:
