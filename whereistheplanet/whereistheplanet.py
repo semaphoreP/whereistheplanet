@@ -55,7 +55,8 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
              "gj758b" : ("post_gj758b.hdf5", "Brandt et al. 2019"),
              "hd4747b" : ("post_hd4747b.hdf5", "Peretti et al. 2018"),
              "fwtauc" : ("post_fwtauc.hdf5", "Data: Kraus et al. 2013; Orbit: unpublished"),
-             "hd284149abb" : ("post_hd284149abb.hdf5", "Data: Bonavita et al. 2017; Orbit: unpublished")}
+             "hd284149abb" : ("post_hd284149abb.hdf5", "Data: Bonavita et al. 2017; Orbit: unpublished"),
+             "hd72946b" : ("post_hd72946b.hdf5", "Maire et al. 2020")}
 
 # massive multi-planet orbit fit bookkeeping
 # for each planet, keep track of index of planet and total number of planets in the orbit fits
