@@ -30,7 +30,7 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
              'gj504b' : ('post_gj504b.hdf5', 'Bowler et al. 2019'),
              'hd984b' : ('post_hd984b.hdf5', 'Bowler et al. 2019'),
              'hd1160b' : ('post_hd1160b.hdf5', 'Bowler et al. 2019'),
-             'hd19467b' : ('post_hd19467b.hdf5', 'Bowler et al. 2019'),
+             'hd19467b' : ('post_hd19467b.hdf5', 'Brandt et al. 2021'),
              'hd23514b' : ('post_hd23514b.hdf5', 'Bowler et al. 2019'),
              'hd49197b' : ('post_hd49197b.hdf5', 'Bowler et al. 2019'),
              'hd95086b' : ('post_hd95086b.hdf5', 'Bowler et al. 2019'),
@@ -52,11 +52,14 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
              "hip79098abb" : ("post_hip79098b.hdf5", "Kasper et al. 2019"),
              "gsc08047-00232b" : ("post_gsc08047-0023b.hdf5", "Ginski et al. 2014a"),
              "2m0122b" : ("post_2m0122b.hdf5", "Bryan et al. 2020"),
-             "gj758b" : ("post_gj758b.hdf5", "Brandt et al. 2019"),
+             "gj758b" : ("post_gj758b.hdf5", "Brandt et al. 2021"),
              "hd4747b" : ("post_hd4747b.hdf5", "Peretti et al. 2018"),
              "fwtauc" : ("post_fwtauc.hdf5", "Data: Kraus et al. 2013; Orbit: unpublished"),
              "hd284149abb" : ("post_hd284149abb.hdf5", "Data: Bonavita et al. 2017; Orbit: unpublished"),
-             "hd72946b" : ("post_hd72946b.hdf5", "Maire et al. 2020")}
+             "hd72946b" : ("post_hd72946b.hdf5", "Brandt et al. 2021"),
+             "hd13724b" : ("post_hd13724b.hdf5", "Brandt et al. 2021"),
+             "gl229b" : ("post_gl229b.hdf5", "Brandt et al. 2021"),
+             "hd33632b" : ("post_hd33632b.hdf5", "Brandt et al. 2021")}
 
 # massive multi-planet orbit fit bookkeeping
 # for each planet, keep track of index of planet and total number of planets in the orbit fits

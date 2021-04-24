@@ -62,7 +62,11 @@ multchoices = [("", 'Choose one'),
                ('gj758b', "GJ 758 b"),
                ('hd4747b', "HD 4747 b"),
                ('fwtauc', "FW Tau C"),
-               ('hd284149abb', "HD 284149 ABb")]
+               ('hd284149abb', "HD 284149 ABb"),
+               ('hd72946b', "HD 72946 b"),
+               ('hd13724b', "HD 13724 b"),
+               ('gl229b', "Gl 229 b"),
+               ('hd33632b', "HD 33632 b")]
 
 multchoices.sort()
 
