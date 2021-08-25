@@ -14,10 +14,10 @@ basedir = os.path.dirname(moduledir) # up one leve
 datadir = os.path.join(basedir, "data")
 
 # name of all of the posteriors and reference
-post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
-             'hr8799c' : ("post_hr8799c.hdf5", "Wang et al. 2018"),
-             'hr8799d' : ("post_hr8799d.hdf5", "Wang et al. 2018"),
-             'hr8799e' : ("post_hr8799e.hdf5", "Wang et al. 2018"),
+post_dict = {'hr8799b' : ("post_hr8799.hdf5", "GRAVITY (unpublished)"),
+             'hr8799c' : ("post_hr8799.hdf5", "GRAVITY (unpublished)"),
+             'hr8799d' : ("post_hr8799.hdf5", "GRAVITY (unpublished)"),
+             'hr8799e' : ("post_hr8799.hdf5", "GRAVITY (unpublished)"),
              'betapicb' : ("post_betpic.hdf5", "Lagrange et al. 2020"),
              'betapicc' : ("post_betpic.hdf5", "Nowak et al. 2020"),
              '51erib' : ('post_51erib.hdf5', 'De Rosa et al. 2019'),
@@ -66,7 +66,11 @@ post_dict = {'hr8799b' : ("post_hr8799b.hdf5", "Wang et al. 2018"),
 multi_dict = {'pds70b': (0, 2),
               'pds70c': (1, 2),
               'betapicb': (0, 2),
-              'betapicc': (1, 2)}
+              'betapicc': (1, 2),
+              'hr8799b' : (0, 4),
+              'hr8799c' : (1, 4),
+              'hr8799d' : (2, 4),
+              'hr8799e' : (3, 4)}
 
 # alias of planet names
 aliases = {'betpicb': "betapicb",
