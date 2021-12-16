@@ -1,7 +1,6 @@
 from flask import Flask, render_template, flash, request
 from wtforms import Form, SelectField, SubmitField, validators, ValidationError
-#from wtforms import DateField
-from wtforms.fields.html5 import DateField
+from wtforms import DateField
 from flask_wtf import FlaskForm
 from datetime import date
 from wtforms.validators import DataRequired
