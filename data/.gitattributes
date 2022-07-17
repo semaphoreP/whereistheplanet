@@ -63,3 +63,4 @@ post_hd13724b.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_hd33632b.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_hr8799.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_hd206893.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_hip78530b.hdf5 filter=lfs diff=lfs merge=lfs -text
