@@ -21,7 +21,8 @@ post_dict = {'hr8799b' : ("post_hr8799.hdf5", "GRAVITY (unpublished)"),
              'betapicb' : ("post_betpic.hdf5", "Lacour et al. 2021"),
              'betapicc' : ("post_betpic.hdf5", "Lacour et al. 2021"),
              '51erib' : ('post_51erib.hdf5', 'De Rosa et al. 2019'),
-             'hd206893b' : ("post_hd206893b.hdf5", 'Bowler et al. 2019'),
+             'hd206893b' : ("post_hd206893.hdf5", 'Hinkley et al. 2022'),
+             'hd206893c' : ("post_hd206893.hdf5", 'Hinkley et al. 2022'),
              '1rxs0342+1216b' : ('post_1rxs0342+1216b.hdf5', 'Bowler et al. 2019'),
              '1rxs2351+3127b' : ('post_1rxs2351+3127b.hdf5', 'Bowler et al. 2019'),
              '2m1559+4403b' : ('post_2m1559+4403b.hdf5', 'Bowler et al. 2019'),
@@ -70,7 +71,9 @@ multi_dict = {'pds70b': (0, 2),
               'hr8799b' : (0, 4),
               'hr8799c' : (1, 4),
               'hr8799d' : (2, 4),
-              'hr8799e' : (3, 4)}
+              'hr8799e' : (3, 4),
+              'hd206893b' : (0, 2),
+              'hd206893c' : (1, 2)}
 
 # alias of planet names
 aliases = {'betpicb': "betapicb",
@@ -109,9 +112,9 @@ def print_prediction(planet_name, date_mjd, chains, tau_ref_epoch, num_samples=N
         num_samples = chains.shape[0]
         rand_draws = np.arange(num_samples) # don't need to randomize
     else:
-        if num_samples > chains.shape[0]:
-            print("Requested too many samples. Maximum is {0}.".format(chains.shape[0]))
-            return
+        # if num_samples > chains.shape[0]:
+        #     print("Requested too many samples. Maximum is {0}.".format(chains.shape[0]))
+        #     return
     
         # randomly draw values
         rand_draws = np.random.randint(0, chains.shape[0], num_samples)
