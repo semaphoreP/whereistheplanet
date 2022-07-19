@@ -121,6 +121,8 @@ def print_prediction(planet_name, date_mjd, chains, tau_ref_epoch, num_samples=N
         # randomly draw values
         rand_draws = np.random.randint(0, chains.shape[0], num_samples)
 
+    planet_name = planet_name.lower()
+
     rand_orbits = chains[rand_draws]
 
     if planet_name not in multi_dict:
@@ -266,6 +268,9 @@ def predict_planet(planet_name, time_mjd=None, num_samples=100):
             time_mjd = Time(time_mjd).mjd
         else:
             time_mjd = float(time_mjd)
+
+    # we always refer to lowercase planet names
+    planet_name = planet_name.lower()
 
     # do real stuff
     chains, tau_ref_epoch = get_chains(planet_name)
