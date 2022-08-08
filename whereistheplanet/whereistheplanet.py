@@ -62,7 +62,12 @@ post_dict = {'hr8799b' : ("post_hr8799.hdf5", "GRAVITY (unpublished)"),
              "hd13724b" : ("post_hd13724b.hdf5", "Brandt et al. 2021"),
              "gl229b" : ("post_gl229b.hdf5", "Brandt et al. 2021"),
              "hd33632b" : ("post_hd33632b.hdf5", "Brandt et al. 2021"),
-             "hip78530b" : ("post_hip78530b.hdf5", "Lafreniere et al. 2011")}
+             "hip78530b" : ("post_hip78530b.hdf5", "Lafreniere et al. 2011"),
+             "hr5362b" : ("binary_HR5362B.hdf5", "GRAVITY Binary"),
+             "hd174536b" : ("binary_HD174536B.hdf5", "GRAVITY Binary"),
+             "kap01sclb" : ("binary_kap01SclB.hdf5", "GRAVITY Binary"),
+             "hd25535b" : ("binary_HD25535B.hdf5", "GRAVITY Binary"),
+             "hd30003b" : ("binary_HD30003B.hdf5", "GRAVITY Binary")}
 
 # massive multi-planet orbit fit bookkeeping
 # for each planet, keep track of index of planet and total number of planets in the orbit fits
