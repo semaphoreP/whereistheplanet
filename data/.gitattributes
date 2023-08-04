@@ -70,3 +70,4 @@ binary_HD25535B.hdf5 filter=lfs diff=lfs merge=lfs -text
 binary_HD30003B.hdf5 filter=lfs diff=lfs merge=lfs -text
 binary_HR5362B.hdf5 filter=lfs diff=lfs merge=lfs -text
 binary_kap01SclB.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_abpicb.hdf5 filter=lfs diff=lfs merge=lfs -text
