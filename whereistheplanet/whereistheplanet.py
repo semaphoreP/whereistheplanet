@@ -58,12 +58,13 @@ post_dict = {'hr8799b' : ("post_hr8799.hdf5", "GRAVITY (unpublished)"),
              "hd4747b" : ("post_hd4747b.hdf5", "Peretti et al. 2018"),
              "fwtauc" : ("post_fwtauc.hdf5", "Data: Kraus et al. 2013; Orbit: unpublished"),
              "hd284149abb" : ("post_hd284149abb.hdf5", "Data: Bonavita et al. 2017; Orbit: unpublished"),
-             "hd72946b" : ("post_hd72946b.hdf5", "Brandt et al. 2021"),
+             "hd72946b" : ("post_hd72946b.hdf5", "Balmer et al. 2023"),
              "hd13724b" : ("post_hd13724b.hdf5", "Brandt et al. 2021"),
              "gl229b" : ("post_gl229b.hdf5", "Brandt et al. 2021"),
              "hd33632b" : ("post_hd33632b.hdf5", "Brandt et al. 2021"),
              "hip78530b" : ("post_hip78530b.hdf5", "Lafreniere et al. 2011"),
              "abpicb" : ("post_abpicb.hdf5", "Palma-Bifani et al. 2023"),
+             "hd136164ab" : ("post_hd136164ab.hdf5", "Balmer et al. submitted"),
              "hr5362b" : ("binary_HR5362B.hdf5", "GRAVITY Binary"),
              "hd174536b" : ("binary_HD174536B.hdf5", "GRAVITY Binary"),
              "kap01sclb" : ("binary_kap01SclB.hdf5", "GRAVITY Binary"),
@@ -82,6 +83,9 @@ multi_dict = {'pds70b': (0, 2),
               'hr8799e' : (3, 4),
               'hd206893b' : (0, 2),
               'hd206893c' : (1, 2)}
+
+# single companion fits that also fit for dynamical mass
+dyn_mass_single_comp =  ["hd72946b", 'hd136164ab']
 
 # alias of planet names
 aliases = {'betpicb': "betapicb",
@@ -141,6 +145,9 @@ def print_prediction(planet_name, date_mjd, chains, tau_ref_epoch, num_samples=N
         tau = rand_orbits[:, 5]
         plx = rand_orbits[:, 6]
         mtot = rand_orbits[:, 7]
+
+        if planet_name in dyn_mass_single_comp:
+            mtot = np.sum(rand_orbits[:,[-2,-1]], axis=1)
 
         rand_ras, rand_decs, rand_vzs = kepler.calc_orbit(date_mjd, sma, ecc, inc, aop, pan, tau, plx, mtot,
                                                         tau_ref_epoch=tau_ref_epoch)
