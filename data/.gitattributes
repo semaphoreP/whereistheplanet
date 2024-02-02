@@ -72,3 +72,16 @@ binary_HR5362B.hdf5 filter=lfs diff=lfs merge=lfs -text
 binary_kap01SclB.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_abpicb.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_hd136164ab.hdf5 filter=lfs diff=lfs merge=lfs -text
+binary_wdsj06345-1114.hdf5 filter=lfs diff=lfs merge=lfs -text
+binary_wdsj10269+1713.hdf5 filter=lfs diff=lfs merge=lfs -text
+binary_wdsj10361-2641.hdf5 filter=lfs diff=lfs merge=lfs -text
+binary_wdsj14077-4952.hdf5 filter=lfs diff=lfs merge=lfs -text
+binary_wdsj18516-1719.hdf5 filter=lfs diff=lfs merge=lfs -text
+binary_wdsj00209+1059.hdf5 filter=lfs diff=lfs merge=lfs -text
+binary_wdsj00427-3828.hdf5 filter=lfs diff=lfs merge=lfs -text
+binary_wdsj05055+1948.hdf5 filter=lfs diff=lfs merge=lfs -text
+binary_wdsj08394-3636.hdf5 filter=lfs diff=lfs merge=lfs -text
+binary_wdsj20399+1115.hdf5 filter=lfs diff=lfs merge=lfs -text
+binary_wdsj04021-3429.hdf5 filter=lfs diff=lfs merge=lfs -text
+binary_wdsj05270-6837.hdf5 filter=lfs diff=lfs merge=lfs -text
+binary_wdsj06364+2717.hdf5 filter=lfs diff=lfs merge=lfs -text

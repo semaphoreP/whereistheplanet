@@ -66,10 +66,22 @@ post_dict = {'hr8799b' : ("post_hr8799.hdf5", "GRAVITY (unpublished)"),
              "abpicb" : ("post_abpicb.hdf5", "Palma-Bifani et al. 2023"),
              "hd136164ab" : ("post_hd136164ab.hdf5", "Balmer et al. submitted"),
              "hr5362b" : ("binary_HR5362B.hdf5", "GRAVITY Binary"),
-             "hd174536b" : ("binary_HD174536B.hdf5", "GRAVITY Binary"),
              "kap01sclb" : ("binary_kap01SclB.hdf5", "GRAVITY Binary"),
-             "hd25535b" : ("binary_HD25535B.hdf5", "GRAVITY Binary"),
-             "hd30003b" : ("binary_HD30003B.hdf5", "GRAVITY Binary")}
+             "hd30003b" : ("binary_HD30003B.hdf5", "GRAVITY Binary"),
+             "hd1663b" : ("binary_wds00209+1059.hdf5", "Nowak et al. 2024"),
+             "lam01sclb" : ("binary_wdsj00427-3828.hdf5", "Nowak et al. 2024"),
+             "hd25535b" : ("binary_wdsj04021-3429.hdf5", "Nowak et al. 2024"),
+             "hd32642b" : ("binary_wdsj05055+1948.hdf5", "Nowak et al. 2024"),
+             "hd36584b" : ("binary_wdsj05270-6837.hdf5", "Nowak et al. 2024"),
+             "hd46716b" : ("binary_wdsj06345-1114.hdf5", "Nowak et al. 2024"),
+             "hd46780b" : ("binary_wdsj06364+2717.hdf5", "Nowak et al. 2024"),
+             "hd73900b" : ("binary_wdsj08394-3636.hdf5", "Nowak et al. 2024"),
+             "hd90444b" : ("binary_wdsj10269+1713.hdf5", "Nowak et al. 2024"),
+             "hd91881b" : ("binary_wdsj10361-2641.hdf5", "Nowak et al. 2024"),
+             "hd123227b" : ("binary_wdsj14077-4952.hdf5", "Nowak et al. 2024"),
+             "hd174536b" : ("binary_wdsj18516-1719.hdf5", "Nowak et al. 2024"),
+             "hd196885b" : ("binary_wdsj20399+1115.hdf5", "Nowak et al. 2024")
+            }
 
 # massive multi-planet orbit fit bookkeeping
 # for each planet, keep track of index of planet and total number of planets in the orbit fits
@@ -89,7 +101,21 @@ dyn_mass_single_comp =  ["hd72946b", 'hd136164ab']
 
 # alias of planet names
 aliases = {'betpicb': "betapicb",
-           'betpicc': "betapicc"}
+           'betpicc': "betapicc",
+           'wdsj18516-1719b' : 'hd174536b',
+           "wdsj04021-3429b" : "hd25535b",
+           "wdsj00209+1059b" : "hd1663b",
+           "wdsj00427-3828b" : "lam01sclb",
+           "wdsj05055+1948b" : "hd32642b",
+           "wdsj05270-6837b" : "hd36584b",
+           "wdsj06345-1114b" : "hd46716b",
+           "wdsj06364+2717b" : "hd46780b",
+           "wdsj08394-3636b" : "hd73900b",
+           "wdsj10269+1713b" : "hd90444b",
+           "wdsj10361-2641b" : "hd91881b",
+           "wdsj14077-4952b" : "hd123227b",
+           "wdsj20399+1115b" : "hd196885b"
+           }
 
 #### import any propritary data not stored here. 
 try:
