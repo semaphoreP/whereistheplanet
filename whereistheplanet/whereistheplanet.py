@@ -8,6 +8,7 @@ import h5py
 from astropy.time import Time
 
 import orbitize.kepler as kepler
+import orbitize.results as results
 
 moduledir = os.path.dirname(__file__)
 basedir = os.path.dirname(moduledir) # up one leve
@@ -68,7 +69,7 @@ post_dict = {'hr8799b' : ("post_hr8799.hdf5", "GRAVITY (unpublished)"),
              "hr5362b" : ("binary_HR5362B.hdf5", "GRAVITY Binary"),
              "kap01sclb" : ("binary_kap01SclB.hdf5", "GRAVITY Binary"),
              "hd30003b" : ("binary_HD30003B.hdf5", "GRAVITY Binary"),
-             "hd1663b" : ("binary_wds00209+1059.hdf5", "Nowak et al. 2024"),
+             "hd1663b" : ("binary_wdsj00209+1059.hdf5", "Nowak et al. 2024"),
              "lam01sclb" : ("binary_wdsj00427-3828.hdf5", "Nowak et al. 2024"),
              "hd25535b" : ("binary_wdsj04021-3429.hdf5", "Nowak et al. 2024"),
              "hd32642b" : ("binary_wdsj05055+1948.hdf5", "Nowak et al. 2024"),
@@ -258,10 +259,17 @@ def get_chains(planet_name):
     
     filename, reference = post_dict[planet_name]
     filepath = os.path.join(datadir, filename)
-    with h5py.File(filepath,'r') as hf: # Opens file for reading
-        post = np.array(hf.get('post'))
-        tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
-    
+    try:
+        res = results.Results()
+        res.load_results(filepath)
+        post = res.post
+        tau_ref_epoch = res.tau_ref_epoch
+    except KeyError:
+        with h5py.File(filepath,'r') as hf: # Opens file for reading
+            post = np.array(hf.get('post'))
+            tau_ref_epoch = float(hf.attrs['tau_ref_epoch'])
+    post = np.array(post, dtype=float)
+
     return post, tau_ref_epoch
 
 def get_reference(planet_name):
