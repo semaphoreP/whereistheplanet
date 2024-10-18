@@ -1,5 +1,7 @@
 # whereistheplanet?
 Prediciting the position of exoplanets. Web version is available at https://www.whereistheplanet.com/. Credit: Jason Wang, Matas Kulikauskas, and Sarah Blunt. 
+ 
+![Teseting Badge](https://github.com/semaphoreP/whereistheplanet/actions/workflows/ci-tests.yml/badge.svg) [![ASCL Reference](https://img.shields.io/badge/ascl-2101.003-blue.svg?colorB=262255)](https://ascl.net/2101.003)
 
 ## Install
 Requires `orbitize!` (https://github.com/sblunt/orbitize/) and `git-lfs` to pull the posteriors. After you clone the repositroy and use `git lfs pull` to pull the posteriors, install using 
