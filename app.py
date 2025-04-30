@@ -72,7 +72,8 @@ multchoices = [("", 'Choose one'),
                ('hip78530b', "HIP 78530 b"),
                ('abpicb', "AB Pic b"),
                ('hd136164ab', "HD 136164 Ab"),
-               ("aflepb", "AF Lep b")]
+               ("aflepb", "AF Lep b"),
+               ("hd135344ab", "HD 135344 Ab")]
 
 multchoices.sort()
 
