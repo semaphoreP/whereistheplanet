@@ -6,9 +6,11 @@ Prediciting the position of exoplanets. Web version is available at https://www.
 ## Install
 Requires `orbitize!` (https://github.com/sblunt/orbitize/) and `git-lfs` to pull the posteriors. After you clone the repositroy and use `git lfs pull` to pull the posteriors, install using 
 ```
-python setup.py develop
+pip install -e .
 ``` 
 This creates a script `whereistheplanet` that you can call from anywhere in the terminal. 
+
+If you have issues running whereistheplanet on your machine, you can check out the [querytheplanet](https://github.com/vandalt/querytheplanet) package. 
 
 ## Tutorial
 Open a terminal window and run

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "whereistheplanet"
+description = "predict exoplanet locations"
+dynamic = ["version"]
+dependencies = [
+    "numpy",
+    "astropy",
+    "h5py",
+    "orbitize",
+]
+readme = "README.md"
+license = "BSD-3-Clause"
+classifiers = [
+        "Intended Audience :: Science/Research",
+        "Topic :: Scientific/Engineering :: Astronomy",
+        "Programming Language :: Python :: 3"
+]
+keywords = ["Exoplanets", "Astronomy", "Orbits", "Astrometry"]
+
+
+[tool.setuptools.dynamic]
+version = {attr = "whereistheplanet.__version__"}
+
+[tool.setuptools.packages]
+find = {}
+
+[project.scripts]
+whereistheplanet = "whereistheplanet:main"
