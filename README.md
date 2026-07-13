@@ -19,7 +19,7 @@ pip install -e .
 ``` 
 This creates a script `whereistheplanet` that you can call from anywhere in the terminal. 
 
-If you have issues running whereistheplanet on your machine, you can check out the [querytheplanet](https://github.com/vandalt/querytheplanet) package. 
+If you have issues running whereistheplanet on your machine, you can check out the [querytheplanet](https://github.com/vandalt/querytheplanet) package. Howevert, please do not run large amounts (100+) queries in a short span of time, to avoid overloading the webserver. To avoid large number of queries, you should probably be computing the orbit yourself.
 
 ## Tutorial
 
