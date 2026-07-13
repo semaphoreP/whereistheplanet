@@ -4,6 +4,15 @@ Prediciting the position of exoplanets. Web version is available at https://www.
 ![Teseting Badge](https://github.com/semaphoreP/whereistheplanet/actions/workflows/ci-tests.yml/badge.svg) [![ASCL Reference](https://img.shields.io/badge/ascl-2101.003-blue.svg?colorB=262255)](https://ascl.net/2101.003)
 
 ## Install
+
+`whereistheplanet` is easily installed through PyPI:
+
+```
+pip install whereistheplanet
+```
+
+### Developer Install
+
 Requires `orbitize!` (https://github.com/sblunt/orbitize/) and `git-lfs` to pull the posteriors. After you clone the repositroy and use `git lfs pull` to pull the posteriors, install using 
 ```
 pip install -e .
@@ -13,6 +22,7 @@ This creates a script `whereistheplanet` that you can call from anywhere in the 
 If you have issues running whereistheplanet on your machine, you can check out the [querytheplanet](https://github.com/vandalt/querytheplanet) package. 
 
 ## Tutorial
+
 Open a terminal window and run
 ```
 whereistheplanet hr8799b
