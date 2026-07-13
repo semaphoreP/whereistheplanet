@@ -30,7 +30,7 @@ jobs:
         pip install flake8 pytest numpy
         pip install orbitize
         pip install -r requirements.txt
-        python setup.py develop
+        pip install -e .
         git lfs pull
     - name: Lint with flake8
       run: |
