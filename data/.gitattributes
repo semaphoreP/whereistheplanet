@@ -23,6 +23,7 @@ DH_Tau_B_100000.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_kappaandb.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_1rxs0342+1216b.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_hip65426b.hdf5 filter=lfs diff=lfs merge=lfs -text
+post_hip71618b.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_cd-352722b.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_gj504b.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_hd49197b.hdf5 filter=lfs diff=lfs merge=lfs -text

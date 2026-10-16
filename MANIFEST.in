@@ -53,6 +53,7 @@ include data/post_hd206893b.hdf5
 include data/post_hd284149abb.hdf5
 include data/post_hip64892b.hdf5
 include data/post_hip65426b.hdf5
+include data/post_hip71618b.hdf5
 include data/post_hip78530b.hdf5
 include data/post_hip79098b.hdf5
 include data/post_hr2562b.hdf5
