@@ -116,3 +116,11 @@ GRAVITY/tests/*
 
 # secret config
 flask.ini
+
+# Local working instructions, fitting runs, and internal release notes.
+/AGENTS.md
+/CLAUDE.md
+/DEPLOYMENT.md
+/scripts/
+/whereistheplanet/private_data.py
+/data/*.tmp

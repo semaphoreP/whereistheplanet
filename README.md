@@ -38,6 +38,12 @@ To see all of the planets currently supported:
 whereistheplanet --list
 ```
 
+## Catalog maintenance
+
+Public target names, references and companion layouts live in
+`whereistheplanet/catalog.py`; the web menu uses the same catalog.
+The catalog includes 99 targets. See [CHANGELOG.md](CHANGELOG.md) for release changes.
+
 ## Attribution
 
 If you used this for your research, please cite the [ASCL entry](https://ascl.net/2101.003) of it:

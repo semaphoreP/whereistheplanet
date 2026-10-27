@@ -2,6 +2,7 @@
 Testing the prediciton tool
 """
 import subprocess
+import sys
 import numpy as np
 import whereistheplanet.whereistheplanet as witp
 
@@ -22,7 +23,8 @@ def test_cmd_line():
     """
     Test command line script
     """
-    subprocess.run(['whereistheplanet', 'betpicb', '-t', '2022-01-01'])
+    subprocess.run([sys.executable, '-m', 'whereistheplanet.whereistheplanet',
+                    'betpicb', '-t', '2022-01-01'], check=True)
 
 if __name__ == "__main__":
     test_all_predictions()

@@ -89,3 +89,7 @@ binary_wdsj06364+2717.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_aflepb.hdf5 filter=lfs diff=lfs merge=lfs -text
 post_gl229bc.h5 filter=lfs diff=lfs merge=lfs -text
 post_hd135344ab.hdf5 filter=lfs diff=lfs merge=lfs -text
+
+# All installed orbit posteriors, including future catalog additions.
+*.hdf5 filter=lfs diff=lfs merge=lfs -text
+*.h5 filter=lfs diff=lfs merge=lfs -text

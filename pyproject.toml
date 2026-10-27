@@ -25,8 +25,11 @@ keywords = ["Exoplanets", "Astronomy", "Orbits", "Astrometry"]
 [tool.setuptools.dynamic]
 version = {attr = "whereistheplanet.__version__"}
 
-[tool.setuptools.packages]
-find = {}
+[tool.setuptools.packages.find]
+include = ["whereistheplanet*", "data"]
+
+[tool.setuptools.package-data]
+data = ["*.hdf5", "*.h5"]
 
 [project.scripts]
 whereistheplanet = "whereistheplanet:main"
