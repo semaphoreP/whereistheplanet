@@ -1,7 +1,7 @@
 include CHANGELOG.md
 include app.py flask.ini.default requirements.txt
 recursive-include templates *.html
-recursive-include static *.css *.map *.png
+recursive-include static *.css *.map *.png *.js
 include data/*.hdf5
 include data/*.h5
 exclude AGENTS.md CLAUDE.md DEPLOYMENT.md

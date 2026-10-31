@@ -6,6 +6,7 @@ warnings.filterwarnings("ignore")
 import numpy as np
 import h5py
 from astropy.time import Time
+from astropy import constants, units
 
 import orbitize.kepler as kepler
 import orbitize.results as results
@@ -31,40 +32,19 @@ except:
     pass
 
 
-def print_prediction(planet_name, date_mjd, chains, tau_ref_epoch, num_samples=None):
-    """
-    Prints out a prediction for the prediction of a planet given a set of posterior draws
-
-    Args:
-        planet_name (str): name of the planet, already checked to be in the list
-        date_mjd (float): MJD of date for which we want a prediction
-        chains (np.array): Nx8 array of N orbital elements. Orbital elements are ordered as:
-                            sma, ecc, inc, aop, pan, tau, plx, mtot
-        tau_ref_epoch (float): MJD for reference epoch of tau (see orbitize for details on tau)
-        num_samples (int): number of random samples for prediction. If None, will use all of them
-
-    Returns:
-        ra_args (tuple): a two-element tuple of the median RA offset, and stddev of RA offset
-        dec_args (tuple): a two-element tuple of the median Dec offset, and stddev of Dec offset
-        sep_args (tuple): a two-element tuple of the median separation offset, and stddev of sep offset
-        pa_args (tuple): a two-element tuple of the median PA offset, and stddev of PA offset
-    """
-
+def _sample_orbits(chains, num_samples):
+    """Select posterior rows once so paths and date markers use the same draws."""
+    if len(chains) == 0:
+        raise ValueError("The posterior contains no orbit samples")
     if num_samples is None:
-        num_samples = chains.shape[0]
-        rand_draws = np.arange(num_samples) # don't need to randomize
-    else:
-        # if num_samples > chains.shape[0]:
-        #     print("Requested too many samples. Maximum is {0}.".format(chains.shape[0]))
-        #     return
-    
-        # randomly draw values
-        rand_draws = np.random.randint(0, chains.shape[0], num_samples)
+        return chains
+    if not isinstance(num_samples, (int, np.integer)) or num_samples < 1:
+        raise ValueError("num_samples must be a positive integer or None")
+    return chains[np.random.randint(0, chains.shape[0], num_samples)]
 
-    planet_name = resolve_name(planet_name)
 
-    rand_orbits = chains[rand_draws]
-
+def _orbit_parameters(planet_name, rand_orbits):
+    """Extract this companion's elements and physical enclosed mass per draw."""
     if planet_name not in multi_dict:
         # single Keplerian orbit fits
         sma = rand_orbits[:, 0]
@@ -79,8 +59,6 @@ def print_prediction(planet_name, date_mjd, chains, tau_ref_epoch, num_samples=N
         if planet_name in dyn_mass_single_comp:
             mtot = np.sum(rand_orbits[:,[-2,-1]], axis=1)
 
-        rand_ras, rand_decs, rand_vzs = kepler.calc_orbit(date_mjd, sma, ecc, inc, aop, pan, tau, plx, mtot,
-                                                        tau_ref_epoch=tau_ref_epoch)
     else:
         # massive multi-planet orbit fits
         planet_num, tot_planets = multi_dict[planet_name]
@@ -96,8 +74,22 @@ def print_prediction(planet_name, date_mjd, chains, tau_ref_epoch, num_samples=N
         inside = all_pl_smas < sma[:, None]
         mtot = mass_star + mass_planets[:, planet_num] + np.sum(mass_planets * inside, axis=1)
 
-        rand_ras, rand_decs, rand_vzs = kepler.calc_orbit(date_mjd, sma, ecc, inc, aop, pan, tau, plx, mtot,
-                                                        tau_ref_epoch=tau_ref_epoch)
+    return sma, ecc, inc, aop, pan, tau, plx, mtot
+
+
+def _propagate_orbits(planet_name, date_mjd, rand_orbits, tau_ref_epoch):
+    """Propagate saved draws with the same reference frame for plots and predictions."""
+    parameters = _orbit_parameters(planet_name, rand_orbits)
+    rand_ras, rand_decs, rand_vzs = kepler.calc_orbit(
+        date_mjd, *parameters, tau_ref_epoch=tau_ref_epoch)
+
+    if planet_name in multi_dict:
+        planet_num, tot_planets = multi_dict[planet_name]
+        sma, _, _, _, _, _, plx, _ = parameters
+        mass_planets = rand_orbits[:, -1-tot_planets:-1]
+        mass_star = rand_orbits[:, -1]
+        all_pl_smas = rand_orbits[:, 0:6*tot_planets:6]
+        inside = all_pl_smas < sma[:, None]
 
         # add perturbation from other planets
         for inner_pl in range(tot_planets):
@@ -124,6 +116,11 @@ def print_prediction(planet_name, date_mjd, chains, tau_ref_epoch, num_samples=N
             rand_decs += fraction * inner_rand_decs
             rand_vzs += fraction * inner_rand_vzs
 
+    return rand_ras, rand_decs, rand_vzs
+
+
+def _summarize_positions(rand_ras, rand_decs):
+    """Summarize offsets while treating position angle as a circular quantity."""
     rand_seps = np.sqrt(rand_ras**2 + rand_decs**2)
     rand_pas = np.degrees(np.arctan2(rand_ras, rand_decs)) % 360
 
@@ -135,6 +132,21 @@ def print_prediction(planet_name, date_mjd, chains, tau_ref_epoch, num_samples=N
     pa_center = np.angle(np.mean(np.exp(1j*np.radians(rand_pas))), deg=True)
     centered_pas = pa_center + (rand_pas-pa_center+180) % 360-180
     pa_args = np.median(centered_pas) % 360, np.std(centered_pas)
+    return ra_args, dec_args, sep_args, pa_args
+
+
+def print_prediction(planet_name, date_mjd, chains, tau_ref_epoch, num_samples=None):
+    """Print and return median/stddev RA, Dec, separation and PA for saved draws.
+
+    ``date_mjd`` and ``tau_ref_epoch`` are MJDs. Posterior columns follow the
+    catalog's single-companion or joint-fit layout. ``num_samples=None`` uses
+    every posterior row; a positive integer draws that many rows with replacement.
+    """
+    planet_name = resolve_name(planet_name)
+    rand_orbits = _sample_orbits(chains, num_samples)
+    rand_ras, rand_decs, rand_vzs = _propagate_orbits(
+        planet_name, date_mjd, rand_orbits, tau_ref_epoch)
+    ra_args, dec_args, sep_args, pa_args = _summarize_positions(rand_ras, rand_decs)
     rv_args = np.median(rand_vzs), np.std(rand_vzs)
 
     print("RA Offset = {0:.3f} +/- {1:.3f} mas".format(ra_args[0], ra_args[1]))
@@ -217,6 +229,92 @@ def get_reference(planet_name):
     filename, reference = post_dict[planet_name]
     return reference
 
+
+def _parse_time(time_mjd):
+    """Accept an MJD or an Astropy-readable date, rejecting nonfinite epochs."""
+    if time_mjd is None:
+        return Time.now().mjd
+    try:
+        epoch = float(time_mjd)
+    except (ValueError, TypeError):
+        epoch = float(Time(time_mjd).mjd)
+    if not np.isfinite(epoch):
+        raise ValueError("Date must be finite")
+    return epoch
+
+
+def predict_orbit(planet_name, time_mjd=None, num_samples=100, num_points=256):
+    """Sample full sky-projected orbits and positions at the requested date.
+
+    Args:
+        planet_name (str): catalog key or alias.
+        time_mjd (float or str): MJD or date; defaults to the current time.
+        num_samples (int or None): posterior draws (with replacement), or all rows.
+        num_points (int): points along each orbit, at least four.
+
+    Returns:
+        dict: ``prediction`` has the same four median/stddev tuples as
+        :func:`predict_planet`, calculated from the returned ``ra`` and ``dec``
+        date-position samples in mas. ``ra_tracks``, ``dec_tracks`` (mas) and
+        ``epochs`` (MJD) have shape (num_points, num_samples). ``period_days``
+        holds each draw's period, and ``time_mjd`` is the requested epoch.
+
+    Each path spans one companion period containing the requested date, from
+    periastron to periastron. Uniform eccentric-anomaly sampling resolves highly
+    eccentric ellipses. Joint fits include the same inner-companion stellar
+    reflex correction as numerical predictions, so their apparent paths need
+    not close after exactly one outer-companion period.
+    """
+    if not isinstance(num_points, (int, np.integer)) or num_points < 4:
+        raise ValueError("num_points must be an integer of at least four")
+    epoch = _parse_time(time_mjd)
+    planet_name = resolve_name(planet_name)
+    chains, tau_ref_epoch = get_chains(planet_name)
+    orbits = _sample_orbits(chains, num_samples)
+    parameters = _orbit_parameters(planet_name, orbits)
+    sma, ecc, _, _, _, tau, _, mtot = parameters
+    if (not np.isfinite(tau_ref_epoch) or
+            not all(np.all(np.isfinite(value)) for value in parameters) or
+            np.any(sma <= 0) or np.any(mtot <= 0) or
+            np.any((ecc < 0) | (ecc >= 1))):
+        raise ValueError("Full orbits require finite, bound orbital elements")
+    periods = (2*np.pi*np.sqrt((sma*units.au)**3 /
+               (constants.G*mtot*units.Msun))).to_value(units.day)
+    if not np.all(np.isfinite(periods)) or np.any(periods <= 0):
+        raise ValueError("Full orbits require finite, bound orbital elements")
+
+    # Use each draw's own period and periastron, rather than median elements.
+    # Work in floating-point MJD: some posterior periods span millions of years.
+    cycles = np.floor((epoch-tau_ref_epoch)/periods-tau)
+    periastron = tau_ref_epoch+(tau+cycles)*periods
+    eccentric_anomaly = np.linspace(0, 2*np.pi, num_points)[:, None]
+    mean_anomaly = eccentric_anomaly-ecc*np.sin(eccentric_anomaly)
+    epochs = periastron+periods*mean_anomaly/(2*np.pi)
+    ra_tracks = np.empty_like(epochs)
+    dec_tracks = np.empty_like(epochs)
+    # calc_orbit takes a common 1D epoch vector. Loop over the bounded set of
+    # draws so each uses its own phase grid, including all joint-fit columns.
+    for index in range(len(orbits)):
+        ras, decs, _ = _propagate_orbits(
+            planet_name, epochs[:, index], orbits[index:index+1], tau_ref_epoch)
+        ra_tracks[:, index] = np.asarray(ras).reshape(-1)
+        dec_tracks[:, index] = np.asarray(decs).reshape(-1)
+
+    ras, decs, _ = _propagate_orbits(planet_name, epoch, orbits, tau_ref_epoch)
+    if not all(np.all(np.isfinite(value)) for value in (ra_tracks, dec_tracks, ras, decs)):
+        raise ValueError("Orbit propagation produced nonfinite sky positions")
+    return {
+        'prediction': _summarize_positions(ras, decs),
+        'ra_tracks': ra_tracks,
+        'dec_tracks': dec_tracks,
+        'ra': np.asarray(ras).reshape(-1),
+        'dec': np.asarray(decs).reshape(-1),
+        'epochs': epochs,
+        'period_days': periods,
+        'time_mjd': epoch,
+    }
+
+
 def predict_planet(planet_name, time_mjd=None, num_samples=100):
     """
     Tells you where the planet is
@@ -232,16 +330,7 @@ def predict_planet(planet_name, time_mjd=None, num_samples=100):
         sep_args (tuple): a two-element tuple of the median separation offset, and stddev of sep offset
         pa_args (tuple): a two-element tuple of the median PA offset, and stddev of PA offset
     """
-    if time_mjd is None:
-        # use the current time
-        time_mjd = Time.now().mjd
-    else:
-        # check if it is MJD. Otherwise astropy.time can read it and give MJD
-        if "-" in str(time_mjd):
-            # dashes mean not MJD. Probably formatted as a date
-            time_mjd = Time(time_mjd).mjd
-        else:
-            time_mjd = float(time_mjd)
+    time_mjd = _parse_time(time_mjd)
 
     # we always refer to lowercase planet names
     planet_name = resolve_name(planet_name)

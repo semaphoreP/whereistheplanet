@@ -16,7 +16,11 @@
     <p class="lead">
         This page predicts the locations of directly-imaged exoplanets and brown dwarf companions.
         If there are any orbits you would like to see added, contact Jason Wang at jason.wang@northwestern.edu.
-        Built by Jason Wang, Matas Kulikauskas, and Sarah Blunt. If you use this tool for your research,
+        This software was built by Jason Wang, with Matas Kulikauskas helping develop
+        the web app.
+        We thank Sarah Blunt, Mirek Brandt, Jonathan Roberts, Will Balmer, and other
+        members of the community for providing orbit posteriors.
+        If you use this tool for your research,
         please cite the <a href="https://ascl.net/2101.003">ASCL Record</a> of it. 
     </p>
 </div>
@@ -30,6 +34,13 @@
 
     <div class="form-group col-md-6">
         {{ form.time.label }} {{ form.time(class_="form-control") }} 
+    </div>
+
+    <div class="col-md-12">
+        <div class="checkbox">
+            <label>{{ form.show_orbit() }} {{ form.show_orbit.label.text }}</label>
+            <p class="help-block">Include sampled orbits and the predicted position at this date. This may take a little longer.</p>
+        </div>
     </div>
 
     <div class="col-md-6 mb-4 mt-2">
@@ -55,6 +66,25 @@
     </div>
 </form>
 
+{% if plot_error %}
+    <div class="col-md-12 alert alert-warning" role="alert">{{ plot_error }}</div>
+{% endif %}
+{% if orbit_plot %}
+    <figure class="col-md-12" style="margin: 0 0 24px; max-width: 760px;">
+        <div id="orbit-plot" role="region" aria-label="Interactive sky orbits for {{ planet_label }} on {{ date_label }}"
+             aria-describedby="orbit-caption" style="width: 100%; height: min(80vh, 760px); min-height: 480px;"></div>
+        <p id="orbit-plot-error" class="alert alert-warning" role="alert" hidden>
+            The interactive orbit plot could not be loaded. The numerical prediction is still available.
+        </p>
+        <noscript><p class="alert alert-warning">Enable JavaScript to use the interactive orbit plot. The numerical prediction is available above.</p></noscript>
+        <figcaption id="orbit-caption" class="text-muted">
+            North up, east left. Drag to zoom, hover for coordinates, or double-click to reset.
+        </figcaption>
+    </figure>
+    <script id="orbit-plot-data" type="application/json">{{ orbit_plot|tojson }}</script>
+    <script defer src="{{ url_for('orbit_plot_javascript', v=plotly_version) }}"></script>
+    <script defer src="{{ url_for('static', filename='orbit-plot.js') }}"></script>
+{% endif %}
 
 
 </div>
