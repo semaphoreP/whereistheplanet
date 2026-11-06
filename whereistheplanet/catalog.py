@@ -3,7 +3,7 @@
 # canonical key: (posterior file, orbit reference, display label)
 CATALOG = {
     '14herc': ('post_14herc.hdf5',
-        'Bardalez Gagliuffi et al. (2025)', '14 Her c'),
+        'Bardalez Gagliuffi & Balmer et al. (2025)', '14 Her c'),
     '1rxs0342+1216b': ('post_1rxs0342+1216b.hdf5',
         'Do O et al. (2024)', '1RXS J0342+1216 B'),
     '1rxs1609b': ('post_1rxs1609b.hdf5',
